@@ -8,9 +8,11 @@ export class Game {
         this.render = this.render.bind(this);
 
         this.note = new Note(gl);
+        resizeCanvasToDisplySize(this.gl.canvas);
     }
 
     async init() {
+        
         await this.note.init();
     }
 

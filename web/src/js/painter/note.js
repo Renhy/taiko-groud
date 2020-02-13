@@ -4,6 +4,9 @@ export class Note {
     constructor(gl) {
         this.gl = gl;
         this.drawImage = this.drawImage.bind(this);
+
+        this.doWidth = 71 / 1280;
+        this.kaWidth = 71 / 720;
     }
 
     async init() {
@@ -142,9 +145,10 @@ export class Note {
         gl.enableVertexAttribArray(this.programLocations.texcoord);
         gl.vertexAttribPointer(this.programLocations.texcoord, 2, gl.FLOAT, false, 0, 0);
 
-        let matrix = m4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
-        matrix = m4.translate(matrix, dstX, dstY, 0);
-        matrix = m4.scale(matrix, dstWidth, dstHeight, 1)
+        let matrix = mat4.create();
+        mat4.ortho(matrix, 0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
+        mat4.translate(matrix, matrix, [dstX, dstY, 0]);
+        mat4.scale(matrix, matrix, [dstWidth, dstHeight, 1]);
 
         gl.uniformMatrix4fv(this.programLocations.matrix, false, matrix);
         gl.uniform1i(this.programLocations.texture, 0);
