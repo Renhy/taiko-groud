@@ -2,13 +2,20 @@ import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 
 export class Controller {
-    constructor(gl) {
-        this.gl = gl;
+    constructor() {
+        this.canvas = document.querySelector("#gamecanvas");
+        this.gl = this.canvas.getContext("webgl");
+    
+        if (!this.gl) {
+            alert("Unable to initialize WebGL. Your browser or machine may not support it.");
+            return;
+        }
+        resizeCanvasToDisplySize(this.gl.canvas);
+
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
 
-        this.note = new Note(gl);
-        resizeCanvasToDisplySize(this.gl.canvas);
+        this.note = new Note(this.gl);
     }
 
     async init() {

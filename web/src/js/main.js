@@ -6,17 +6,8 @@ main();
 
 
 async function main() {
-    const canvas = document.querySelector("#gamecanvas");
-    const gl = canvas.getContext("webgl");
-
-    if (!gl) {
-        alert("Unable to initialize WebGL. Your browser or machine may not support it.");
-        return;
-    }
-
     var audioPlayer = new AudioPlayer();
-    var controller = new Controller(gl);
-
+    var controller = new Controller();
 
     let s = await audioPlayer.load('/songs/qby.ogg');
     await controller.init();

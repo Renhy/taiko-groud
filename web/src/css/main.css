@@ -6,6 +6,18 @@ body {
 	position: absolute;
 }
 
+#screen {
+	border: 1px solid black;
+	width: 100vw; 
+	height: 56.25vw;
+	max-height: 100vh;
+	max-width: 177.78vh;
+	margin: auto;
+    position: absolute;
+    top:0;bottom:0;
+    left:0;right:0;
+}
+
 #gamecanvas {
 	width: 100%;
 	height: 100%;
