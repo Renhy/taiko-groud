@@ -1,10 +1,10 @@
-import { resizeCanvasToDisplySize } from './painter/gl-utils.js';
-import { Note } from './painter/note.js';
+import { resizeCanvasToDisplySize } from './gl-utils.js';
+import { Note } from './note.js';
 
-export class Game {
+export class Controller {
     constructor(gl) {
         this.gl = gl;
-        this.go = this.go.bind(this);
+        this.start = this.start.bind(this);
         this.render = this.render.bind(this);
 
         this.note = new Note(gl);
@@ -12,18 +12,29 @@ export class Game {
     }
 
     async init() {
-        
         await this.note.init();
+
     }
 
 
-    go () {
+    start () {
         this.then = 0;
         requestAnimationFrame(this.render);
 
+    }
 
+    pause() {
 
     }
+
+    close() {
+
+    }
+
+    end() {
+
+    }
+
 
     render(time) {
         let now = time * 0.001;

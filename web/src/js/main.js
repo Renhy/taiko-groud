@@ -1,5 +1,6 @@
 import { httpGet }from './utils.js';
-import { Game } from './game.js';
+import { Controller } from './controller.js';
+import { AudioPlayer } from './audio-player.js';
 
 main();
 
@@ -13,8 +14,15 @@ async function main() {
         return;
     }
 
-    var game = new Game(gl);
-    await game.init();
-    game.go();
+    var audioPlayer = new AudioPlayer();
+    var controller = new Controller(gl);
+
+
+    let s = await audioPlayer.load('/songs/qby.ogg');
+    await controller.init();
+
+
+    // audioPlayer.play(s)
+    controller.start();
 
 }
