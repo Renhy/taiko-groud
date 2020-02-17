@@ -7,13 +7,10 @@ main();
 
 async function main() {
     var audioPlayer = new AudioPlayer();
-    var controller = new Controller();
+    var controller = new Controller(audioPlayer);
 
-    let s = await audioPlayer.load('/songs/qby.ogg');
     await controller.init();
 
-
-    // audioPlayer.play(s)
     controller.start();
 
 }

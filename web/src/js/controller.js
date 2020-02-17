@@ -1,60 +1,40 @@
-import { resizeCanvasToDisplySize } from './gl-utils.js';
-import { Note } from './note.js';
+import { Keyboard } from './keyboard.js';
+import { Animation } from './animation.js';
 
 export class Controller {
-    constructor() {
-        this.canvas = document.querySelector("#gamecanvas");
-        this.gl = this.canvas.getContext("webgl");
-    
-        if (!this.gl) {
-            alert("Unable to initialize WebGL. Your browser or machine may not support it.");
-            return;
-        }
-        resizeCanvasToDisplySize(this.gl.canvas);
+    constructor(player) {
+        this.player = player;
 
-        this.start = this.start.bind(this);
-        this.render = this.render.bind(this);
+        // initialize webgl for animation
+        const canvas = document.getElementById('gamecanvas');
+        const gl = canvas.getContext('webgl');
+        this.animation = new Animation(gl);
 
-        this.note = new Note(this.gl);
+        // initialize keyboard input
+        const screenDom = document.getElementById('screen');
+        this.keyboard = new Keyboard(screenDom, this.input);
+        
+
     }
 
     async init() {
-        await this.note.init();
+        await this.animation.init();
+        this.songTag = await this.player.load('/songs/qby.ogg');
+
+    }
+
+    start() {
+        this.animation.start();
+
+    }
+
+    input(event) {
+        console.log(event);
 
     }
 
 
-    start () {
-        this.then = 0;
-        requestAnimationFrame(this.render);
-
-    }
-
-    pause() {
-
-    }
-
-    close() {
-
-    }
-
-    end() {
-
-    }
-
-
-    render(time) {
-        let now = time * 0.001;
-        let deltaTime = Math.min(0.1, now - this.then); 
-        this.then = now;
-
-        resizeCanvasToDisplySize(this.gl.canvas);
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        this.note.render(deltaTime);
-
-        requestAnimationFrame(this.render);
-    }
+    
 
 }
 

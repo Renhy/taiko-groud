@@ -10,7 +10,6 @@ export class Note {
     }
 
     async init() {
-        let gl = this.gl;
         this.program = await createProgramFromUrl(this.gl, [
             '/src/shader/note-vertex-shader.glsl', 
             '/src/shader/note-fragment-shader.glsl']);

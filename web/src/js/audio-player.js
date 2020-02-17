@@ -11,25 +11,24 @@ export class AudioPlayer {
             request.open('GET', url, true);
             request.responseType = 'arraybuffer';
             request.onload = () => {
-                console.log(this.context);
                 this.context.decodeAudioData(request.response, (buffer) => {
-                    let name = this.getNameFromUrl(url);
-                    this.soundBuffers[name] = buffer;
-                    resolve(name);
+                    let tag = this.getNameFromUrl(url);
+                    this.soundBuffers[tag] = buffer;
+                    resolve(tag);
                 });
             };
             request.send();
         });
     }
 
-    play(name, start) {
+    play(tag, start) {
         start = start | 0;
         console.log(this.context.state);
         if (this.context.state == 'suspended') {
             this.context.resume().then(() => {
                 console.log(this.context.state);
                 let source = this.context.createBufferSource();
-                let buffer = this.soundBuffers[name];
+                let buffer = this.soundBuffers[tag];
 
                 source.buffer = buffer;
                 source.connect(this.context.destination);
