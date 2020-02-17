@@ -1,27 +1,21 @@
 export class Keyboard {
 
-    constructor(dom, callback) {
+    constructor(callback) {
         this.callback = callback;
 
-        console.log(document.hasFocus());
+        const keyboard = this;
         document.addEventListener('keydown', function (event) {
             if (event.repeat) {
                 return;
             }
-            callback(event);
+            keyboard.keyDown(event);
         });
-
-        // dom.tabIndex = 1;
-        // dom.focus();
-        // dom.addEventListener('keydown', function(event) {
-        //     if (event.repeat) {
-        //         return;
-        //     }
-        //     callback(event);
-        // });
 
     }
 
+    keyDown(event) {
+        this.callback(event);
+    }
 
 
 }

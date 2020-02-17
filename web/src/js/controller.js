@@ -11,8 +11,7 @@ export class Controller {
         this.animation = new Animation(gl);
 
         // initialize keyboard input
-        const screenDom = document.getElementById('screen');
-        this.keyboard = new Keyboard(screenDom, this.input);
+        this.keyboard = new Keyboard(this.input);
         
 
     }
