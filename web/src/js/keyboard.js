@@ -70,6 +70,7 @@ export class Keyboard {
             case this.keyMap.right:
                 return Keys.RIGHT;
             default:
+                return;
         }
     }
 
