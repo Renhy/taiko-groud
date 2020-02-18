@@ -11,7 +11,7 @@ export class Controller {
         this.animation = new Animation(gl);
 
         // initialize keyboard input
-        this.keyboard = new Keyboard(this.input);
+        this.keyboard = new Keyboard(this.handle);
         
 
     }
@@ -27,12 +27,10 @@ export class Controller {
 
     }
 
-    input(event) {
-        console.log(event);
+    handle(key) {
+        console.log(key);
 
     }
-
-
     
 
 }
