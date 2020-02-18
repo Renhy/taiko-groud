@@ -9,13 +9,14 @@ export class Animation {
             return;
         }
         this.gl = gl;
-
         resizeCanvasToDisplySize(this.gl.canvas);
+
+        this.then = 0;
+        this.enable = false;
+        this.note = new Note(this.gl);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
-
-        this.note = new Note(this.gl);
     }
 
     async init() {
@@ -25,13 +26,12 @@ export class Animation {
 
 
     start () {
-        this.then = 0;
+        this.enable = true;
         requestAnimationFrame(this.render);
-
     }
 
     pause() {
-
+        this.enable = false;
     }
 
     end() {
@@ -48,7 +48,9 @@ export class Animation {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         this.note.render(deltaTime);
 
-        requestAnimationFrame(this.render);
+        if (this.enable) {
+            requestAnimationFrame(this.render);
+        }
     }
 
 }

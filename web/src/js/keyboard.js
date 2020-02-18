@@ -42,7 +42,7 @@ export class Keyboard {
 
         let key = this.handle(event);
         if (key) {
-            this.callback(key);
+            this.callback.handle(key);
         }
     }
 

@@ -1,8 +1,19 @@
+export var Audios = {
+    DO: 'do',
+    KA: 'ka',
+};
+
 export class AudioPlayer {
     constructor() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
         this.context = new AudioContext();
         this.soundBuffers = {};
 
+    }
+
+    async init() {
+        await this.load('/assets/audio/do.wav');
+        await this.load('/assets/audio/ka.wav');
     }
 
     async load(url) {
@@ -21,27 +32,27 @@ export class AudioPlayer {
         });
     }
 
-    play(tag, start) {
-        start = start | 0;
-        console.log(this.context.state);
-        if (this.context.state == 'suspended') {
-            this.context.resume().then(() => {
-                console.log(this.context.state);
-                let source = this.context.createBufferSource();
-                let buffer = this.soundBuffers[tag];
+    play(tag, time) {
+        time = time | 0;
+        let source = this.context.createBufferSource();
+        let buffer = this.soundBuffers[tag];
+        source.buffer = buffer;
 
-                source.buffer = buffer;
-                source.connect(this.context.destination);
+        let gain = this.context.createGain();
 
-                source.start(start);
+        source.connect(gain);
+        gain.connect(this.context.destination);
 
-            });
-        }
+        source.start(time);
+    }
 
+    pause() {
+        this.context.suspend();
 
     }
 
-    stop() {
+    resume() {
+        this.context.resume();
 
     }
 

@@ -9,6 +9,7 @@ async function main() {
     var audioPlayer = new AudioPlayer();
     var controller = new Controller(audioPlayer);
 
+    await audioPlayer.init();
     await controller.init();
 
     controller.start();
