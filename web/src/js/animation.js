@@ -25,13 +25,18 @@ export class Animation {
     }
 
 
-    start () {
+    start (startTime) {
         this.enable = true;
+        this.startTime = startTime;
         requestAnimationFrame(this.render);
     }
 
     pause() {
         this.enable = false;
+    }
+
+    resume() {
+
     }
 
     end() {

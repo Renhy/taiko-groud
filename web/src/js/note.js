@@ -20,7 +20,7 @@ export class Note {
 
         this.drawInfos = [];
         var numToDraw = 100;
-        this.speed = 60;
+        this.speed = 300;
         for (var ii = 0; ii < numToDraw; ++ii) {
             var drawInfo = {
                 x: Math.random() * this.gl.canvas.width,
