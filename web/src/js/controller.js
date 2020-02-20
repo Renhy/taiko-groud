@@ -10,24 +10,21 @@ var State = {
 };
 
 export class Controller {
-    constructor(player) {
+    async init(player) {
         this.player = player;
         this.state = State.INIT;
 
         // initialize webgl for animation
         const canvas = document.getElementById('gamecanvas');
         const gl = canvas.getContext('webgl');
-        this.animation = new Animation(gl);
 
         // initialize keyboard input
         this.keyboard = new Keyboard(this);
-        
-    }
 
-    async init() {
-        await this.animation.init();
+
+        this.animation = new Animation();
+        await this.animation.init(gl);
         this.songTag = await this.player.load('/songs/qby.ogg');
-
     }
 
     start() {
@@ -37,7 +34,6 @@ export class Controller {
         this.startTime = Date.now();
 
         this.animation.start(0);
-
     }
 
     pause() {
@@ -58,17 +54,15 @@ export class Controller {
 
 
     handle(key) {
-        if (this.state == State.INIT) {
-            return this.initHandle(key);
-        }
-        if (this.state == State.RUNNING) {
-            return this.runningHandle(key);
-        }
-        if (this.state == State.SUSPEND) {
-            return this.suspendHandle(key);
-        }
-        if (this.state == State.RESULT) {
-            return this.resultHandle(key);
+        switch(this.state) {
+            case State.INIT:
+                return this.initHandle(key);
+            case State.RUNNING:
+                return this.runningHandle(key);
+            case State.SUSPEND:
+                return this.suspendHandle(key);
+            case State.RESULT:
+                return this.resultHandle(key);
         }
     }
 
@@ -77,23 +71,29 @@ export class Controller {
     }
 
     runningHandle(key) {
-        if (key == Keys.ESC) {
-            return this.pause();
-        }
-        if (key == Keys.LEFT_DO || key == Keys.RIGHT_DO) {
-            this.player.play(Audios.DO);
-        }
-        if (key == Keys.LEFT_KA || key == Keys.RIGHT_KA) {
-            this.player.play(Audios.KA);
+        switch(key) {
+            case Keys.ESC:
+                this.pause();
+                break;
+
+            case Keys.LEFT_DO:
+            case Keys.RIGHT_DO:
+                this.player.play(Audios.DO);
+                break;
+
+            case Keys.LEFT_KA:
+            case Keys.RIGHT_KA:
+                this.player.play(Audios.KA);
+                break;
         }
     }
 
     suspendHandle(key) {
-        if (key == Keys.ESC) {
-            return this.resume();
+        switch(key) {
+            case Keys.ESC:
+                this.resume();
+                break;
         }
-
-
     }
 
     resultHandle(key) {

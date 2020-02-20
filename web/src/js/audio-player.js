@@ -4,14 +4,11 @@ export var Audios = {
 };
 
 export class AudioPlayer {
-    constructor() {
+    async init() {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         this.context = new AudioContext();
         this.soundBuffers = {};
 
-    }
-
-    async init() {
         await this.load('/assets/audio/do.wav');
         await this.load('/assets/audio/ka.wav');
     }

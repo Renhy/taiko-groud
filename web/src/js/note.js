@@ -1,15 +1,13 @@
 import { createProgramFromUrl, loadTextureFromUrl } from './gl-utils.js';
 
 export class Note {
-    constructor(gl) {
+    async init(gl) {
         this.gl = gl;
         this.drawImage = this.drawImage.bind(this);
 
         this.doWidth = 71 / 1280;
         this.kaWidth = 71 / 720;
-    }
 
-    async init() {
         this.program = await createProgramFromUrl(this.gl, [
             '/src/shader/note-vertex-shader.glsl', 
             '/src/shader/note-fragment-shader.glsl']);
