@@ -1,6 +1,9 @@
 export var Audios = {
     DO: 'do',
     KA: 'ka',
+    BALLOON: 'balloon',
+    PAUSE: 'pause',
+    CANCEL: 'cancel',
 };
 
 export class AudioPlayer {
@@ -11,6 +14,9 @@ export class AudioPlayer {
 
         await this.load('/assets/audio/do.wav');
         await this.load('/assets/audio/ka.wav');
+        await this.load('/assets/audio/balloon.wav');
+        await this.load('/assets/audio/pause.wav');
+        await this.load('/assets/audio/cancel.wav');
     }
 
     async load(url) {

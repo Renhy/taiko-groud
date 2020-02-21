@@ -1,6 +1,6 @@
 
 
-function httpGet(url) {
+export function httpGet(url) {
     return new Promise((resolve, reject) => {
         var request = new XMLHttpRequest();
         request.open("GET", url, true);
@@ -17,8 +17,3 @@ function httpGet(url) {
         request.send();
     });
 }
-
-
-export {
-    httpGet,
-};

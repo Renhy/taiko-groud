@@ -10,7 +10,15 @@ async function main() {
     var controller = new Controller();
 
     await audioPlayer.init();
-    await controller.init(audioPlayer);
+
+    const info = {
+        id: 'qby',
+        name: '千本樱',
+        audio: '/songs/qby.ogg',
+        music: '/songs/qby.tja',
+    };
+
+    await controller.init(audioPlayer, info);
 
     controller.start();
 

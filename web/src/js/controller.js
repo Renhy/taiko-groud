@@ -1,6 +1,7 @@
 import { Keyboard, Keys } from './keyboard.js';
 import { Animation } from './animation.js';
 import { Audios } from './audio-player.js';
+import { Music } from './music.js';
 
 var State = {
     INIT : 1,
@@ -10,9 +11,9 @@ var State = {
 };
 
 export class Controller {
-    async init(player) {
-        this.player = player;
+    async init(player, info) {
         this.state = State.INIT;
+        this.player = player;
 
         // initialize webgl for animation
         const canvas = document.getElementById('gamecanvas');
@@ -21,10 +22,14 @@ export class Controller {
         // initialize keyboard input
         this.keyboard = new Keyboard(this);
 
-
+        // initialize animation component
         this.animation = new Animation();
         await this.animation.init(gl);
-        this.songTag = await this.player.load('/songs/qby.ogg');
+
+        // initialize song data
+        this.songTag = await this.player.load(info.audio);
+        this.music = new Music();
+        await this.music.init(info.music);
     }
 
     start() {
