@@ -76,7 +76,7 @@ export class Controller {
     }
 
     runningHandle(key) {
-        switch(key) {
+        switch(key.value) {
             case Keys.ESC:
                 this.pause();
                 break;
@@ -84,17 +84,19 @@ export class Controller {
             case Keys.LEFT_DO:
             case Keys.RIGHT_DO:
                 this.player.play(Audios.DO);
+                this.music.beat(key);
                 break;
 
             case Keys.LEFT_KA:
             case Keys.RIGHT_KA:
                 this.player.play(Audios.KA);
+                this.music.beat(key);
                 break;
         }
     }
 
     suspendHandle(key) {
-        switch(key) {
+        switch(key.value) {
             case Keys.ESC:
                 this.resume();
                 break;

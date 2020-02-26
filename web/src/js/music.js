@@ -1,6 +1,7 @@
-import { httpGet } from "./utils.js";
+import { Keys } from './keyboard.js';
+import { httpGet } from './utils.js';
 
-export var NoteType = {
+export var BeatType = {
     DO: 1,
     KA: 2,
     DAI_DO: 3,
@@ -9,6 +10,18 @@ export var NoteType = {
     DAI_DRUMROLL: 6,
     BALLOON: 7,
     END: 8,
+    NONE: 9,
+};
+
+var BeatMap = {
+    '1': BeatType.DO,
+    '2': BeatType.Ka,
+    '3': BeatType.DAI_DO,
+    '4': BeatType.DAI_KA,
+    '5': BeatType.DRUMROLL,
+    '6': BeatType.DAI_DRUMROLL,
+    '7': BeatType.BALLOON,
+    '8': BeatType.END,
 };
 
 export var CourseType = {
@@ -34,7 +47,7 @@ export class Music {
             demoStart: 0,
         };
 
-        this.courses = [];
+        this.courses = {};
         this.parse(lines);
         this.a =1;
     }
@@ -56,7 +69,7 @@ export class Music {
                 current = [];
             }
             if (line.indexOf('#END') >= 0) {
-                this.courses[type] = new Course(current);
+                this.courses[type] = new Course(this.metaData, current);
             }
 
             current.push(line);
@@ -72,6 +85,9 @@ export class Music {
         }
         if (line.indexOf('bpm') >= 0) {
             let bpm = line.slice(line.indexOf(':') + 1).trim();
+            if (bpm.indexOf('-') >= 1) {
+                bpm = bpm.slice(0, bpm.indexOf('-') - 1)
+            }
             this.metaData.subTitle = parseFloat(bpm);
         }
         if (line.indexOf('OFFSET') >= 0) {
@@ -92,12 +108,122 @@ export class Music {
         }
     }
 
+    play(type) {
+        this.currentCourse = this.course[type];
+    }
+
+    beat(key) {
+        this.currentCourse.beat();
+
+    }
+
+    readNextMeasure(deltaTime) {
+        return this.currentCourse.readNextMeasure(deltaTime);
+    }
+
 
 }
 
 class Course {
-    constructor(lines) {
+    constructor(metaData, lines) {
+        this.metaData = metaData;
+        // parse course informations
+        let startIndex = 0;
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            if (line.indexOf('COURSE') >= 0) {
+                this.type = line.slice(line.indexOf(':') + 1).trim();
+            }
+            if (line.indexOf('LEVEL') >= 0) {
+                this.level = parseInt(line.slice(line.indexOf(':') + 1).trim());
+            }
+            if (line.indexOf('BALLOON') >= 0) {
+                let str = line.slice(line.indexOf(':') + 1).trim();
+                if (str != '') {
+                    this.balloonCounts = [];
+                    this.balloonCountIndex = 0;
+                    for (let count of str.split(',')) {
+                        this.balloonCounts.push(parseInt(count.trim()));
+                    }
+                }
+            }
 
+            if (line.indexOf('#START') >= 0) {
+                startIndex = i;
+                break;
+            }
+        }
+
+        // parse measure and beat
+        this.measures = [];
+        this.beats = [];
+
+        let cachedCommands = [];
+        let cachedCommandsData = {};
+
+        let bpm = metaData.bpm;
+        let timePerMeasure = 4 * 60 * 1000 / bpm;
+        let currentTime = metaData.offset * -1000;
+        for (let i = startIndex; i < lines.length; i ++) {
+            let line = lines[i];
+            if (line.trim() == '') {
+                continue;
+            }
+
+            // handle command
+            if (line.indexOf('#') >= 0) {
+                line = line.slice(line.indexOf('#') + 1).trim();
+
+                continue;
+            }
+
+            // handle measure
+            line = line.slice(0, line.indexOf(',') - 1).trim();
+            let measure = {
+                start: currentTime,
+                duration: timePerMeasure,
+                commands: cachedCommands,
+                commandsData : cachedCommandsData,
+            };
+            this.measures.push(measure);
+            cachedCommands = []
+            cachedCommandsData = [];
+            if (line.length == 0) {
+                current += timePerMeasure;
+                continue
+            }
+
+            // handle beat
+            let beatCount = line.length;
+            let timePerBeat = timePerMeasue / beatCount;
+            for (b of line) {
+                let beat = {
+                    ts: currentTime,
+                    value: BeatType.NONE,
+                    count: 1,
+                },
+
+                if (BeatMap[b]) {
+                    beat.value = BeatMap[b];
+                }
+
+                this.beats.push(beat);
+                currentTime += timePerBeat;
+            }
+        }
+    }
+
+    beat(key) {
+
+    }
+
+    readNextMeasure(deltaTime) {
+        let next = {
+            gogoTime: false,
+            balloon:  false,
+
+            beats: [],
+        };
     }
 
 }

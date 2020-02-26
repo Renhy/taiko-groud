@@ -17,7 +17,7 @@ export class Note {
         this.textures = await this.initTexture(this.gl);
 
         this.drawInfos = [];
-        var numToDraw = 100;
+        var numToDraw = 10;
         this.speed = 300;
         for (var ii = 0; ii < numToDraw; ++ii) {
             var drawInfo = {
