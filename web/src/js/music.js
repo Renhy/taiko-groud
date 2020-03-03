@@ -109,11 +109,12 @@ export class Music {
     }
 
     play(type) {
-        this.currentCourse = this.course[type];
+        this.currentCourse = this.courses[type];
+        this.currentCourse.start();
     }
 
     beat(key) {
-        this.currentCourse.beat();
+        this.currentCourse.beat(key);
 
     }
 
@@ -213,17 +214,52 @@ class Course {
         }
     }
 
+    start() {
+        this.playIndex = {
+            measure: 0,
+            beat: 0,
+            balloon: 0,
+        };
+        this.playState = {
+            combo: 0,
+            gogoTime: false,
+            balloon: true,
+            balloonCount: 0,
+            drumroll: false,
+            drumrollCount: 0,
+            daiDrumroll: false,
+            daiDrumrollCount: 0,
+        };
+        this.records = [];
+
+    }
+
     beat(key) {
+        this.records.push(key);
+        
 
     }
 
     readNextMeasure(deltaTime) {
-        let next = {
+        let result = {
+            leftDo: false,
+            rightDo: false,
+            leftKa: false,
+            rightKa: false,
             gogoTime: false,
-            balloon:  false,
+            balloon: false,
 
             beats: [],
         };
+
+        let currentMeasure = this.measures[this.playIndex.measure];
+        let currentBeat = this.beats[this.playIndex.beat];
+
+
+        
+
+
+        return result;
     }
 
 }
