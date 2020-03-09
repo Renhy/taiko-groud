@@ -1,19 +1,22 @@
 import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 
-export class Animation {
-    async init(gl) {
-        if (!gl) {
+export class Plotter {
+    async init(music) {
+        this.music = music;
+
+        // initialize webgl
+        const canvas = document.getElementById('gamecanvas');
+        this.gl = canvas.getContext('webgl');
+        if (!this.gl) {
             console.error("Unable to initialize WebGL. Your browser or machine may not support it.");
             return;
         }
-        this.gl = gl;
         resizeCanvasToDisplySize(this.gl.canvas);
 
-        this.then = 0;
         this.enable = false;
         this.note = new Note();
-        await this.note.init(gl);
+        await this.note.init(this.gl);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -22,7 +25,7 @@ export class Animation {
 
     start (offset) {
         this.enable = true;
-        this.startTime = Date.now() - offset;
+        this.startTime = performance.now() - offset;
         requestAnimationFrame(this.render);
     }
 
@@ -38,14 +41,15 @@ export class Animation {
 
     }
 
-    render(time) {
-        let now = time * 0.001;
-        let deltaTime = Math.min(0.1, now - this.then); 
-        this.then = now;
-
+    render() {
         resizeCanvasToDisplySize(this.gl.canvas);
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        let now =  performance.now();
+        let deltaTime = now - this.startTime;
+        let state = this.music.readState(deltaTime);
+
         this.note.render(deltaTime);
 
         if (this.enable) {

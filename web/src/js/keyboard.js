@@ -9,7 +9,7 @@ export var Keys = {
     DOWN: 8,
     LEFT: 9,
     RIGHT: 10,
-    NONE: 11,
+    UNKOWN: 11,
 };
 
 export class Keyboard {
@@ -25,8 +25,8 @@ export class Keyboard {
         this.keyMap = {
             leftDo: ['f'],
             rightDo: ['j'],
-            leftKa: ['r'],
-            rightKa: ['u'],
+            leftKa: ['r', 'd'],
+            rightKa: ['u', 'k'],
             esc: ['Escape'],
             ok: ['Enter'],
             up: ['ArrowUp'],
@@ -41,9 +41,6 @@ export class Keyboard {
             return;
         }
 
-        console.log(performance.now());
-        console.log(event.timeStamp);
-
         let key = this.handle(event);
         if (key) {
             this.callback.handle(key);
@@ -52,68 +49,46 @@ export class Keyboard {
 
     handle(event) {
         let key = {
-            value: Keys.NONE,
+            value: Keys.UNKOWN,
             ts: event.timeStamp
         };
 
-        let input = event.key;
-        if (this.keyMap.LEFT_DO.includs(input)) {
+        if (this.keyMap.leftDo.includes(event.key)) {
             key.value = Keys.LEFT_DO;
             return key;
         }
-        if (this.keyMap.RIGHT_DO.includs(input)) {
+        if (this.keyMap.rightDo.includes(event.key)) {
             key.value = Keys.RIGHT_DO;
             return key;
         }
-        if (this.keyMap.LEFT_KA.includs(input)) {
+        if (this.keyMap.leftKa.includes(event.key)) {
             key.value = Keys.LEFT_KA;
             return key;
         }
-        if (this.keyMap.RIGHT_KA.includs(input)) {
+        if (this.keyMap.rightKa.includes(event.key)) {
             key.value = Keys.RIGHT_KA;
             return key;
         }
-        if (this.keyMap.LEFT_DO.includs(input)) {
-            key.value = Keys.LEFT_DO;
+        if (this.keyMap.ok.includes(event.key)) {
+            key.value = Keys.OK;
             return key;
         }
-        if (this.keyMap.LEFT_DO.includs(input)) {
-            key.value = Keys.LEFT_DO;
+        if (this.keyMap.up.includes(event.key)) {
+            key.value = Keys.UP;
             return key;
         }
-        switch(input) {
-            case this.keyMap.rightKa:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.RIGHT_KA;
-            case this.keyMap.ok:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.OK;
-            case this.keyMap.esc:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.ESC;
-            case this.keyMap.up:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.UP;
-            case this.keyMap.down:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.DOWN;
-            case this.keyMap.left:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.LEFT;
-            case this.keyMap.right:
-                key.value = Keys.LEFT_DO;
-                break;
-                return Keys.RIGHT;
-            default:
-                return;
+        if (this.keyMap.down.includes(event.key)) {
+            key.value = Keys.DOWN;
+            return key;
         }
-
+        if (this.keyMap.left.includes(event.key)) {
+            key.value = Keys.LEFT;
+            return key;
+        }
+        if (this.keyMap.right.includes(event.key)) {
+            key.value = Keys.RIGHT;
+            return key;
+        }
         return key;
     }
 

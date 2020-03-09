@@ -10,12 +10,11 @@ export var BeatType = {
     DAI_DRUMROLL: 6,
     BALLOON: 7,
     END: 8,
-    NONE: 9,
 };
 
-var BeatMap = {
+export var BeatMap = {
     '1': BeatType.DO,
-    '2': BeatType.Ka,
+    '2': BeatType.KA,
     '3': BeatType.DAI_DO,
     '4': BeatType.DAI_KA,
     '5': BeatType.DRUMROLL,
@@ -49,7 +48,6 @@ export class Music {
 
         this.courses = {};
         this.parse(lines);
-        this.a =1;
     }
 
     parse(lines) {
@@ -65,7 +63,7 @@ export class Music {
             this.parseMetadata(line);
             
             if (line.indexOf('COURSE') >= 0) {
-                type = line.slice(line.indexOf(':')).trim();
+                type = line.slice(line.indexOf(':') + 1).trim();
                 current = [];
             }
             if (line.indexOf('#END') >= 0) {
@@ -110,7 +108,10 @@ export class Music {
 
     play(type) {
         this.currentCourse = this.courses[type];
-        this.currentCourse.start();
+        if (!this.currentCourse) {
+            console.error('Course type not found');
+        }
+        this.currentCourse.play();
     }
 
     beat(key) {
@@ -118,8 +119,8 @@ export class Music {
 
     }
 
-    readNextMeasure(deltaTime) {
-        return this.currentCourse.readNextMeasure(deltaTime);
+    readState(deltaTime) {
+        return this.currentCourse.readState(deltaTime);
     }
 
 
@@ -179,7 +180,7 @@ class Course {
             }
 
             // handle measure
-            line = line.slice(0, line.indexOf(',') - 1).trim();
+            line = line.slice(0, line.indexOf(',')).trim();
             let measure = {
                 start: currentTime,
                 duration: timePerMeasure,
@@ -190,76 +191,102 @@ class Course {
             cachedCommands = []
             cachedCommandsData = [];
             if (line.length == 0) {
-                current += timePerMeasure;
+                currentTime += timePerMeasure;
                 continue
             }
 
             // handle beat
             let beatCount = line.length;
-            let timePerBeat = timePerMeasue / beatCount;
-            for (b of line) {
-                let beat = {
-                    ts: currentTime,
-                    value: BeatType.NONE,
-                    count: 1,
-                },
-
+            let timePerBeat = measure.duration / beatCount;
+            for (let b of line) {
                 if (BeatMap[b]) {
-                    beat.value = BeatMap[b];
+                    let beat = {
+                        ts: currentTime,
+                        value: BeatMap[b],
+                    };
+                    this.beats.push(beat);
                 }
 
-                this.beats.push(beat);
                 currentTime += timePerBeat;
             }
         }
     }
 
-    start() {
-        this.playIndex = {
-            measure: 0,
-            beat: 0,
-            balloon: 0,
+    play() {
+        this.state = {
+            index: {
+                measure: 0,
+                beat: 0,
+                balloon: 0,
+            },
+            beat: {
+                leftDo: 0,
+                rightDo: 0,
+                leftKa: 0,
+                rightKa: 0,
+            },
+            play: {
+                combo: 0,
+                gogoTime: false,
+                balloon: true,
+                drumroll: false,
+                daiDrumroll: false,
+                count: 0,
+            },
         };
-        this.playState = {
-            combo: 0,
-            gogoTime: false,
-            balloon: true,
-            balloonCount: 0,
-            drumroll: false,
-            drumrollCount: 0,
-            daiDrumroll: false,
-            daiDrumrollCount: 0,
-        };
-        this.records = [];
 
+        this.records = [];
     }
 
     beat(key) {
         this.records.push(key);
-        
-
+        switch (key.value) {
+            case Keys.LEFT_DO:
+                this.state.beat.leftDo = key.ts;
+                break;
+            case Keys.RIGHT_DO:
+                this.state.beat.rightDo = key.ts;
+                break;
+            case Keys.LEFT_KA:
+                this.state.beat.leftKa = key.ts;
+                break;
+            case Keys.RIGHT_KA:
+                this.state.beat.rightKa = key.ts;
+                break;
+        }
     }
 
-    readNextMeasure(deltaTime) {
+    readState(deltaTime) {
+        this.checkBeat(deltaTime);
+
         let result = {
-            leftDo: false,
-            rightDo: false,
-            leftKa: false,
-            rightKa: false,
-            gogoTime: false,
-            balloon: false,
+            beat: this.state.beat,
+            play: this.state.play,
 
             beats: [],
         };
 
-        let currentMeasure = this.measures[this.playIndex.measure];
-        let currentBeat = this.beats[this.playIndex.beat];
+        let lastTs = deltaTime + this.measures[this.state.index.measure].duration;
+        for (let i = this.state.index.beat; i < this.beats.size(); i++) {
+            if (this.beats[i].ts > lastTs) {
+                break;
+            }
 
+            let beat = {
+                distance: (this.beats[i] - delatTime) / this.measures[this.state.index.measure].duration,
+                type: this.beats[i].type
+            };
 
-        
-
+            result.beats.push(beat);
+        }
 
         return result;
     }
+
+    checkBeat(deltaTime) {
+
+    }
+
+
 
 }

@@ -16,10 +16,9 @@ async function main() {
         name: '千本樱',
         audio: '/songs/qby.ogg',
         music: '/songs/qby.tja',
+        type: 'Edit',
     };
 
     await controller.init(audioPlayer, info);
-
-    controller.start();
 
 }

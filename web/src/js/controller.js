@@ -1,5 +1,5 @@
 import { Keyboard, Keys } from './keyboard.js';
-import { Animation } from './animation.js';
+import { Plotter } from './plotter.js';
 import { Audios } from './audio-player.js';
 import { Music } from './music.js';
 
@@ -15,50 +15,51 @@ export class Controller {
         this.state = State.INIT;
         this.player = player;
 
-        // initialize webgl for animation
-        const canvas = document.getElementById('gamecanvas');
-        const gl = canvas.getContext('webgl');
-
         // initialize keyboard input
         this.keyboard = new Keyboard(this);
-
-        // initialize animation component
-        this.animation = new Animation();
-        await this.animation.init(gl);
 
         // initialize song data
         this.songTag = await this.player.load(info.audio);
         this.music = new Music();
         await this.music.init(info.music);
+        this.music.play(info.type);
+
+        console.log('music initialization completed.');
+        console.log(this.music);
+
+        // initialize animation component
+        this.plotter = new Plotter();
+        await this.plotter.init(this.music);
+
     }
 
     start() {
         this.state = State.RUNNING;
 
         this.player.play(this.songTag);
-        this.startTime = Date.now();
-
-        this.animation.start(0);
+        this.startTime = performance.now();
+        this.plotter.start(0);
     }
 
     pause() {
         this.state = State.SUSPEND;
-        this.offset = Date.now() - this.startTime;
+        this.offset = performance.now() - this.startTime;
 
-        this.animation.pause();
+        this.plotter.pause();
         this.player.pause();
     }
 
     resume() {
         this.state = State.RUNNING;
 
-        this.animation.resume(this.offset);
+        this.startTime = performance.now() - this.offset;
+        this.plotter.resume(this.offset);
         this.player.resume();
-
     }
 
 
     handle(key) {
+        key.ts = key.ts - this.startTime;
         switch(this.state) {
             case State.INIT:
                 return this.initHandle(key);
@@ -72,7 +73,8 @@ export class Controller {
     }
 
     initHandle (key) {
-        return;
+        this.player.play(Audios.DO);
+        this.start();
     }
 
     runningHandle(key) {
