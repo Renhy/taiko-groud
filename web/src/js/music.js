@@ -1,35 +1,7 @@
 import { Keys } from './keyboard.js';
 import { httpGet } from './utils.js';
+import { CourseType, BeatType, BeatMap, JudgeBias, JudgeResult } from './constant.js';
 
-export var BeatType = {
-    DO: 1,
-    KA: 2,
-    DAI_DO: 3,
-    DAI_KA: 4,
-    DRUMROLL: 5,
-    DAI_DRUMROLL: 6,
-    BALLOON: 7,
-    END: 8,
-};
-
-export var BeatMap = {
-    '1': BeatType.DO,
-    '2': BeatType.KA,
-    '3': BeatType.DAI_DO,
-    '4': BeatType.DAI_KA,
-    '5': BeatType.DRUMROLL,
-    '6': BeatType.DAI_DRUMROLL,
-    '7': BeatType.BALLOON,
-    '8': BeatType.END,
-};
-
-export var CourseType = {
-    EASY: 'Easy',
-    NORMAL: 'Normal',
-    HARD: 'Hard',
-    EXTREME: 'Oni',
-    EXTRA: 'Edit',
-};
 
 export class Music {
     async init(url) {
@@ -175,6 +147,7 @@ class Course {
             // handle command
             if (line.indexOf('#') >= 0) {
                 line = line.slice(line.indexOf('#') + 1).trim();
+                // TODO parse command
 
                 continue;
             }
@@ -202,7 +175,7 @@ class Course {
                 if (BeatMap[b]) {
                     let beat = {
                         ts: currentTime,
-                        value: BeatMap[b],
+                        type: BeatMap[b],
                     };
                     this.beats.push(beat);
                 }
@@ -228,10 +201,14 @@ class Course {
             play: {
                 combo: 0,
                 gogoTime: false,
-                balloon: true,
+                balloon: false,
                 drumroll: false,
                 daiDrumroll: false,
-                count: 0,
+                hitCount: 0,
+            },
+            judge: {
+                ts: 0,
+                result: JudgeResult.NONE,
             },
         };
 
@@ -257,7 +234,7 @@ class Course {
     }
 
     readState(deltaTime) {
-        this.checkBeat(deltaTime);
+        this.check(deltaTime);
 
         let result = {
             beat: this.state.beat,
@@ -266,14 +243,15 @@ class Course {
             beats: [],
         };
 
-        let lastTs = deltaTime + this.measures[this.state.index.measure].duration;
+        let stopTs = deltaTime + this.measures[this.state.index.measure].duration;
+        let distancePerTime = 1 / this.measure[this.state.index.measure].duration;
         for (let i = this.state.index.beat; i < this.beats.size(); i++) {
-            if (this.beats[i].ts > lastTs) {
+            if (this.beats[i].ts > stopTs) {
                 break;
             }
 
             let beat = {
-                distance: (this.beats[i] - delatTime) / this.measures[this.state.index.measure].duration,
+                distance: (this.beats[i].ts - delatTime) * distancePerTime,
                 type: this.beats[i].type
             };
 
@@ -283,9 +261,52 @@ class Course {
         return result;
     }
 
-    checkBeat(deltaTime) {
+    check(deltaTime) {
+        // check measure
+        let currentMeasure = this.measures[this.state.index.measure];
+        if (deltaTime > currentMeasure.start + currentMeasure.duration) {
+            this.state.index.measure += 1;
+            currentMeasure = this.measures[this.state.index.measure];
+
+            // TODO run measure command
+        }
+
+        // check beat
+        let currentBeat = this.measure[this.state.index.beat];
+        if (deltaTime >= currentBeat.ts + JudgeBias.OK) {
+            this.closeBeat(this.state.index.beat);
+            currentBeat = this.measure[this.state.index.beat];
+        }
+
 
     }
+
+    closeBeat(index, ts) {
+        let beat = this.beats[index];
+        switch (beat.type) {
+            case BeatType.DO:
+            case BeatType.KA:
+            case BeatType.DAI_DO:
+            case BeatType.DAI_KA:
+                this.state.judge.result = JudgeResult.BAD;
+                this.state.judge.ts = ts;
+                break;
+            case BeatType.DRUMROLL:
+            case BeatType.DAI_DRUMROLL:
+            case BeatType.BALLOON:
+                break;
+            case BeatType.END:
+                this.state.play.balloon = false;
+                this.state.play.drumroll = false;
+                this.state.play.daiDrumroll = false;
+                this.state.play.hitCount = 0;
+                break;
+        }
+
+        this.state.index.beat += 1;
+    }
+
+
 
 
 
