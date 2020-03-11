@@ -9,7 +9,7 @@ var beatSize = {
 export class Note {
     async init(gl) {
         this.gl = gl;
-        this.drawImage = this.drawImage.bind(this);
+        this.drawTexture = this.drawTexture.bind(this);
 
         this.beatWidth = 71 / 1280;
         this.beatHeight = 71 / 720;
@@ -86,27 +86,25 @@ export class Note {
             let dstY = h;
 
             if (beat.type == BeatType.DO) {
-                let texture = this.textures.do;
-                this.drawImage(texture.texture, texture.width, texture.height, dstX, dstY);
+                this.drawTexture(this.textures.do, dstX, dstY);
             }
             if (beat.type == BeatType.KA) {
-                let texture = this.textures.ka;
-                this.drawImage(texture.texture, texture.width, texture.height, dstX, dstY);
+                this.drawTexture(this.textures.ka, dstX, dstY);
             }
         }
     }
 
-    drawImage(texture, texWidth, texHeight, dstX, dstY, dstWidth, dstHeight) {
+    drawTexture(info, x, y, width, height) {
         let gl = this.gl;
-        if (dstWidth === undefined) {
-            dstWidth = texWidth;
+        if (width === undefined) {
+            width = info.width;
         }
 
-        if (dstHeight === undefined) {
-            dstHeight = texHeight;
+        if (height === undefined) {
+            height = info.height;
         }
 
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.bindTexture(gl.TEXTURE_2D, info.texture);
 
         gl.useProgram(this.program);
         
@@ -120,8 +118,8 @@ export class Note {
 
         let matrix = mat4.create();
         mat4.ortho(matrix, 0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
-        mat4.translate(matrix, matrix, [dstX, dstY, 0]);
-        mat4.scale(matrix, matrix, [dstWidth, dstHeight, 1]);
+        mat4.translate(matrix, matrix, [x, y, 0]);
+        mat4.scale(matrix, matrix, [width, height, 1]);
 
         gl.uniformMatrix4fv(this.programLocations.matrix, false, matrix);
         gl.uniform1i(this.programLocations.texture, 0);

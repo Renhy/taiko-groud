@@ -38,7 +38,7 @@ export class Plotter {
     }
 
     end() {
-
+        this.enable = false;
     }
 
     render() {

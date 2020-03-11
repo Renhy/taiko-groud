@@ -14,15 +14,15 @@ export class Controller {
     async init(player, info) {
         this.state = State.INIT;
         this.player = player;
+        this.songInfo = info;
 
         // initialize keyboard input
         this.keyboard = new Keyboard(this);
 
         // initialize song data
-        this.songTag = await this.player.load(info.audio);
+        this.songTag = await this.player.load(this.songInfo.audio);
         this.music = new Music();
-        await this.music.init(info.music);
-        this.music.play(info.type);
+        await this.music.init(this.songInfo.music);
 
         // initialize animation component
         this.plotter = new Plotter();
@@ -38,8 +38,19 @@ export class Controller {
         console.log(this);
 
         this.startTime = performance.now();
-        this.player.play(this.songTag);
-        this.plotter.start(0);
+        this.music.play(this.songInfo.type, () => {
+            this.end();
+        });
+        this.plotter.start(-1000);
+        setTimeout(() => {
+            this.player.play(
+                this.songTag, 
+                (performance.now() - this.startTime) * 0.001);
+        }, 1000);
+    }
+
+    end() {
+        this.plotter.end();
     }
 
     pause() {

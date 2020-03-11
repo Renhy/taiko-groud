@@ -78,12 +78,12 @@ export class Music {
         }
     }
 
-    play(type) {
+    play(type, callback) {
         this.currentCourse = this.courses[type];
         if (!this.currentCourse) {
             console.error('Course type not found');
         }
-        this.currentCourse.play();
+        this.currentCourse.play(callback);
     }
 
     beat(key) {
@@ -185,7 +185,9 @@ class Course {
         }
     }
 
-    play() {
+    play(callback) {
+        this.endCallback = callback;
+
         this.state = {
             index: {
                 measure: 0,
@@ -213,6 +215,11 @@ class Course {
         };
 
         this.records = [];
+    }
+
+    end() {
+        console.log('Music ended.');
+        this.endCallback();
     }
 
     beat(key) {
@@ -268,6 +275,9 @@ class Course {
             this.state.index.measure += 1;
             currentMeasure = this.measures[this.state.index.measure];
 
+            if (this.state.index.measure >= this.measures.length) {
+                this.end();
+            }
             // TODO run measure command
         }
 
@@ -304,7 +314,9 @@ class Course {
         }
 
         this.state.index.beat += 1;
-        console.log(this.state);
+        if (this.state.index.beat >= this.beats.length) {
+            this.end();
+        }
     }
 
 
