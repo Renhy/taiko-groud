@@ -1,12 +1,18 @@
 import { createProgramFromUrl, loadTextureFromUrl } from './gl-utils.js';
+import { BeatType } from './constant.js';
+
+var beatSize = {
+    width: 71 / 1280,
+    height: 71 / 720
+};
 
 export class Note {
     async init(gl) {
         this.gl = gl;
         this.drawImage = this.drawImage.bind(this);
 
-        this.doWidth = 71 / 1280;
-        this.kaWidth = 71 / 720;
+        this.beatWidth = 71 / 1280;
+        this.beatHeight = 71 / 720;
 
         this.program = await createProgramFromUrl(this.gl, [
             '/src/shader/note-vertex-shader.glsl', 
@@ -15,22 +21,6 @@ export class Note {
         this.programLocations = this.initLocaltion(this.gl, this.program);
         this.programBuffers = this.initBuffer(this.gl);
         this.textures = await this.initTexture(this.gl);
-
-        this.drawInfos = [];
-        var numToDraw = 10;
-        this.speed = 300;
-        for (var ii = 0; ii < numToDraw; ++ii) {
-            var drawInfo = {
-                x: Math.random() * this.gl.canvas.width,
-                y: Math.random() * this.gl.canvas.height,
-                dx: Math.random() > 0.5 ? -1 : 1,
-                dy: Math.random() > 0.5 ? -1 : 1,
-                xScale: Math.random() * 0.25 + 0.25,
-                yScale: Math.random() * 0.25 + 0.25,
-                textureInfo: this.textures.do,
-            };
-            this.drawInfos.push(drawInfo);
-        }
     }
 
     initLocaltion(gl, program) {
@@ -85,38 +75,24 @@ export class Note {
         };
     }
 
-    render(deltaTime) {
-        let speed = this.speed;
-        var gl = this.gl;
-        this.drawInfos.forEach(function (drawInfo) {
-            drawInfo.x += drawInfo.dx * speed * deltaTime;
-            drawInfo.y += drawInfo.dy * speed * deltaTime;
-            if (drawInfo.x < 0) {
-                drawInfo.dx = 1;
-            }
-            if (drawInfo.x >= gl.canvas.width) {
-                drawInfo.dx = -1;
-            }
-            if (drawInfo.y < 0) {
-                drawInfo.dy = 1;
-            }
-            if (drawInfo.y >= gl.canvas.height) {
-                drawInfo.dy = -1;
-            }
-        });
+    render(state) {
+        let w = this.gl.canvas.width;
+        let h = this.gl.canvas.height / 2;
 
-        for (let drawInfo of this.drawInfos) {
-            var dstX = drawInfo.x;
-            var dstY = drawInfo.y;
-            var dstWidth = drawInfo.textureInfo.width * drawInfo.xScale;
-            var dstHeight = drawInfo.textureInfo.height * drawInfo.yScale;
+        for (let i = state.beats.length - 1; i >= 0; i--) {
+            let beat = state.beats[i];
 
-            this.drawImage(
-                drawInfo.textureInfo.texture,
-                drawInfo.textureInfo.width,
-                drawInfo.textureInfo.height,
-                dstX, dstY, dstWidth, dstHeight);
- 
+            let dstX = beat.distance * w;
+            let dstY = h;
+
+            if (beat.type == BeatType.DO) {
+                let texture = this.textures.do;
+                this.drawImage(texture.texture, texture.width, texture.height, dstX, dstY);
+            }
+            if (beat.type == BeatType.KA) {
+                let texture = this.textures.ka;
+                this.drawImage(texture.texture, texture.width, texture.height, dstX, dstY);
+            }
         }
     }
 

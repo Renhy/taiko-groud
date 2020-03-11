@@ -69,6 +69,10 @@ export class Keyboard {
             key.value = Keys.RIGHT_KA;
             return key;
         }
+        if (this.keyMap.esc.includes(event.key)) {
+            key.value = Keys.ESC;
+            return key;
+        }
         if (this.keyMap.ok.includes(event.key)) {
             key.value = Keys.OK;
             return key;

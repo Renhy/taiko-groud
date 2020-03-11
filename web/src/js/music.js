@@ -53,12 +53,12 @@ export class Music {
         if (line.indexOf('SUBTITLE') >= 0) {
             this.metaData.subTitle = line.slice(line.indexOf(':') + 1).trim();
         }
-        if (line.indexOf('bpm') >= 0) {
+        if (line.indexOf('BPM') >= 0) {
             let bpm = line.slice(line.indexOf(':') + 1).trim();
             if (bpm.indexOf('-') >= 1) {
                 bpm = bpm.slice(0, bpm.indexOf('-') - 1)
             }
-            this.metaData.subTitle = parseFloat(bpm);
+            this.metaData.bpm = parseFloat(bpm);
         }
         if (line.indexOf('OFFSET') >= 0) {
             let offset = line.slice(line.indexOf(':') + 1).trim();
@@ -244,14 +244,14 @@ class Course {
         };
 
         let stopTs = deltaTime + this.measures[this.state.index.measure].duration;
-        let distancePerTime = 1 / this.measure[this.state.index.measure].duration;
-        for (let i = this.state.index.beat; i < this.beats.size(); i++) {
+        let distancePerTime = 1 / this.measures[this.state.index.measure].duration;
+        for (let i = this.state.index.beat; i < this.beats.length; i++) {
             if (this.beats[i].ts > stopTs) {
                 break;
             }
 
             let beat = {
-                distance: (this.beats[i].ts - delatTime) * distancePerTime,
+                distance: (this.beats[i].ts - deltaTime) * distancePerTime,
                 type: this.beats[i].type
             };
 
@@ -272,10 +272,10 @@ class Course {
         }
 
         // check beat
-        let currentBeat = this.measure[this.state.index.beat];
+        let currentBeat = this.measures[this.state.index.beat];
         if (deltaTime >= currentBeat.ts + JudgeBias.OK) {
             this.closeBeat(this.state.index.beat);
-            currentBeat = this.measure[this.state.index.beat];
+            currentBeat = this.measures[this.state.index.beat];
         }
 
 
@@ -304,6 +304,7 @@ class Course {
         }
 
         this.state.index.beat += 1;
+        console.log(this.state);
     }
 
 

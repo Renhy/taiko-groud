@@ -42,19 +42,28 @@ export class Plotter {
     }
 
     render() {
-        resizeCanvasToDisplySize(this.gl.canvas);
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+        let gl = this.gl;
+        resizeCanvasToDisplySize(gl.canvas);
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        
+        // enable depth test
+        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.depthMask(false);
 
         let now =  performance.now();
         let deltaTime = now - this.startTime;
         let state = this.music.readState(deltaTime);
 
-        this.note.render(deltaTime);
+        this.note.render(state);
 
         if (this.enable) {
             requestAnimationFrame(this.render);
         }
     }
+
+
 
 }

@@ -24,33 +24,38 @@ export class Controller {
         await this.music.init(info.music);
         this.music.play(info.type);
 
-        console.log('music initialization completed.');
-        console.log(this.music);
-
         // initialize animation component
         this.plotter = new Plotter();
         await this.plotter.init(this.music);
 
+        console.log('Controller initialization completed.');
+        console.log(this);
     }
 
     start() {
         this.state = State.RUNNING;
+        console.log('Controller start.');
+        console.log(this);
 
-        this.player.play(this.songTag);
         this.startTime = performance.now();
+        this.player.play(this.songTag);
         this.plotter.start(0);
     }
 
     pause() {
         this.state = State.SUSPEND;
-        this.offset = performance.now() - this.startTime;
+        console.log('Controller pause.');
+        console.log(this);
 
+        this.offset = performance.now() - this.startTime;
         this.plotter.pause();
         this.player.pause();
     }
 
     resume() {
         this.state = State.RUNNING;
+        console.log('Controller resume.');
+        console.log(this);
 
         this.startTime = performance.now() - this.offset;
         this.plotter.resume(this.offset);
@@ -59,6 +64,7 @@ export class Controller {
 
 
     handle(key) {
+
         key.ts = key.ts - this.startTime;
         switch(this.state) {
             case State.INIT:
