@@ -29,10 +29,10 @@ export var CourseType = {
 };
 
 export var JudgeResult = {
-    OK: 1,
-    GOOD: 2,
-    BAD: 3,
-    NONE: 4,
+    NONE: 1,
+    BAD: 2,
+    OK: 3,
+    GOOD: 4,
 }
 
 export var JudgeBias = {
