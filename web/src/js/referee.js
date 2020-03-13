@@ -159,10 +159,10 @@ export class Referee {
 
         this.state.play.hitCount += 1;
         if (this.state.play.hitCount >= 2) {
+            this.state.play.hitCount = 0;
+
             this.index.beat += 1;
             this.currentBeat = this.music.beats[this.index.beat];
-
-            this.state.play.hitCount = 0;
         }
 
     }
