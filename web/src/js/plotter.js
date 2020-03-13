@@ -2,8 +2,8 @@ import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 
 export class Plotter {
-    async init(music) {
-        this.music = music;
+    async init(referee) {
+        this.referee = referee;
 
         // initialize webgl
         const canvas = document.getElementById('gamecanvas');
@@ -55,7 +55,7 @@ export class Plotter {
 
         let now =  performance.now();
         let deltaTime = now - this.startTime;
-        let state = this.music.readState(deltaTime);
+        let state = this.referee.readState(deltaTime);
 
         this.note.render(state);
 

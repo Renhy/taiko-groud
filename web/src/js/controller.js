@@ -2,6 +2,7 @@ import { Keyboard, Keys } from './keyboard.js';
 import { Plotter } from './plotter.js';
 import { Audios } from './audio-player.js';
 import { Music } from './music.js';
+import { Referee } from './referee.js';
 
 var State = {
     INIT : 1,
@@ -9,6 +10,8 @@ var State = {
     SUSPEND : 3,
     REUSLT : 4,
 };
+
+var Delay = 1000;
 
 export class Controller {
     async init(player, info) {
@@ -21,12 +24,14 @@ export class Controller {
 
         // initialize song data
         this.songTag = await this.player.load(this.songInfo.audio);
-        this.music = new Music();
-        await this.music.init(this.songInfo.music);
+        this.referee = new Referee(this, this.player, () => {
+            this.end();
+        });
+        await this.referee.loadMusic(this.songInfo.music, this.songInfo.type);
 
         // initialize animation component
         this.plotter = new Plotter();
-        await this.plotter.init(this.music);
+        await this.plotter.init(this.referee);
 
         console.log('Controller initialization completed.');
         console.log(this);
@@ -38,15 +43,12 @@ export class Controller {
         console.log(this);
 
         this.startTime = performance.now();
-        this.music.play(this.songInfo.type, () => {
-            this.end();
-        });
-        this.plotter.start(-1000);
+        this.plotter.start(Delay * -1);
         setTimeout(() => {
             this.player.play(
                 this.songTag, 
                 (performance.now() - this.startTime) * 0.001);
-        }, 1000);
+        }, Delay);
     }
 
     end() {
@@ -76,7 +78,7 @@ export class Controller {
 
     handle(key) {
 
-        key.ts = key.ts - this.startTime;
+        key.ts = key.ts - this.startTime - Delay;
         switch(this.state) {
             case State.INIT:
                 return this.initHandle(key);
@@ -103,13 +105,13 @@ export class Controller {
             case Keys.LEFT_DO:
             case Keys.RIGHT_DO:
                 this.player.play(Audios.DO);
-                this.music.beat(key);
+                this.referee.beat(key);
                 break;
 
             case Keys.LEFT_KA:
             case Keys.RIGHT_KA:
                 this.player.play(Audios.KA);
-                this.music.beat(key);
+                this.referee.beat(key);
                 break;
         }
     }

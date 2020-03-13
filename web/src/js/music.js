@@ -1,5 +1,7 @@
 import { Keys } from './keyboard.js';
 import { httpGet } from './utils.js';
+import { BeatMap } from './constant.js';
+
 
 export class Music {
     async init(url, courseType) {
@@ -23,10 +25,11 @@ export class Music {
     }
 
     parse(type, lines) {
-        let type = '';
         let startIndex = -1;
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
+
+            this.parseMetadata(line);
             if (line.indexOf('COURSE') >= 0) {
                 if (type == line.slice(line.indexOf(':') + 1).trim()) {
                     startIndex = i;
@@ -110,9 +113,11 @@ export class Music {
         
         let bpm = this.metaData.bpm;
         let timePerMeasure = 4 * 60 * 1000 / bpm;
-        let currentTime = metaData.offset * -1000;
+        let currentTime = this.metaData.offset * -1000;
         let cachedCommands = [];
         for (let i = start; i <= end; i++) {
+            let line = lines[i];
+
             // parse command
             if (line.indexOf('#') >= 0) {
                 line = line.slice(line.indexOf('#') + 1).trim();

@@ -79,8 +79,8 @@ export class Note {
         let w = this.gl.canvas.width;
         let h = this.gl.canvas.height / 2;
 
-        for (let i = state.beats.length - 1; i >= 0; i--) {
-            let beat = state.beats[i];
+        for (let i = state.nextBeats.length - 1; i >= 0; i--) {
+            let beat = state.nextBeats[i];
 
             let dstX = beat.distance * w;
             let dstY = h;
