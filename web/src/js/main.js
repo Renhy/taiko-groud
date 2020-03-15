@@ -14,9 +14,9 @@ async function main() {
     const info = {
         id: 'qby',
         name: '千本樱',
-        audio: '/songs/qby.ogg',
-        music: '/songs/qby.tja',
-        type: 'Edit',
+        audio: '/songs/gear-up.ogg',
+        music: '/songs/gear-up.tja',
+        type: 'Hard',
     };
 
     await controller.init(audioPlayer, info);
