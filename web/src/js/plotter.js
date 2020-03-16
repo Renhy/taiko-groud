@@ -59,6 +59,7 @@ export class Plotter {
 
         this.note.render(state);
 
+        this.fps = 1 / (performance.now() - now);
         if (this.enable) {
             requestAnimationFrame(this.render);
         }

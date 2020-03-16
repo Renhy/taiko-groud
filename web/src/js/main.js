@@ -13,7 +13,7 @@ async function main() {
 
     const info = {
         id: 'qby',
-        name: '千本樱',
+        name: '蓄势',
         audio: '/songs/gear-up.ogg',
         music: '/songs/gear-up.tja',
         type: 'Hard',
