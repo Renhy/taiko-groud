@@ -294,6 +294,8 @@ export class Referee {
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
+
+
     }
 
 }

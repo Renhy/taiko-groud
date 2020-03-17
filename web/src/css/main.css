@@ -21,17 +21,20 @@ body {
 #gamebase {
 	width: 100%;
 	height: 100%;
+    position: inherit;
 	z-index: 1;
 }
 
 #gamecanvas {
 	width: 100%;
 	height: 100%;
+    position: inherit;
 	z-index: 2;
 }
 
 #gameoverlay {
 	width: 100%;
 	height: 100%;
+    position: inherit;
 	z-index: 3;
 }

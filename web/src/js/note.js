@@ -1,9 +1,16 @@
 import { createProgramFromUrl, loadTextureFromUrl } from './gl-utils.js';
 import { BeatType } from './constant.js';
 
-var NoteSize = {
+var Layout = {
+    line: {
+        height: 267 / 720,
+        left: 412 / 1280,
+        length: 868 / 1280,
+    },
     width: 71 / 1280,
-    height: 71 / 720
+    height: 71 / 720,
+    daiWidth: 109 / 1280,
+    daiHeight: 109 / 720,
 };
 
 export class Note {
@@ -79,28 +86,29 @@ export class Note {
         let w = this.gl.canvas.width;
         let h = this.gl.canvas.height;
 
-
-        this.drawTexture(
-            this.textures.do,
-            w * 0.2, h * 0.5,
-            NoteSize.width * w, NoteSize.height * h);
         for (let i = state.nextBeats.length - 1; i >= 0; i--) {
             let beat = state.nextBeats[i];
 
-            let dstX = beat.distance * w * 0.8 + 0.2 * w;
-            let dstY = h * 0.5;
+            let dstX = Layout.line.left;
+            dstX += beat.distance * Layout.line.length;
+            dstX -= Layout.width * 0.5;
+            dstX *= w;
+
+            let dstY = Layout.line.height;
+            dstY -= Layout.height * 0.5;
+            dstY *= h;
 
             if (beat.type == BeatType.DO) {
                 this.drawTexture(
                     this.textures.do, 
                     dstX, dstY, 
-                    NoteSize.width * w, NoteSize.height * h);
+                    Layout.width * w, Layout.height * h);
             }
             if (beat.type == BeatType.KA) {
                 this.drawTexture(
                     this.textures.ka, 
                     dstX, dstY, 
-                    NoteSize.width * w, NoteSize.height * h);
+                    Layout.width * w, Layout.height * h);
             }
         }
     }
