@@ -1,5 +1,5 @@
 import { httpGet }from './utils.js';
-import { Controller } from './controller.js';
+import { Controller } from './game/controller.js';
 import { AudioPlayer } from './audio-player.js';
 
 main();

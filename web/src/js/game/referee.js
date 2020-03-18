@@ -1,7 +1,7 @@
-import { Keys } from "./keyboard.js";
+import { Keys } from "../keyboard.js";
 import { BeatType, JudgeBias, JudgeResult } from './constant.js';
 import { Music } from "./music.js";
-import { Audios } from "./audio-player.js";
+import { Audios } from "../audio-player.js";
 import { Scorekeeper } from "./scorekeeper.js";
 
 export class Referee {

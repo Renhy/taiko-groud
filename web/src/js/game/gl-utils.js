@@ -1,4 +1,4 @@
-import { httpGet } from './utils.js';
+import { httpGet } from '../utils.js';
 
 async function createProgramFromUrl(gl, urls, opt_attribs, opt_locations) {
     const shaders = [];

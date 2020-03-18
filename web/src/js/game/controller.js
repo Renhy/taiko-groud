@@ -1,6 +1,6 @@
-import { Keyboard, Keys } from './keyboard.js';
+import { Keyboard, Keys } from '../keyboard.js';
 import { Plotter } from './plotter.js';
-import { Audios } from './audio-player.js';
+import { Audios } from '../audio-player.js';
 import { Music } from './music.js';
 import { Referee } from './referee.js';
 

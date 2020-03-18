@@ -1,5 +1,5 @@
-import { Keys } from './keyboard.js';
-import { httpGet } from './utils.js';
+import { Keys } from '../keyboard.js';
+import { httpGet } from '../utils.js';
 import { BeatMap } from './constant.js';
 
 
