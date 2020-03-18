@@ -42,12 +42,13 @@ export class Controller {
         console.log('Controller start.');
         console.log(this);
 
-        this.startTime = performance.now();
         this.plotter.start(Delay * -1);
+        this.startTime = performance.now() + Delay;
         setTimeout(() => {
+            this.offset = performance.now() - this.startTime;
             this.player.play(
                 this.songTag, 
-                (performance.now() - this.startTime) * 0.001);
+                this.offset * 0.001);
         }, Delay);
     }
 
@@ -71,14 +72,14 @@ export class Controller {
         console.log(this);
 
         this.startTime = performance.now() - this.offset;
+
         this.plotter.resume(this.offset);
         this.player.resume();
     }
 
 
     handle(key) {
-
-        key.ts = key.ts - this.startTime - Delay;
+        key.ts = key.ts - this.startTime;
         switch(this.state) {
             case State.INIT:
                 return this.initHandle(key);

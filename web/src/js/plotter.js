@@ -24,6 +24,7 @@ export class Plotter {
 
 
     start (offset) {
+        console.log(offset)
         this.enable = true;
         this.startTime = performance.now() - offset;
         requestAnimationFrame(this.render);
@@ -33,8 +34,11 @@ export class Plotter {
         this.enable = false;
     }
 
-    resume() {
-
+    resume(offset) {
+        console.log(offset)
+        this.enable = true;
+        this.startTime = performance.now() - offset;
+        requestAnimationFrame(this.render);
     }
 
     end() {

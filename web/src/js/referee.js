@@ -136,6 +136,7 @@ export class Referee {
         this.state.judge.result = result;
         this.state.judge.ts = key.ts;
         this.scorekeeper.score(this.index.beat, result);
+        console.log('index: ' + this.index.beat + ",  result: " + result + ", ms=" + (key.ts - this.currentBeat.ts));
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
@@ -152,8 +153,8 @@ export class Referee {
             result = JudgeResult.GOOD;
         }
         if (result > this.state.judge.result) {
-            this.judge.result = result;
-            this.judge.ts = key.ts;
+            this.state.judge.result = result;
+            this.state.judge.ts = key.ts;
         }
         this.scorekeeper.score(this.index.beat, this.state.judge.result);
 

@@ -8,7 +8,6 @@ export class Scorekeeper {
     }
 
     score(index, result) {
-        console.log('index: ' + index + ",  result: " + result);
 
     }
 
