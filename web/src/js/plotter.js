@@ -41,7 +41,7 @@ export class Plotter {
         this.enable = false;
     }
 
-    render() {
+    render(now) {
         let gl = this.gl;
         resizeCanvasToDisplySize(gl.canvas);
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -53,7 +53,6 @@ export class Plotter {
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.depthMask(false);
 
-        let now =  performance.now();
         let deltaTime = now - this.startTime;
         let state = this.referee.readState(deltaTime);
 

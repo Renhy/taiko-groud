@@ -92,8 +92,13 @@ export class Controller {
     }
 
     initHandle (key) {
-        this.player.play(Audios.DO);
-        this.start();
+        switch(key.value) {
+            case Keys.LEFT_DO:
+            case Keys.RIGHT_DO:
+                this.player.play(Audios.DO);
+                this.start();
+                break;
+        }
     }
 
     runningHandle(key) {
