@@ -35,13 +35,16 @@ export class AudioPlayer {
         });
     }
 
-    play(tag, time) {
+    play(tag, time, value) {
         time = time | 0;
         let source = this.context.createBufferSource();
         let buffer = this.soundBuffers[tag];
         source.buffer = buffer;
 
         let gain = this.context.createGain();
+        if (value) {
+            gain.gain.value = value;
+        }
 
         source.connect(gain);
         gain.connect(this.context.destination);
