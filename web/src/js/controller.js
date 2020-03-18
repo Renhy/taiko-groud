@@ -49,7 +49,7 @@ export class Controller {
             this.player.play(
                 this.songTag, 
                 this.offset * 0.001, 
-                this.referee.music.metaData.songVol * 0.006);
+                this.referee.music.metaData.songVol * 0.007);
         }, Delay);
     }
 
@@ -80,7 +80,7 @@ export class Controller {
 
 
     handle(key) {
-        key.ts = key.ts - this.startTime - 30;
+        key.ts = key.ts - this.startTime;
         switch(this.state) {
             case State.INIT:
                 return this.initHandle(key);

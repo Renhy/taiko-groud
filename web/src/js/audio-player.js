@@ -41,13 +41,13 @@ export class AudioPlayer {
         let buffer = this.soundBuffers[tag];
         source.buffer = buffer;
 
-        let gain = this.context.createGain();
+        let gainNode = this.context.createGain();
         if (value) {
-            gain.gain.value = value;
+            gainNode.gain.value = value;
         }
 
-        source.connect(gain);
-        gain.connect(this.context.destination);
+        source.connect(gainNode);
+        gainNode.connect(this.context.destination);
 
         source.start(time);
     }
