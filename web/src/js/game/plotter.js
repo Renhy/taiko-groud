@@ -1,7 +1,6 @@
 import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 import { Sticker } from './sticker.js';
-import { Barline } from './barline.js';
 
 export class Plotter {
     async init(referee) {
@@ -19,11 +18,9 @@ export class Plotter {
         this.enable = false;
         this.sticker = new Sticker();
         this.note = new Note();
-        this.barline = new Barline();
 
         await this.sticker.init(this.gl);
         await this.note.init(this.sticker);
-        await this.barline.init(this.sticker);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -69,7 +66,6 @@ export class Plotter {
 
         let state = this.referee.state;
         this.note.render(state);
-        this.barline.render(state)
 
         this.fps = 1 / (performance.now() - now);
         if (this.enable) {
