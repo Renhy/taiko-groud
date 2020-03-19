@@ -37,12 +37,26 @@ export class Note {
                     'do', 
                     dstX, dstY, 
                     Layout.width, Layout.height);
+                continue;
             }
             if (beat.type == BeatType.KA) {
                 this.sticker.stick(
                     'ka', 
                     dstX, dstY, 
                     Layout.width, Layout.height);
+                continue;
+            }
+            if (beat.type == BeatType.DAI_DO) {
+                this.sticker.stick('do', 
+                    dstX, dstY,
+                    Layout.daiWidth, Layout.daiHeight);
+                continue;
+            }
+            if (beat.type == BeatType.DAI_KA) {
+                this.sticker.stick('ka', 
+                    dstX, dstY,
+                    Layout.daiWidth, Layout.daiHeight);
+                continue;
             }
         }
     }

@@ -94,7 +94,6 @@ export class Sticker {
         gl.uniformMatrix4fv(this.programLocations.matrix, false, matrix);
         gl.uniform1i(this.programLocations.texture, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
-
     }
 
 }
