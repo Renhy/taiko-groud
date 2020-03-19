@@ -1,5 +1,6 @@
 import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
+import { Sticker } from './sticker.js';
 
 export class Plotter {
     async init(referee) {
@@ -15,8 +16,11 @@ export class Plotter {
         resizeCanvasToDisplySize(this.gl.canvas);
 
         this.enable = false;
+        this.sticker = new Sticker();
         this.note = new Note();
-        await this.note.init(this.gl);
+
+        await this.sticker.init(this.gl);
+        await this.note.init(this.sticker);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
