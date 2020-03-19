@@ -1,4 +1,3 @@
-import { createProgramFromUrl, loadTextureFromUrl } from './gl-utils.js';
 import { BeatType } from './constant.js';
 
 var Layout = {

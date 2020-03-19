@@ -67,14 +67,6 @@ export class Sticker {
         let gl = this.gl;
         let info = this.textures[tag];
 
-        let w = gl.canvas.width;
-        let h = gl.canvas.height;
-        x *= w;
-        y *= h;
-        width *= w;
-        height *= h;
-
-
         gl.bindTexture(gl.TEXTURE_2D, info.texture);
         gl.useProgram(this.program);
         
@@ -87,7 +79,7 @@ export class Sticker {
         gl.vertexAttribPointer(this.programLocations.texcoord, 2, gl.FLOAT, false, 0, 0);
 
         let matrix = mat4.create();
-        mat4.ortho(matrix, 0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
+        mat4.ortho(matrix, 0, 1, 1, 0, -1, 1);
         mat4.translate(matrix, matrix, [x, y, 0]);
         mat4.scale(matrix, matrix, [width, height, 1]);
 

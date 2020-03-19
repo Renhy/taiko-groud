@@ -32,7 +32,8 @@ export class Referee {
                 ts: 0,
                 result: JudgeResult.NONE,
             },
-            nextBeats: []
+            nextBeats: [],
+            barline: 0,
         };
 
         this.records = [];
@@ -172,11 +173,10 @@ export class Referee {
 /**************************************************************/
 /******************* read state per frame  ********************/
 
-    readState(delta) {
+    update(delta) {
         this.checkMusic(delta);
         this.updateNextBeats(delta);
 
-        return this.state;
     }
 
     checkMusic(delta) {
@@ -206,6 +206,7 @@ export class Referee {
     readState(delta) {
         this.checkMusic(delta);
         this.updateNextBeats(delta);
+        this.updateBarLines(delta);
 
         return this.state;
     }
@@ -256,6 +257,11 @@ export class Referee {
         }
     }
 
+    updateBarLines(delta) {
+        let currentMeasure = this.music.measures[this.index.measure];
+        this.state.barline = (delta - currentMeasure) / currentMeasure.duration;
+    }
+
     closeBeat(delta) {
         switch (this.currentBeat.type) {
             case BeatType.DO:
@@ -295,7 +301,6 @@ export class Referee {
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
-
 
     }
 
