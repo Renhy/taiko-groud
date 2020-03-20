@@ -6,10 +6,19 @@ var Layout = {
         left: 412 / 1280,
         length: 868 / 1280,
     },
-    width: 70 / 1280,
-    height: 70 / 720,
-    daiWidth: 110 / 1280,
-    daiHeight: 110 / 720,
+    barline: {
+        top: 193 / 720,
+        width: 256 / 1280,
+        height: 161 / 720,
+    },
+    note: {
+        width: 70 / 1280,
+        height: 70 / 720,
+    },
+    daiNote: {
+        width: 110 / 1280,
+        height: 110 / 720,
+    },
 };
 
 export class Note {
@@ -22,8 +31,25 @@ export class Note {
     }
 
     render(state) {
-        for (let i = state.nextBeats.length - 1; i >= 0; i--) {
-            let beat = state.nextBeats[i];
+        this.renderBarline(state.barline);
+        this.renderBeats(state.nextBeats);
+    }
+
+    renderBarline(distance) {
+        let x = Layout.line.left;
+        x += distance * Layout.line.length;
+        x -= Layout.barline.width * 0.5;
+
+        let y = Layout.barline.top;
+        
+        this.sticker.stick('barline', 
+            x, y, 
+            Layout.barline.width, Layout.barline.height);
+    }
+    
+    renderBeats(beats) {
+        for (let i = beats.length - 1; i >= 0; i--) {
+            let beat = beats[i];
             switch (beat.type) {
                 case BeatType.DO:
                     this.note('do', beat.distance);
@@ -38,42 +64,35 @@ export class Note {
                     this.daiNote('ka', beat.distance);
                     break;
             }
-
-            let dstX = Layout.line.left;
-            dstX += beat.distance * Layout.line.length;
-            dstX -= Layout.width * 0.5;
-
-            let dstY = Layout.line.height;
-            dstY -= Layout.height * 0.5;
         }
     }
-        
+
     note(tag, distance) {
         let x =  Layout.line.left;
         x += distance * Layout.line.length;
-        x -= Layout.width * 0.5;
+        x -= Layout.note.width * 0.5;
 
         let y = Layout.line.height;
-        y -= Layout.height * 0.5;
+        y -= Layout.note.height * 0.5;
 
         this.sticker.stick(
             tag,
             x, y,
-            Layout.width, Layout.height);
+            Layout.note.width, Layout.note.height);
     }
 
     daiNote(tag, distance) {
         let x =  Layout.line.left;
         x += distance * Layout.line.length;
-        x -= Layout.daiWidth * 0.5;
+        x -= Layout.daiNote.width * 0.5;
 
         let y = Layout.line.height;
-        y -= Layout.daiHeight * 0.5;
+        y -= Layout.daiNote.height * 0.5;
 
         this.sticker.stick(
             tag,
             x, y,
-            Layout.daiWidth, Layout.daiHeight);
+            Layout.daiNote.width, Layout.daiNote.height);
     }
 
 

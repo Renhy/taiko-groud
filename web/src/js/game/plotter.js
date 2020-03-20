@@ -32,6 +32,11 @@ export class Plotter {
         this.enable = true;
         this.startTime = performance.now() - offset;
         requestAnimationFrame(this.render);
+
+        setInterval(() => {
+            console.log('fps=' + this.fps);
+            
+        }, 2000);
     }
 
     pause() {
@@ -50,6 +55,8 @@ export class Plotter {
     }
 
     render(now) {
+        let start = performance.now();
+
         let gl = this.gl;
         resizeCanvasToDisplySize(gl.canvas);
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -67,7 +74,7 @@ export class Plotter {
         let state = this.referee.state;
         this.note.render(state);
 
-        this.fps = 1 / (performance.now() - now);
+        this.fps = 1000 / (performance.now() - start);
         if (this.enable) {
             requestAnimationFrame(this.render);
         }

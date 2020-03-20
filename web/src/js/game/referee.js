@@ -10,7 +10,7 @@ export class Referee {
         this.audioPlayer = audioPlayer;
         this.endCallback = callback;
         this.index = {
-            measure: 0,
+            measure: 0, 
             balloon: 0,
             beat: 0,
         }
@@ -120,7 +120,6 @@ export class Referee {
             return;
         }
      
-     
     }
 
     checkSimpleBeat(key) {
@@ -176,7 +175,7 @@ export class Referee {
     update(delta) {
         this.checkMusic(delta);
         this.updateNextBeats(delta);
-
+        this.updateBarLines(delta);
     }
 
     checkMusic(delta) {
@@ -201,14 +200,6 @@ export class Referee {
             }
         } else {
         }
-    }
-
-    readState(delta) {
-        this.checkMusic(delta);
-        this.updateNextBeats(delta);
-        this.updateBarLines(delta);
-
-        return this.state;
     }
 
     checkMusic(delta) {
@@ -258,8 +249,14 @@ export class Referee {
     }
 
     updateBarLines(delta) {
-        let currentMeasure = this.music.measures[this.index.measure];
-        this.state.barline = (delta - currentMeasure) / currentMeasure.duration;
+        if (this.index.measure + 1 < this.music.measures.length) {
+            let currentMeasure = this.music.measures[this.index.measure];
+            let nextMeasure = this.music.measures[this.index.measure + 1];
+            this.state.barline = (nextMeasure.start - delta) / currentMeasure.duration;
+            if (this.state.barline > 1) {
+                this.state.barline -= 1;
+            }
+        }
     }
 
     closeBeat(delta) {
