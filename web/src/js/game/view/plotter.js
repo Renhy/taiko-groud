@@ -1,6 +1,7 @@
 import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 import { Sticker } from './sticker.js';
+import { Judge } from './judge.js';
 
 export class Plotter {
     async init(referee) {
@@ -18,9 +19,11 @@ export class Plotter {
         this.enable = false;
         this.sticker = new Sticker();
         this.note = new Note();
+        this.judge = new Judge();
 
         await this.sticker.init(this.gl);
         await this.note.init(this.sticker);
+        await this.judge.init(this.sticker);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -73,6 +76,7 @@ export class Plotter {
 
         let state = this.referee.state;
         this.note.render(state);
+        this.judge.render(state);
 
         this.fps = 1000 / (performance.now() - start);
         if (this.enable) {

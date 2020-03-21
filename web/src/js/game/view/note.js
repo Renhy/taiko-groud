@@ -1,4 +1,4 @@
-import { BeatType } from './constant.js';
+import { BeatType } from '../constant.js';
 
 var Layout = {
     line: {
