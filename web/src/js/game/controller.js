@@ -4,10 +4,11 @@ import { Audios } from '../audio-player.js';
 import { Referee } from './referee.js';
 
 var State = {
-    INIT : 1,
-    RUNNING : 2,
-    SUSPEND : 3,
-    REUSLT : 4,
+    INIT: 1,
+    READY : 2,
+    RUNNING : 3,
+    SUSPEND : 4,
+    REUSLT : 5,
 };
 
 var Delay = 1000;
@@ -32,8 +33,14 @@ export class Controller {
         this.plotter = new Plotter();
         await this.plotter.init(this.referee);
 
-        console.log('Controller initialization completed.');
-        console.log(this);
+        this.ready();
+    }
+
+    ready() {
+        this.state = State.READY;
+        console.log('Controller initialization ready.', this);
+        console.log('Waiting for input.');
+
     }
 
     start() {
@@ -83,6 +90,8 @@ export class Controller {
         switch(this.state) {
             case State.INIT:
                 return this.initHandle(key);
+            case State.READY:
+                return this.readyHandle(key);
             case State.RUNNING:
                 return this.runningHandle(key);
             case State.SUSPEND:
@@ -93,7 +102,10 @@ export class Controller {
     }
 
     initHandle (key) {
-        switch(key.value) {
+    }
+
+    readyHandle(key) {
+        switch (key.value) {
             case Keys.LEFT_DO:
             case Keys.RIGHT_DO:
                 this.player.play(Audios.DO);
