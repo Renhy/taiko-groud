@@ -22,8 +22,8 @@ export class Plotter {
         this.judge = new Judge();
 
         await this.sticker.init(this.gl);
-        await this.note.init(this.sticker);
-        await this.judge.init(this.sticker);
+        await this.note.init(this.sticker, referee);
+        await this.judge.init(this.sticker, referee);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -71,12 +71,11 @@ export class Plotter {
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.depthMask(false);
 
-        let deltaTime = now - this.startTime;
-        this.referee.update(deltaTime);
+        let delta = now - this.startTime;
+        this.referee.update(delta);
 
-        let state = this.referee.state;
-        this.note.render(state);
-        this.judge.render(state);
+        this.note.render(delta);
+        this.judge.render(delta);
 
         this.fps = 1000 / (performance.now() - start);
         if (this.enable) {

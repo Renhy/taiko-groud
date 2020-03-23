@@ -32,8 +32,6 @@ export class Referee {
                 ts: 0,
                 result: JudgeResult.NONE,
             },
-            nextBeats: [],
-            barline: 0,
         };
 
         this.records = [];
@@ -170,36 +168,10 @@ export class Referee {
 
 
 /**************************************************************/
-/******************* read state per frame  ********************/
+/******************* update referee per frame  ********************/
 
     update(delta) {
         this.checkMusic(delta);
-        this.updateNextBeats(delta);
-        this.updateBarLines(delta);
-    }
-
-    checkMusic(delta) {
-        let currentMeasure = this.music.measures[this.index.measure];
-        if (deltaTime > currentMeasure.start + currentMeasure.duration) {
-            this.index.measure += 1;
-            if (this.index.measure >= this.music.measures.length) {
-                this.end();
-            }
-        }
-
-        if (this.index.beat >= this.music.beats.length) {
-            return;
-        }
-
-        if (this.currentBeat.type == BeatType.BALLOON || 
-            this.currentBeat.type == BeatType.DRUMROLL || 
-            this.currentBeat.type == BeatType.DAI_DRUMROLL) {
-            if (delta > this.currentBeat.ts - JudgeBias.OK) {
-                this.closeBeat(delta);
-                return;
-            }
-        } else {
-        }
     }
 
     checkMusic(delta) {
@@ -226,35 +198,6 @@ export class Referee {
             if (delta > this.currentBeat.ts + JudgeBias.OK) {
                 this.closeBeat(delta);
                 return;
-            }
-        }
-    }
-
-    updateNextBeats(delta) {
-        let stopTs = delta + this.music.measures[this.index.measure].duration;
-        let distancePerTime = 1 / this.music.measures[this.index.measure].duration;
-
-        this.state.nextBeats = [];
-        for (let i = this.index.beat; i < this.music.beats.length; i++) {
-            if (this.music.beats[i].ts > stopTs) {
-                break;
-            }
-
-            let beat = {
-                distance: (this.music.beats[i].ts - delta) * distancePerTime,
-                type: this.music.beats[i].type,
-            }
-            this.state.nextBeats.push(beat);
-        }
-    }
-
-    updateBarLines(delta) {
-        if (this.index.measure + 1 < this.music.measures.length) {
-            let currentMeasure = this.music.measures[this.index.measure];
-            let nextMeasure = this.music.measures[this.index.measure + 1];
-            this.state.barline = (nextMeasure.start - delta) / currentMeasure.duration;
-            if (this.state.barline > 1) {
-                this.state.barline -= 1;
             }
         }
     }

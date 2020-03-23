@@ -22,20 +22,35 @@ var Layout = {
 };
 
 export class Note {
-    async init(sticker) {
+
+    async init(sticker, referee) {
         this.sticker = sticker;
+        this.referee = referee;
+        this.music = referee.music;
 
         await this.sticker.loadTexture('do', '/assets/img/do.png');
         await this.sticker.loadTexture('ka', '/assets/img/ka.png');
         await this.sticker.loadTexture('barline', '/assets/img/barline.png');
     }
 
-    render(state) {
-        this.renderBarline(state.barline);
-        this.renderBeats(state.nextBeats);
+    render(delta) {
+        this.renderBarline(delta);
+        this.renderBeats(delta);
     }
 
-    renderBarline(distance) {
+    renderBarline(delta) {
+        if (this.referee.index.measure + 1 >= this.music.measures.length) {
+            return;
+        }
+
+        let currentMeasure = this.music.measures[this.referee.index.measure];
+        let nextMeasure = this.music.measures[this.referee.index.measure + 1];
+
+        let distance = (nextMeasure.start - delta) / currentMeasure.duration;
+        if (distance > 1) {
+            distance -= 1;
+        }
+
         let x = Layout.line.left;
         x += distance * Layout.line.length;
         x -= Layout.barline.width * 0.5;
@@ -47,7 +62,23 @@ export class Note {
             Layout.barline.width, Layout.barline.height);
     }
     
-    renderBeats(beats) {
+    renderBeats(delta) {
+        let stopTs = delta + this.music.measures[this.referee.index.measure].duration;
+        let distancePerTime = 1 / this.music.measures[this.referee.index.measure].duration;
+
+        let beats = [];
+        for (let i = this.referee.index.beat; i < this.music.beats.length; i++) {
+            if (this.music.beats[i].ts > stopTs) {
+                break;
+            }
+
+            let beat = {
+                distance: (this.music.beats[i].ts - delta) * distancePerTime,
+                type: this.music.beats[i].type,
+            }
+            beats.push(beat);
+        }
+
         for (let i = beats.length - 1; i >= 0; i--) {
             let beat = beats[i];
             switch (beat.type) {
