@@ -1,6 +1,7 @@
 import { httpGet }from './utils.js';
 import { Controller } from './game/controller.js';
 import { AudioPlayer } from './audio-player.js';
+import { Keyboard } from './keyboard.js';
 
 main();
 
@@ -8,6 +9,7 @@ main();
 async function main() {
     var audioPlayer = new AudioPlayer();
     var controller = new Controller();
+    var keyboard = new Keyboard(controller);
 
     await audioPlayer.init();
 

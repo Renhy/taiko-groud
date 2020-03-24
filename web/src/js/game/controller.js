@@ -1,7 +1,8 @@
-import { Keyboard, Keys } from '../keyboard.js';
+import { Keys } from '../keyboard.js';
 import { Plotter } from './view/plotter.js';
 import { Audios } from '../audio-player.js';
 import { Referee } from './referee.js';
+import { httpGet } from '../utils.js';
 
 var State = {
     INIT: 1,
@@ -19,17 +20,19 @@ export class Controller {
         this.player = player;
         this.songInfo = info;
 
-        // initialize keyboard input
-        this.keyboard = new Keyboard(this);
+        let page = await httpGet('/src/html/game.html'); 
+        document.getElementById('screen').innerHTML = page;
+        let stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.href = '/src/css/game.css';
+        document.head.appendChild(stylesheet);
 
-        // initialize song data
         this.songTag = await this.player.load(this.songInfo.audio);
         this.referee = new Referee(this, this.player, () => {
             this.end();
         });
         await this.referee.loadMusic(this.songInfo.music, this.songInfo.type);
 
-        // initialize animation component
         this.plotter = new Plotter();
         await this.plotter.init(this.referee);
 

@@ -2,10 +2,15 @@ import { resizeCanvasToDisplySize } from './gl-utils.js';
 import { Note } from './note.js';
 import { Sticker } from './sticker.js';
 import { Judge } from './judge.js';
+import { httpGet } from '../../utils.js';
 
 export class Plotter {
     async init(referee) {
         this.referee = referee;
+
+        let gl_matrix = document.createElement('script');
+        gl_matrix.text = await httpGet('/src/lib/gl-matrix.js');
+        document.head.appendChild(gl_matrix);
 
         // initialize webgl
         const canvas = document.getElementById('gamecanvas');
