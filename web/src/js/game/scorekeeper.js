@@ -3,8 +3,8 @@
 
 export class Scorekeeper {
 
-    constructor(controller) {
-        this.controller = controller;
+    constructor(game) {
+        this.game = game;
     }
 
     score(index, result) {

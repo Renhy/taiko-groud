@@ -5,8 +5,8 @@ import { Audios } from "../audio-player.js";
 import { Scorekeeper } from "./scorekeeper.js";
 
 export class Referee {
-    constructor(controller, audioPlayer, callback) {
-        this.controller = controller;
+    constructor(game, audioPlayer, callback) {
+        this.game = game;
         this.audioPlayer = audioPlayer;
         this.endCallback = callback;
         this.index = {
@@ -36,7 +36,7 @@ export class Referee {
 
         this.records = [];
         this.music = new Music();
-        this.scorekeeper = new Scorekeeper(this.controller);
+        this.scorekeeper = new Scorekeeper(this.game);
     }
 
     async loadMusic(url, type) {
@@ -134,7 +134,6 @@ export class Referee {
         this.state.judge.result = result;
         this.state.judge.ts = key.ts;
         this.scorekeeper.score(this.index.beat, result);
-        console.log('index: ' + this.index.beat + ",  result: " + result + ", ms=" + (key.ts - this.currentBeat.ts));
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];

@@ -14,7 +14,7 @@ var State = {
 
 var Delay = 1000;
 
-export class Controller {
+export class Game {
     async init(player, info) {
         this.state = State.INIT;
         this.player = player;
@@ -22,9 +22,9 @@ export class Controller {
 
         let page = await httpGet('/src/html/game.html'); 
         document.getElementById('screen').innerHTML = page;
-        let stylesheet = document.createElement('link');
-        stylesheet.rel = 'stylesheet';
-        stylesheet.href = '/src/css/game.css';
+        let stylesheet = document.createElement('style');
+        stylesheet.type = 'text/css';
+        stylesheet.textContent = await httpGet('/src/css/game.css');
         document.head.appendChild(stylesheet);
 
         this.songTag = await this.player.load(this.songInfo.audio);
