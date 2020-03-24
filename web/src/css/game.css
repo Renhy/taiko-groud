@@ -10,23 +10,48 @@
     left:0;right:0;
 }
 
-#gamebase {
+#game-base {
 	width: 100%;
 	height: 100%;
     position: inherit;
 	z-index: 1;
 }
 
-#gamecanvas {
+#game-canvas {
 	width: 100%;
 	height: 100%;
     position: inherit;
 	z-index: 2;
 }
 
-#gameoverlay {
+#game-overlay {
 	width: 100%;
 	height: 100%;
     position: inherit;
 	z-index: 3;
+}
+
+#game-title {
+    margin: 0;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+
+    color: white;
+    -webkit-text-stroke: 3px black;
+
+    font-family: TnT, sans-serif;
+    /* font-size: 50px; */
+}
+
+#game-score {
+    color: white;
+    -webkit-text-stroke: 2px black;
+    font-family: TnT, sans-serif;
+    font-size: 35px;
+
+    position: absolute;
+    right: 75%;
+    bottom: 44%;
+
 }

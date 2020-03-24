@@ -13,6 +13,11 @@ async function main() {
 
     await audioPlayer.init();
 
+    let fontStyle = document.createElement('style');
+    fontStyle.type = 'text/css';
+    fontStyle.textContent = await httpGet('/src/css/font.css');
+    document.head.appendChild(fontStyle);
+
     const info = {
         id: 'qby',
         name: '蓄势',

@@ -34,7 +34,7 @@ export class Game {
         await this.referee.loadMusic(this.songInfo.music, this.songInfo.type);
 
         this.plotter = new Plotter();
-        await this.plotter.init(this.referee);
+        await this.plotter.init(this);
 
         this.ready();
     }

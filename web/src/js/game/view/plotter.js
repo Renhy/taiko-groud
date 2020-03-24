@@ -3,17 +3,19 @@ import { Note } from './note.js';
 import { Sticker } from './sticker.js';
 import { Judge } from './judge.js';
 import { httpGet } from '../../utils.js';
+import { Overlay } from './overlay.js';
 
 export class Plotter {
-    async init(referee) {
-        this.referee = referee;
+    async init(game) {
+        this.game = game;
+        this.referee = game.referee;
 
         let gl_matrix = document.createElement('script');
         gl_matrix.text = await httpGet('/src/lib/gl-matrix.js');
         document.head.appendChild(gl_matrix);
 
         // initialize webgl
-        const canvas = document.getElementById('gamecanvas');
+        const canvas = document.getElementById('game-canvas');
         this.gl = canvas.getContext('webgl');
         if (!this.gl) {
             console.error("Unable to initialize WebGL. Your browser or machine may not support it.");
@@ -22,13 +24,16 @@ export class Plotter {
         resizeCanvasToDisplySize(this.gl.canvas);
 
         this.enable = false;
-        this.sticker = new Sticker();
-        this.note = new Note();
-        this.judge = new Judge();
 
+        this.overlay = new Overlay();
+        await this.overlay.init(this.game);
+
+        this.sticker = new Sticker();
         await this.sticker.init(this.gl);
-        await this.note.init(this.sticker, referee);
-        await this.judge.init(this.sticker, referee);
+        this.note = new Note();
+        await this.note.init(this.sticker, this.referee);
+        this.judge = new Judge();
+        await this.judge.init(this.sticker, this.referee);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);

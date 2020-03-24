@@ -54,11 +54,13 @@ export class Music {
     }
 
     parseMetadata(line) {
-        if (line.indexOf('TITLE') >= 0) {
-            this.metaData.title = line.slice(line.indexOf(':') + 1).trim();
-        }
         if (line.indexOf('SUBTITLE') >= 0) {
             this.metaData.subTitle = line.slice(line.indexOf(':') + 1).trim();
+            return;
+        }
+        if (line.indexOf('TITLE') >= 0) {
+            this.metaData.title = line.slice(line.indexOf(':') + 1).trim();
+            return;
         }
         if (line.indexOf('BPM') >= 0) {
             let bpm = line.slice(line.indexOf(':') + 1).trim();
@@ -66,22 +68,27 @@ export class Music {
                 bpm = bpm.slice(0, bpm.indexOf('-') - 1)
             }
             this.metaData.bpm = parseFloat(bpm);
+            return;
         }
         if (line.indexOf('OFFSET') >= 0) {
             let offset = line.slice(line.indexOf(':') + 1).trim();
             this.metaData.offset = parseFloat(offset);
+            return;
         }
         if (line.indexOf('SONGVOL') >= 0) {
             let vol = line.slice(line.indexOf(':') + 1).trim();
             this.metaData.songVol = parseInt(vol);
+            return;
         }
         if (line.indexOf('SEVOL') >= 0) {
             let vol = line.slice(line.indexOf(':') + 1).trim();
             this.metaData.seVol = parseInt(vol);
+            return;
         }
         if (line.indexOf('DEMOSTART') >= 0) {
             let demoStart = line.slice(line.indexOf(':') + 1).trim();
             this.metaData.demoStart = parseFloat(demoStart);
+            return;
         }
     }
 
