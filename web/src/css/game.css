@@ -53,5 +53,33 @@
     position: absolute;
     right: 75%;
     bottom: 44%;
+}
+
+#game-diffculty {
+    position: absolute;
+
+    left: 1%;
+    right: 90%;
+    top: 26%;
+    bottom: 60%;
+}
+
+#game-diffculty-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#game-diffculty-text {
+    margin: 0;
+    position: absolute;
+    left: 26%;
+    bottom: 0%;
+
+    color: black;
+    -webkit-text-stroke: 1px white;
+    font-family: Microsoft YaHei, serif;
+    font-size: 10px;
+
 
 }
