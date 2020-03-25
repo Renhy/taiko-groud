@@ -23,12 +23,13 @@ export class Overlay {
         this.title = document.getElementById('game-title');
         this.score = document.getElementById('game-score');
         this.diffcultyImg = document.getElementById('game-diffculty-img');
-        this.diffcultyText = document.getElementById('game-diffculty-text');
+        this.completenessImg = document.getElementById('game-completeness-img');
 
         this.updateLayout();
 
         this.updateTitle();
         await this.updateDiffculty();
+        await this.updateCompleteness();
     }
 
     updateLayout() {
@@ -42,10 +43,6 @@ export class Overlay {
         this.score.style.fontSize = height * Layout.score.height + 'px';
         this.score.style.webkitTextStrokeWidth = height * Layout.score.stroke + 'px';
 
-        // diffculty
-        this.diffcultyText.style.fontSize = height * Layout.diffculty.height + 'px';
-        this.diffcultyText.style.webkitTextStrokeWidth = height * Layout.diffculty.stroke + 'px';
-
     }
 
     updateTitle() {
@@ -53,32 +50,38 @@ export class Overlay {
     }
 
     async updateDiffculty() {
-        this.diffcultyImg.onload = () => {
-            return resolve();
-        };
+        return new Promise((resolve, reject) => {
+            this.diffcultyImg.onload = () => {
+                return resolve();
+            };
+            switch (this.game.referee.music.type) {
+                case CourseType.EASY:
+                    this.diffcultyImg.src = Assets.img.easy;
+                    break;
+                case CourseType.NORMAL:
+                    this.diffcultyImg.src = Assets.img.normal;
+                    break;
+                case CourseType.HARD:
+                    this.diffcultyImg.src = Assets.img.hard;
+                    break;
+                case CourseType.EXTREME:
+                    this.diffcultyImg.src = Assets.img.extreme;
+                    break;
+                case CourseType.EXTRA:
+                    this.diffcultyImg.src = Assets.img.extra;
+                    break;
+            }
+        });
+    }
 
-        switch (this.game.referee.music.type) {
-            case CourseType.EASY:
-                this.diffcultyImg.src = Assets.img.easy;
-                this.diffcultyText.textContent = '简单';
-                break;
-            case CourseType.NORMAL:
-                this.diffcultyImg.src = Assets.img.normal;
-                this.diffcultyText.textContent = '普通';
-                break;
-            case CourseType.HARD:
-                this.diffcultyImg.src = Assets.img.hard;
-                this.diffcultyText.textContent = '困难';
-                break;
-            case CourseType.EXTREME:
-                this.diffcultyImg.src = Assets.img.extreme;
-                this.diffcultyText.textContent = '魔王';
-                break;
-            case CourseType.EXTRA:
-                this.diffcultyImg.src = Assets.img.extra;
-                this.diffcultyText.textContent = '魔王';
-                break;
-        }
+    async updateCompleteness() {
+        return new Promise((resolve, reject) => {
+            this.completenessImg.onload = () => {
+                return resolve();
+            };
+
+            this.completenessImg.src = Assets.img.completeness;
+        });
     }
 
 

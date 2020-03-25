@@ -133,7 +133,7 @@ export class Referee {
 
         this.state.judge.result = result;
         this.state.judge.ts = key.ts;
-        this.scorekeeper.score(this.index.beat, result);
+        this.scorekeeper.scoreBeat(this.index.beat, result);
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
@@ -153,7 +153,7 @@ export class Referee {
             this.state.judge.result = result;
             this.state.judge.ts = key.ts;
         }
-        this.scorekeeper.score(this.index.beat, this.state.judge.result);
+        this.scorekeeper.scoreBeat(this.index.beat, this.state.judge.result);
 
         this.state.play.hitCount += 1;
         if (this.state.play.hitCount >= 2) {

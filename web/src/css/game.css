@@ -35,7 +35,7 @@
     margin: 0;
     position: absolute;
     right: 5%;
-    top: 5%;
+    top: 3%;
 
     color: white;
     -webkit-text-stroke: 3px black;
@@ -70,16 +70,17 @@
     height: 100%;
 }
 
-#game-diffculty-text {
-    margin: 0;
+#game-completeness {
     position: absolute;
-    left: 26%;
-    bottom: 0%;
 
-    color: black;
-    -webkit-text-stroke: 1px white;
-    font-family: Microsoft YaHei, serif;
-    font-size: 10px;
+    left: 42%;
+    right: 4%;
+    top: 15%;
+    bottom: 74%;
+}
 
-
+#game-completeness-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
