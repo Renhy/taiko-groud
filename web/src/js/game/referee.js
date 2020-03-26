@@ -68,23 +68,23 @@ export class Referee {
 
         if (this.state.play.balloon) {
             this.state.play.hitcount += 1;
-            this.scorekeeper.scoreBalloon();
+            this.scorekeeper.scoreBalloon(key.ts);
             if (this.state.play.hitCount >= this.music.balloonCounts[this.index.balloon]) {
                 this.audioPlayer.play(Audios.BALLOON);
                 this.state.play.balloon = false;
                 this.state.play.hitCount = 0;
-                this.scorekeeper.scoreBalloonResult(JudgeResult.GOOD);
+                this.scorekeeper.scoreBalloonResult(JudgeResult.GOOD, key.ts);
             }
             return;
         }
         if (this.state.play.drumroll) {
             this.state.play.hitCount += 1;
-            this.scorekeeper.scoreDrumroll();
+            this.scorekeeper.scoreDrumroll(key.ts);
             return;
         }
         if (this.state.play.daiDrumroll) {
             this.state.play.hitCount += 1;
-            this.scorekeeper.scoreDaiDrumroll();
+            this.scorekeeper.scoreDaiDrumroll(key.ts);
             return;
         }
 
@@ -133,7 +133,7 @@ export class Referee {
 
         this.state.judge.result = result;
         this.state.judge.ts = key.ts;
-        this.scorekeeper.scoreBeat(this.index.beat, result);
+        this.scorekeeper.scoreBeat(this.index.beat, result, key.ts);
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
@@ -153,7 +153,7 @@ export class Referee {
             this.state.judge.result = result;
             this.state.judge.ts = key.ts;
         }
-        this.scorekeeper.scoreBeat(this.index.beat, this.state.judge.result);
+        this.scorekeeper.scoreBeat(this.index.beat, this.state.judge.result, key.ts);
 
         this.state.play.hitCount += 1;
         if (this.state.play.hitCount >= 2) {

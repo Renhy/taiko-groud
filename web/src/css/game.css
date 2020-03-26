@@ -44,15 +44,27 @@
     /* font-size: 50px; */
 }
 
+#game-score-add {
+    margin: 0;
+    position: absolute;
+    bottom: 60%;
+
+    color: yellowgreen;
+    -webkit-text-stroke: 2px black;
+    font-family: TnT, sans-serif;
+    font-size: 20px;
+}
+
 #game-score {
+    margin: 0;
+    position: absolute;
+    right: 75%;
+    bottom: 52%;
+
     color: white;
     -webkit-text-stroke: 2px black;
     font-family: TnT, sans-serif;
     font-size: 35px;
-
-    position: absolute;
-    right: 75%;
-    bottom: 44%;
 }
 
 #game-diffculty {

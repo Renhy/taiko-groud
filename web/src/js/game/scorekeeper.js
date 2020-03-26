@@ -11,9 +11,12 @@ export class Scorekeeper {
 
         this.gain = 1;
         this.equivalent = 1000;
+
+        this.addTime = -1000;
+        this.addValue = 0;
     }
 
-    scoreBeat(index, result) {
+    scoreBeat(index, result, ts) {
         let s = this.equivalent * this.gain;
         if (result == JudgeResult.GOOD) {
             s *= 3;
@@ -23,22 +26,26 @@ export class Scorekeeper {
             s *= 2;
         }
 
-        this.addScore(s);
+        this.addScore(s, ts);
     }
 
-    scoreBalloonResult(type) {
-
-    }
-
-    scoreDrumroll() {
+    scoreBalloonResult(type, ts) {
 
     }
 
-    scoreDaiDrumroll() {
+    scoreDrumroll(ts) {
 
     }
 
-    addScore(value) {
+    scoreDaiDrumroll(ts) {
+
+    }
+
+    addScore(value, ts) {
+        this.addValue = value;
+        this.addTime = ts;
+        this.game.plotter.overlay.scoreAdd.innerHTML = value;
+
         this.score += value;
         this.game.plotter.overlay.score.innerHTML = this.score;
     }
