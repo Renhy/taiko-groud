@@ -1,5 +1,4 @@
 import { CourseType } from "../constant.js";
-import { Assets } from "../../assets.js";
 
 var Layout = {
     title: {
@@ -28,8 +27,8 @@ export class Overlay {
         this.updateLayout();
 
         this.updateTitle();
-        await this.updateDiffculty();
-        await this.updateCompleteness();
+        await this.loadDiffculty();
+        await this.loadCompleteness();
     }
 
     updateLayout() {
@@ -49,38 +48,38 @@ export class Overlay {
         this.title.textContent = this.game.referee.music.metaData.title;
     }
 
-    async updateDiffculty() {
+    async loadDiffculty() {
         return new Promise((resolve, reject) => {
             this.diffcultyImg.onload = () => {
                 return resolve();
             };
             switch (this.game.referee.music.type) {
                 case CourseType.EASY:
-                    this.diffcultyImg.src = Assets.img.easy;
+                    this.diffcultyImg.src = '/assets/img/easy.png';
                     break;
                 case CourseType.NORMAL:
-                    this.diffcultyImg.src = Assets.img.normal;
+                    this.diffcultyImg.src = '/assets/img/normal.png';
                     break;
                 case CourseType.HARD:
-                    this.diffcultyImg.src = Assets.img.hard;
+                    this.diffcultyImg.src = '/assets/img/hard.png';
                     break;
                 case CourseType.EXTREME:
-                    this.diffcultyImg.src = Assets.img.extreme;
+                    this.diffcultyImg.src = '/assets/img/extreme.png';
                     break;
                 case CourseType.EXTRA:
-                    this.diffcultyImg.src = Assets.img.extra;
+                    this.diffcultyImg.src = '/assets/img/extra.png';
                     break;
             }
         });
     }
 
-    async updateCompleteness() {
+    async loadCompleteness() {
         return new Promise((resolve, reject) => {
             this.completenessImg.onload = () => {
                 return resolve();
             };
 
-            this.completenessImg.src = Assets.img.completeness;
+            this.completenessImg.src = '/assets/img/completeness.png';
         });
     }
 

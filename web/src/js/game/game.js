@@ -27,6 +27,14 @@ export class Game {
         stylesheet.textContent = await httpGet('/src/css/game.css');
         document.head.appendChild(stylesheet);
 
+        let keyIntro = document.getElementById('game-load-key');
+        await new Promise((resolve, reject) => {
+            keyIntro.onload = () => {
+                return resolve();
+            }
+            keyIntro.src = '/assets/img/key.png';
+        });
+
         this.songTag = await this.player.load(this.songInfo.audio);
         this.referee = new Referee(this, this.player, () => {
             this.end();
@@ -44,12 +52,17 @@ export class Game {
         console.log('Controller initialization ready.', this);
         console.log('Waiting for input.');
 
+        let intro = document.getElementById('game-load-intro');
+        intro.innerText = '按「F」、「J」开始';
     }
 
     start() {
         this.state = State.RUNNING;
         console.log('Controller start.');
         console.log(this);
+
+        let load = document.getElementById('game-load');
+        load.remove();
 
         this.plotter.start(Delay * -1);
         this.startTime = performance.now() + Delay;
@@ -86,6 +99,8 @@ export class Game {
         this.plotter.resume(this.offset);
         this.player.resume();
     }
+
+
 
 
     handle(key) {
