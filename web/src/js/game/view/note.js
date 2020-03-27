@@ -3,8 +3,10 @@ import { BeatType } from '../constant.js';
 var Layout = {
     line: {
         height: 267 / 720,
-        left: 412 / 1280,
+        zero: 412 / 1280,
         length: 868 / 1280,
+        left: (332 - 412) / 868,
+        right: 1,
     },
     barline: {
         top: 193 / 720,
@@ -31,6 +33,12 @@ export class Note {
         await this.sticker.loadTexture('do', '/assets/img/do.png');
         await this.sticker.loadTexture('ka', '/assets/img/ka.png');
         await this.sticker.loadTexture('barline', '/assets/img/barline.png');
+        await this.sticker.loadTexture('drumrollLeft', '/assets/img/drumroll-left.png');
+        await this.sticker.loadTexture('drumrollRight', '/assets/img/drumroll-right.png');
+        await this.sticker.loadTexture('drumrollFill', '/assets/img/drumroll-fill.png');
+        await this.sticker.loadTexture('balloon', '/assets/img/balloon.png');
+        await this.sticker.loadTexture('xiaogu', '/assets/img/xiaogu.png');
+        await this.sticker.loadTexture('balloonBubble', '/assets/img/balloon-bubble.png');
     }
 
     render(delta) {
@@ -51,7 +59,7 @@ export class Note {
             distance -= 1;
         }
 
-        let x = Layout.line.left;
+        let x = Layout.line.zero;
         x += distance * Layout.line.length;
         x -= Layout.barline.width * 0.5;
 
@@ -68,15 +76,42 @@ export class Note {
 
         let beats = [];
         for (let i = this.referee.index.beat; i < this.music.beats.length; i++) {
-            if (this.music.beats[i].ts > stopTs) {
-                break;
-            }
-
             let beat = {
                 distance: (this.music.beats[i].ts - delta) * distancePerTime,
                 type: this.music.beats[i].type,
             }
+
+            if (beat.type == BeatType.DRUMROLL ||
+                beat.type == BeatType.DAI_DRUMROLL) {
+                for (let j= i; j < this.music.beats.length; j++) {
+                    if (this.music.beats[j].type == BeatType.END) {
+                        beat.end = (this.music.beats[j].ts - delta) * distancePerTime;
+                        break;
+                    }
+                }
+            }
+            if (beat.type == BeatType.END) {
+                if (beats.length == 0) {
+                    for (let j = i; j >= 0; j--) {
+                        if (this.music.beats[j].type == BeatType.DRUMROLL ||
+                            this.music.beats[j].type == BeatType.DAI_DRUMROLL) {
+                            if (beats.length > 0) {
+                                beats[beats.length - 1].end = beat.ts;
+                            } else {
+                                beat.type = this.music.beats[j].type;
+                                beat.end = beat.distance;
+                                beat.distance = (this.music.beats[j].ts - delta) * distancePerTime;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
             beats.push(beat);
+            if (this.music.beats[i].ts > stopTs) {
+                break;
+            }
         }
 
         for (let i = beats.length - 1; i >= 0; i--) {
@@ -94,12 +129,21 @@ export class Note {
                 case BeatType.DAI_KA:
                     this.daiNote('ka', beat.distance);
                     break;
+                case BeatType.DRUMROLL:
+                    this.drumroll(beat.distance, beat.end);
+                    break;
+                case BeatType.DAI_DRUMROLL:
+                    this.daiDrumroll(beat.distance, beat.end);
+                    break;
             }
         }
     }
 
     note(tag, distance) {
-        let x =  Layout.line.left;
+        if (distance > Layout.line.right || distance < Layout.line.left) {
+            return;
+        }
+        let x =  Layout.line.zero;
         x += distance * Layout.line.length;
         x -= Layout.note.width * 0.5;
 
@@ -113,7 +157,10 @@ export class Note {
     }
 
     daiNote(tag, distance) {
-        let x =  Layout.line.left;
+        if (distance > Layout.line.right || distance < Layout.line.left) {
+            return;
+        }
+        let x =  Layout.line.zero;
         x += distance * Layout.line.length;
         x -= Layout.daiNote.width * 0.5;
 
@@ -126,6 +173,48 @@ export class Note {
             Layout.daiNote.width, Layout.daiNote.height);
     }
 
+    drumroll(left, right) {
+        if (right < Layout.line.right) {
+            this.note('drumrollRight', right); 
+        } else {
+            right = Layout.line.right;
+        }
+        
+        if (left > Layout.line.left) {
+            this.fillDrumroll(left, right, Layout.note.height);
+            this.note('drumrollLeft', left);
+        } else {
+            this.fillDrumroll(Layout.line.left, right, Layout.note.height);
+        }
+    }
+
+    daiDrumroll(left, right) {
+        if (right < Layout.line.right) {
+            this.daiNote('drumrollRight', right);
+        } else {
+            right = Layout.line.right;
+        }
+
+        if (left > Layout.line.left) {
+            this.fillDrumroll(left, right, Layout.daiNote.height);
+            this.daiNote('drumrollLeft', left);
+        } else {
+            this.fillDrumroll(Layout.line.left, right, Layout.daiNote.height);
+        }
+    }
+
+    fillDrumroll(left, right, height) {
+        let x = Layout.line.zero + left * Layout.line.length;
+        let y = Layout.line.height - height * 0.5;
+
+        let width = (right - left) * Layout.line.length;
+
+        this.sticker.stick(
+            'drumrollFill',
+            x, y,
+            width, height);
+
+    }
 
     
 }

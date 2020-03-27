@@ -5,7 +5,7 @@ import { BeatMap } from './constant.js';
 
 export class Music {
     async init(url, courseType) {
-        let text = await httpGet(url);
+        let text = await this.load(url);
         let lines = text.split('\n');
 
         this.metaData = {
@@ -22,6 +22,20 @@ export class Music {
         this.beats = [];
 
         this.parse(courseType, lines);
+    }
+
+    async load(url) {
+        return new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('GET', url, true);
+            request.responseType = 'arraybuffer';
+            request.onload = () => {
+                let response = new Uint8Array(request.response);
+                let text = new TextDecoder('sjis').decode(response);
+                resolve(text);
+            };
+            request.send();
+        });
     }
 
     parse(type, lines) {

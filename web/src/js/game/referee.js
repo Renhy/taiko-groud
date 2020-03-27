@@ -189,7 +189,7 @@ export class Referee {
         if (this.currentBeat.type == BeatType.BALLOON || 
             this.currentBeat.type == BeatType.DRUMROLL || 
             this.currentBeat.type == BeatType.DAI_DRUMROLL) {
-            if (delta > this.currentBeat.ts - JudgeBias.OK) {
+            if (delta > this.currentBeat.ts) {
                 this.closeBeat(delta);
                 return;
             }
