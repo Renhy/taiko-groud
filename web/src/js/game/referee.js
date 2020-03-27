@@ -176,9 +176,9 @@ export class Referee {
             this.comboDiv.style.visibility != 'visible') {
             this.comboDiv.style.visibility = 'visible';
         }
-        if (this.state.play.combo >= 20 &&
-            this.comboCount.style.color != 'gold') {
-            this.comboCount.style.color = 'gold';
+        if (this.state.play.combo >= 100 &&
+            this.comboCount.style.color != '#da7616') {
+            this.comboCount.style.color = '#da7616';
         }
     }
 

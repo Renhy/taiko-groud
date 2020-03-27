@@ -87,17 +87,19 @@
     width: 100%;
     top: 70%;
 
+    visibility: hidden;
 }
 
 #game-combo-count {
     margin: 0;
     text-align: center;
 
-    color: white;
+    color: #da7616;
     -webkit-text-stroke: 6px black;
     font-family: TnT, sans-serif;
     font-size: 80px;
     font-weight: 600;
+    text-shadow: 0 0 10px #fff;
 }
 
 #game-combo-text {
