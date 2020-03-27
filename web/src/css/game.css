@@ -82,6 +82,35 @@
     height: 100%;
 }
 
+#game-combo {
+    position: absolute;
+    width: 100%;
+    top: 70%;
+
+}
+
+#game-combo-count {
+    margin: 0;
+    text-align: center;
+
+    color: white;
+    -webkit-text-stroke: 6px black;
+    font-family: TnT, sans-serif;
+    font-size: 80px;
+    font-weight: 600;
+}
+
+#game-combo-text {
+    margin: 0;
+    text-align: center;
+
+    color: white;
+    -webkit-text-stroke: 3px black;
+    font-family: Rouhei, sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+}
+
 #game-completeness {
     position: absolute;
 

@@ -37,6 +37,8 @@ export class Referee {
         this.records = [];
         this.music = new Music();
         this.scorekeeper = new Scorekeeper(this.game);
+        this.comboDiv = document.getElementById('game-combo');
+        this.comboCount = document.getElementById('game-combo-count');
     }
 
     async loadMusic(url, type) {
@@ -137,6 +139,7 @@ export class Referee {
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
+        this.addCombo();
     }
 
     checkSimpleDaiBeat(key) {
@@ -161,8 +164,22 @@ export class Referee {
 
             this.index.beat += 1;
             this.currentBeat = this.music.beats[this.index.beat];
+        } else {
+            this.addCombo();
         }
+    }
 
+    addCombo() {
+        this.state.play.combo += 1;
+        this.comboCount.innerHTML = this.state.play.combo;
+        if (this.state.play.combo >= 10 && 
+            this.comboDiv.style.visibility != 'visible') {
+            this.comboDiv.style.visibility = 'visible';
+        }
+        if (this.state.play.combo >= 20 &&
+            this.comboCount.style.color != 'gold') {
+            this.comboCount.style.color = 'gold';
+        }
     }
 
 
@@ -208,6 +225,8 @@ export class Referee {
                 this.state.judge.result = JudgeResult.BAD;
                 this.state.judge.ts = delta;
                 this.state.play.combo = 0;
+                this.comboDiv.style.visibility = 'hidden';
+                this.comboCount.style.color = 'white';
                 break;
             case BeatType.DAI_DO:
             case BeatType.DAI_KA:
@@ -215,6 +234,8 @@ export class Referee {
                     this.state.judge.result = JudgeResult.BAD;
                     this.state.judge.ts = delta;
                     this.state.play.combo = 0;
+                    this.comboDiv.style.visibility = 'hidden';
+                    this.comboCount.style.color = 'white';
                 }
                 this.state.play.hitCount = 0;
                 break;

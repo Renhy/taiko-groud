@@ -24,8 +24,12 @@ var Layout = {
         stroke: 1 / 720,
     },
     combo: {
-        height: 50 / 720,
-        stroke: 2 / 720,
+        height: 120 / 720,
+        stroke: 6 / 720,
+    },
+    roll: {
+        height: 40 / 720,
+        stroke: 3 / 720,
     },
 
 };
@@ -39,6 +43,8 @@ export class Overlay {
         this.score = document.getElementById('game-score');
         this.diffcultyImg = document.getElementById('game-diffculty-img');
         this.completenessImg = document.getElementById('game-completeness-img');
+        this.comboCount = document.getElementById('game-combo-count');
+        this.comboText = document.getElementById('game-combo-text');
 
         this.updateLayout();
 
@@ -62,6 +68,13 @@ export class Overlay {
         // score
         this.score.style.fontSize = height * Layout.score.height + 'px';
         this.score.style.webkitTextStrokeWidth = height * Layout.score.stroke + 'px';
+
+        // combo
+        this.comboCount.style.fontSize = height * Layout.combo.height + 'px';
+        this.comboCount.style.webkitTextStrokeWidth = height * Layout.combo.stroke + 'px';
+        this.comboText.style.fontSize = height * Layout.combo.height * 0.4 + 'px';
+        this.comboText.style.webkitTextStrokeWidth = height * Layout.combo.stroke * 0.5 + 'px';
+        this.comboText.innerHTML = '连段';
 
     }
 
