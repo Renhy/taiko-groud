@@ -22,7 +22,12 @@ var Layout = {
     diffculty: {
         height: 30 / 720,
         stroke: 1 / 720,
-    }
+    },
+    combo: {
+        height: 50 / 720,
+        stroke: 2 / 720,
+    },
+
 };
 
 export class Overlay {

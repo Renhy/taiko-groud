@@ -25,10 +25,11 @@ var Layout = {
 
 export class Note {
 
-    async init(sticker, referee) {
-        this.sticker = sticker;
-        this.referee = referee;
-        this.music = referee.music;
+    async init(game) {
+        this.game = game;
+        this.sticker = game.plotter.sticker;
+        this.referee = game.referee;
+        this.music = game.referee.music;
 
         await this.sticker.loadTexture('do', '/assets/img/do.png');
         await this.sticker.loadTexture('ka', '/assets/img/ka.png');

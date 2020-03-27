@@ -4,6 +4,7 @@ import { Sticker } from './sticker.js';
 import { Judge } from './judge.js';
 import { httpGet } from '../../utils.js';
 import { Overlay } from './overlay.js';
+import { Beat } from './beat.js';
 
 export class Plotter {
     async init(game) {
@@ -31,9 +32,11 @@ export class Plotter {
         this.sticker = new Sticker();
         await this.sticker.init(this.gl);
         this.note = new Note();
-        await this.note.init(this.sticker, this.referee);
+        await this.note.init(this.game);
         this.judge = new Judge();
-        await this.judge.init(this.sticker, this.referee);
+        await this.judge.init(this.game);
+        this.beat = new Beat();
+        await this.beat.init(this.game);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -86,6 +89,7 @@ export class Plotter {
 
         this.note.render(delta);
         this.judge.render(delta);
+        this.beat.render(delta);
         this.overlay.render(delta);
 
         this.fps = 1000 / (performance.now() - start);

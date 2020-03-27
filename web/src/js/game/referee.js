@@ -17,10 +17,10 @@ export class Referee {
 
         this.state = {
             play: {
-                leftDo: -1,
-                rightDo: -1,
-                leftKa: -1,
-                rightKa: -1,
+                leftDo: -1000,
+                rightDo: -1000,
+                leftKa: -1000,
+                rightKa: -1000,
                 combo: 0,
                 gogoTime: false,
                 balloon: false,

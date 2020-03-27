@@ -16,9 +16,10 @@ var Layout = {
 };
 
 export class Judge {
-    async init(sticker, referee) {
-        this.sticker = sticker;
-        this.referee = referee;
+    async init(game) {
+        this.game = game;
+        this.sticker = game.plotter.sticker;
+        this.referee = game.referee;
 
         await this.sticker.loadTexture('good', '/assets/img/good.png');
         await this.sticker.loadTexture('ok', '/assets/img/ok.png');
