@@ -90,7 +90,7 @@ export class Plotter {
         this.note.render(delta);
         this.judge.render(delta);
         this.beat.render(delta);
-        this.overlay.render(delta);
+        this.overlay.updateShake(delta);
 
         this.fps = 1000 / (performance.now() - start);
         if (this.enable) {

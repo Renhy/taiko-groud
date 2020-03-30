@@ -44,10 +44,10 @@ export class Scorekeeper {
     addScore(value, ts) {
         this.addValue = value;
         this.addTime = ts;
-        this.game.plotter.overlay.scoreAdd.innerHTML = value;
+        this.game.plotter.overlay.score.add.innerHTML = value;
 
         this.score += value;
-        this.game.plotter.overlay.score.innerHTML = this.score;
+        this.game.plotter.overlay.score.total.innerHTML = this.score;
     }
 
 

@@ -1,23 +1,11 @@
 import { CourseType } from "../constant.js";
+import { Combo } from "./combo.js";
+import { Score } from "./score.js";
 
 var Layout = {
     title: {
         height: 60 / 720,
         stroke: 4 / 720,
-    },
-    scoreAdd: {
-        height: 30 / 720,
-        stroke: 3 / 720,
-        last: 300,
-        right: 75,
-        shake: {
-            t: 30, 
-            d: 15 / 1280,
-        },
-    },
-    score: {
-        height: 55 / 720,
-        stroke: 6 / 720,
     },
     diffculty: {
         height: 30 / 720,
@@ -36,22 +24,22 @@ var Layout = {
 
 export class Overlay {
     async init(game) {
+        this.score = new Score();
+        await this.score.init(game);
+        this.combo = new Combo();
+        await this.combo.init(game);
+
         this.game = game;
         this.base = document.getElementById('game-overlay');
         this.title = document.getElementById('game-title');
-        this.scoreAdd = document.getElementById('game-score-add');
-        this.score = document.getElementById('game-score');
         this.diffcultyImg = document.getElementById('game-diffculty-img');
         this.completenessImg = document.getElementById('game-completeness-img');
-        this.comboDiv = document.getElementById('game-combo');  
-        this.comboCount = document.getElementById('game-combo-count');
-        this.comboText = document.getElementById('game-combo-text');
-
+        
         this.updateLayout();
-
         this.updateTitle();
         await this.loadDiffculty();
         await this.loadCompleteness();
+
     }
 
     updateLayout() {
@@ -61,22 +49,8 @@ export class Overlay {
         this.title.style.fontSize = height * Layout.title.height + 'px';
         this.title.style.webkitTextStrokeWidth = height * Layout.title.stroke + 'px';
 
-        // score-add
-        this.scoreAdd.style.fontSize = height * Layout.scoreAdd.height + 'px';
-        this.scoreAdd.style.webkitTextStrokeWidth = height * Layout.scoreAdd.stroke + 'px';
-        this.scoreAdd.style.right = Layout.scoreAdd.right + '%';
-
-        // score
-        this.score.style.fontSize = height * Layout.score.height + 'px';
-        this.score.style.webkitTextStrokeWidth = height * Layout.score.stroke + 'px';
-
-        // combo
-        this.comboCount.style.fontSize = height * Layout.combo.height + 'px';
-        this.comboCount.style.webkitTextStrokeWidth = height * Layout.combo.stroke + 'px';
-        this.comboText.style.fontSize = height * Layout.combo.height * 0.4 + 'px';
-        this.comboText.style.webkitTextStrokeWidth = height * Layout.combo.stroke * 0.5 + 'px';
-        this.comboText.innerHTML = '连段';
-
+        this.score.updateLayout(height);
+        this.combo.updateLayout(height);
     }
 
     updateTitle() {
@@ -118,39 +92,9 @@ export class Overlay {
         });
     }
 
-    updateCombo() {
-        this.comboCount.innerHTML = this.state.play.combo;
-        if (this.state.play.combo >= 10 &&
-            this.comboDiv.style.visibility != 'visible') {
-            this.comboDiv.style.visibility = 'visible';
-        }
-        if (this.state.play.combo >= 100 &&
-            this.comboCount.style.color != '#da7616') {
-            this.comboCount.style.color = '#da7616';
-        }
-    }
 
-    render(delta) {
-        let ts = this.game.referee.scorekeeper.addTime;
-        ts = delta - ts;
-        if (ts > Layout.scoreAdd.last || ts < 0) {
-            this.scoreAdd.style.visibility = 'hidden';
-        } else {
-            this.scoreAdd.style.visibility = 'visible';
-            this.scoreAdd.style.right = this.calculateShake(ts) + '%';
-        }
-    }
-
-    calculateShake(time) {
-        let shake = Layout.scoreAdd.right;
-        if (time > Layout.scoreAdd.shake.t * 2) {
-            return shake;
-        }
-
-        let t = Layout.scoreAdd.shake.t;
-        let d = Layout.scoreAdd.shake.d;
-        return shake + 
-        ((d / t / t) * (time * time) - (2 * d / t) * time + d) * 100;
+    updateShake(delta) {
+        this.score.updateShake(delta);
     }
 
 }

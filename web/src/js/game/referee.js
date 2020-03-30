@@ -137,7 +137,8 @@ export class Referee {
 
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
-        this.addCombo();
+        this.state.play.combo += 1;
+        this.game.plotter.overlay.combo.update();
     }
 
     checkSimpleDaiBeat(key) {
@@ -163,15 +164,11 @@ export class Referee {
             this.index.beat += 1;
             this.currentBeat = this.music.beats[this.index.beat];
         } else {
-            this.addCombo();
+            this.state.play.combo += 1;
+            this.game.plotter.overlay.combo.update();
         }
     }
 
-    addCombo() {
-        this.state.play.combo += 1;
-        this.game.plotter.overlay.updateCombo();
-        
-    }
 
 
 /**************************************************************/
@@ -216,8 +213,7 @@ export class Referee {
                 this.state.judge.result = JudgeResult.BAD;
                 this.state.judge.ts = delta;
                 this.state.play.combo = 0;
-                this.comboDiv.style.visibility = 'hidden';
-                this.comboCount.style.color = 'white';
+                this.game.plotter.overlay.combo.break();
                 break;
             case BeatType.DAI_DO:
             case BeatType.DAI_KA:
@@ -225,8 +221,7 @@ export class Referee {
                     this.state.judge.result = JudgeResult.BAD;
                     this.state.judge.ts = delta;
                     this.state.play.combo = 0;
-                    this.comboDiv.style.visibility = 'hidden';
-                    this.comboCount.style.color = 'white';
+                    this.game.plotter.overlay.combo.break();
                 }
                 this.state.play.hitCount = 0;
                 break;
