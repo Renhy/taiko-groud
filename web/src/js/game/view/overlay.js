@@ -1,6 +1,7 @@
 import { CourseType } from "../constant.js";
 import { Combo } from "./combo.js";
 import { Score } from "./score.js";
+import { Roll } from "./roll.js";
 
 var Layout = {
     title: {
@@ -28,6 +29,8 @@ export class Overlay {
         await this.score.init(game);
         this.combo = new Combo();
         await this.combo.init(game);
+        this.roll = new Roll();
+        await this.roll.init(game);
 
         this.game = game;
         this.base = document.getElementById('game-overlay');
@@ -51,6 +54,7 @@ export class Overlay {
 
         this.score.updateLayout(height);
         this.combo.updateLayout(height);
+        this.roll.updateLayout(height);
     }
 
     updateTitle() {

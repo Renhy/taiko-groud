@@ -15,11 +15,15 @@ export class Combo {
     }
 
     updateLayout(height) {
-        // combo
-        this.comboCount.style.fontSize = height * Layout.height + 'px';
-        this.comboCount.style.webkitTextStrokeWidth = height * Layout.stroke + 'px';
-        this.comboText.style.fontSize = height * Layout.height * 0.4 + 'px';
-        this.comboText.style.webkitTextStrokeWidth = height * Layout.stroke * 0.5 + 'px';
+        this.comboCount.style.fontSize = 
+            height * Layout.height + 'px';
+        this.comboCount.style.webkitTextStrokeWidth = 
+            height * Layout.stroke + 'px';
+
+        this.comboText.style.fontSize = 
+            height * Layout.height * 0.4 + 'px';
+        this.comboText.style.webkitTextStrokeWidth = 
+            height * Layout.stroke * 0.5 + 'px';
         this.comboText.innerHTML = '连段';
     }
 

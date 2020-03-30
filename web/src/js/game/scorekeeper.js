@@ -30,15 +30,19 @@ export class Scorekeeper {
     }
 
     scoreBalloonResult(type, ts) {
-
+        if (type == JudgeResult.GOOD) {
+            this.addScore(5000, ts);
+        } else {
+            this.addScore(1000, ts);
+        }
     }
 
     scoreDrumroll(ts) {
-
+        this.addScore(100, ts);
     }
 
     scoreDaiDrumroll(ts) {
-
+        this.addScore(200, ts);
     }
 
     addScore(value, ts) {

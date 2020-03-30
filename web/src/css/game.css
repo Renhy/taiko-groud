@@ -44,6 +44,8 @@
     /* font-size: 50px; */
 }
 
+
+/**** score ****/
 #game-score-add {
     margin: 0;
     position: absolute;
@@ -54,7 +56,6 @@
     font-family: TnT, sans-serif;
     font-size: 20px;
 }
-
 #game-score {
     margin: 0;
     position: absolute;
@@ -67,6 +68,8 @@
     font-size: 35px;
 }
 
+
+/**** diffculty ****/
 #game-diffculty {
     position: absolute;
 
@@ -75,13 +78,51 @@
     top: 26%;
     bottom: 60%;
 }
-
 #game-diffculty-img {
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
+
+/**** roll ****/
+#game-roll {
+    position: absolute;
+
+    top: 10%;
+    left: 28%;
+
+    width: 15%;
+    height: 25%;
+
+    visibility: hidden;
+}
+#game-roll-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    z-index: 10;
+}
+#game-roll-count {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+
+    margin: 0;
+    text-align: center;
+
+    color: white;
+    -webkit-text-stroke: 5px black;
+    font-family: TnT, sans-serif;
+    font-size: 60px;
+    font-weight: 600;
+
+    z-index: 11;
+}
+
+
+/**** combo ****/
 #game-combo {
     position: absolute;
     width: 100%;
@@ -89,7 +130,6 @@
 
     visibility: hidden;
 }
-
 #game-combo-count {
     margin: 0;
     text-align: center;
@@ -99,9 +139,7 @@
     font-family: TnT, sans-serif;
     font-size: 80px;
     font-weight: 600;
-    text-shadow: 0 0 10px #fff;
 }
-
 #game-combo-text {
     margin: 0;
     text-align: center;
@@ -113,6 +151,8 @@
     font-weight: 400;
 }
 
+
+/**** completeness ****/
 #game-completeness {
     position: absolute;
 
@@ -121,7 +161,6 @@
     top: 15%;
     bottom: 74%;
 }
-
 #game-completeness-img {
     position: absolute;
     width: 100%;
@@ -129,7 +168,7 @@
 }
 
 
-
+/**** load ****/
 #game-load {
     position: absolute;
     z-index: 4;
@@ -145,7 +184,6 @@
     border: 10px solid blanchedalmond;
 
 }
-
 #game-load-key-intro {
 
     margin: 0;
@@ -157,13 +195,11 @@
     font-family: Rouhei, sans-serif;
     font-size: 20px;
 }
-
 #game-load-key {
     width: 50%;
     margin-left: 25%;
 
 }
-
 #game-load-intro {
 
     margin: 0;
