@@ -43,6 +43,7 @@ export class Overlay {
         this.score = document.getElementById('game-score');
         this.diffcultyImg = document.getElementById('game-diffculty-img');
         this.completenessImg = document.getElementById('game-completeness-img');
+        this.comboDiv = document.getElementById('game-combo');  
         this.comboCount = document.getElementById('game-combo-count');
         this.comboText = document.getElementById('game-combo-text');
 
@@ -117,6 +118,17 @@ export class Overlay {
         });
     }
 
+    updateCombo() {
+        this.comboCount.innerHTML = this.state.play.combo;
+        if (this.state.play.combo >= 10 &&
+            this.comboDiv.style.visibility != 'visible') {
+            this.comboDiv.style.visibility = 'visible';
+        }
+        if (this.state.play.combo >= 100 &&
+            this.comboCount.style.color != '#da7616') {
+            this.comboCount.style.color = '#da7616';
+        }
+    }
 
     render(delta) {
         let ts = this.game.referee.scorekeeper.addTime;

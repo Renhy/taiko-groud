@@ -37,8 +37,6 @@ export class Referee {
         this.records = [];
         this.music = new Music();
         this.scorekeeper = new Scorekeeper(this.game);
-        this.comboDiv = document.getElementById('game-combo');
-        this.comboCount = document.getElementById('game-combo-count');
     }
 
     async loadMusic(url, type) {
@@ -171,15 +169,8 @@ export class Referee {
 
     addCombo() {
         this.state.play.combo += 1;
-        this.comboCount.innerHTML = this.state.play.combo;
-        if (this.state.play.combo >= 10 && 
-            this.comboDiv.style.visibility != 'visible') {
-            this.comboDiv.style.visibility = 'visible';
-        }
-        if (this.state.play.combo >= 100 &&
-            this.comboCount.style.color != '#da7616') {
-            this.comboCount.style.color = '#da7616';
-        }
+        this.game.plotter.overlay.updateCombo();
+        
     }
 
 
