@@ -35,12 +35,13 @@ export class Roll {
             return;
         }
 
+        console.log(count);
         if (this.rollDiv.style.visibility != 'visible') {
             this.rollDiv.style.visibility = 'visible';
         }
 
         if (this.game.referee.state.play.drumroll ||
-            this.game.referee.state.ply.daiDrumroll) {
+            this.game.referee.state.play.daiDrumroll) {
             this.rollCount.innerHTML = count;
             return;
         }
@@ -51,7 +52,7 @@ export class Roll {
         }
     }
 
-    close() {
+    close(delay) {
         this.rollDiv.style.visibility = 'hidden';
     }
 

@@ -21,6 +21,24 @@ var Layout = {
         width: 110 / 1280,
         height: 110 / 720,
     },
+    balloon: {
+        deltaX: 10 / 868,
+        width: 120 / 1280,
+        height: 100 / 720,
+
+        xiaogu: {
+            left: 300 / 1280,
+            top: 185 / 720,
+            width: 160 / 1280,
+            height: 160 / 720,
+        },
+        bubble: {
+            left: 415 / 1280,
+            top: 208 / 720,
+            width: 140 / 1280,
+            height: 140 / 720,
+        },
+    },
 };
 
 export class Note {
@@ -136,6 +154,22 @@ export class Note {
                 case BeatType.DAI_DRUMROLL:
                     this.daiDrumroll(beat.distance, beat.end);
                     break;
+                case BeatType.BALLOON:
+                    this.balloon(beat.distance);
+                    break;
+            }
+        }
+
+        if (this.referee.state.play.balloon) {
+            if (this.referee.state.play.hitCount == 0) {
+                this.balloon(0);
+            } else {
+                this.sticker.stick('xiaogu', 
+                    Layout.balloon.xiaogu.left, Layout.balloon.xiaogu.top,
+                    Layout.balloon.xiaogu.width, Layout.balloon.xiaogu.height);
+                this.sticker.stick('balloonBubble', 
+                    Layout.balloon.bubble.left, Layout.balloon.bubble.top,
+                    Layout.balloon.bubble.width, Layout.balloon.bubble.height);
             }
         }
     }
@@ -215,6 +249,20 @@ export class Note {
             x, y,
             width, height);
 
+    }
+
+    balloon(distance) {
+        let x = Layout.line.zero;
+        x += (distance + Layout.balloon.deltaX) * Layout.line.length;
+
+        let y = Layout.line.height - Layout.balloon.height * 0.5;
+
+        this.sticker.stick('balloon', 
+            x, y,
+            Layout.balloon.width, 
+            Layout.balloon.height);
+
+        this.note('do',distance);
     }
 
     

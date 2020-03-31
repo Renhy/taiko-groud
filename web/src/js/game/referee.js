@@ -67,9 +67,8 @@ export class Referee {
         }
 
         if (this.state.play.balloon) {
-            this.state.play.hitcount += 1;
+            this.state.play.hitCount += 1;
             this.game.plotter.overlay.roll.update();
-            this.scorekeeper.scoreBalloon(key.ts);
             if (this.state.play.hitCount >= this.music.balloonCounts[this.index.balloon]) {
                 this.index.balloon += 1;
 
@@ -77,6 +76,7 @@ export class Referee {
                 this.state.play.balloon = false;
                 this.state.play.hitCount = 0;
                 this.scorekeeper.scoreBalloonResult(JudgeResult.GOOD, key.ts);
+                this.game.plotter.overlay.roll.close();
             }
             return;
         }
@@ -243,11 +243,15 @@ export class Referee {
                 this.state.play.balloon = true;
                 break;
             case BeatType.END:
+                if (this.state.play.drumroll || this.state.play.daiDrumroll) {
+                    this.game.plotter.overlay.roll.close(true);
+                } else {
+                    this.game.plotter.overlay.roll.close();
+                }
                 this.state.play.balloon = false;
                 this.state.play.drumroll = false;
                 this.state.play.daiDrumroll = false;
                 this.state.play.hitCount = 0;
-                this.game.plotter.overlay.roll.close();
                 break;
         }
 
