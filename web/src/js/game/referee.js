@@ -45,6 +45,7 @@ export class Referee {
     }
 
     end() {
+        this.ended = true;
         console.log('Music ended.');
         this.endCallback();
     }
@@ -180,6 +181,9 @@ export class Referee {
 /******************* update referee per frame  ********************/
 
     update(delta) {
+        if (this.ended) {
+            return;
+        }
         this.checkMusic(delta);
     }
 
@@ -189,7 +193,9 @@ export class Referee {
             this.index.measure += 1;
             if (this.index.measure >= this.music.measures.length) {
                 this.end();
+                return;
             }
+            this.startMeasure(this.index.measure);
         }
 
         if (this.index.beat >= this.music.beats.length) {
@@ -207,6 +213,21 @@ export class Referee {
             if (delta > this.currentBeat.ts + JudgeBias.OK) {
                 this.closeBeat(delta);
                 return;
+            }
+        }
+    }
+
+    startMeasure(index) {
+        let commands = this.music.measures[index].commands;
+        for (let command of commands) {
+            console.log(command);
+            if (command == 'GOGOSTART') {
+                this.state.play.gogoTime = true;
+                continue;
+            }
+            if (command == 'GOGOEND') {
+                this.state.play.gogoTime = false;
+                continue;
             }
         }
     }

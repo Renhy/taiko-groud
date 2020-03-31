@@ -16,6 +16,14 @@ export class Scorekeeper {
         this.addValue = 0;
     }
 
+    gogoStart() {
+        this.gain = 1.2;
+    }
+
+    gogoEnd() {
+        this.gain = 1;
+    }
+
     scoreBeat(index, result, ts) {
         let s = this.equivalent * this.gain;
         if (result == JudgeResult.GOOD) {
@@ -31,18 +39,18 @@ export class Scorekeeper {
 
     scoreBalloonResult(type, ts) {
         if (type == JudgeResult.GOOD) {
-            this.addScore(5000, ts);
+            this.addScore(5000 * this.gain, ts);
         } else {
-            this.addScore(1000, ts);
+            this.addScore(1000 * this.gain, ts);
         }
     }
 
     scoreDrumroll(ts) {
-        this.addScore(100, ts);
+        this.addScore(100 * this.gain, ts);
     }
 
     scoreDaiDrumroll(ts) {
-        this.addScore(200, ts);
+        this.addScore(200 * this.gain, ts);
     }
 
     addScore(value, ts) {

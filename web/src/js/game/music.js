@@ -143,7 +143,7 @@ export class Music {
             if (line.indexOf('#') >= 0) {
                 line = line.slice(line.indexOf('#') + 1).trim();
                 // TODO parse command
-
+                cachedCommands.push(line);
                 continue;
             }
 

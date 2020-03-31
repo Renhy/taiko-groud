@@ -35,7 +35,6 @@ export class Roll {
             return;
         }
 
-        console.log(count);
         if (this.rollDiv.style.visibility != 'visible') {
             this.rollDiv.style.visibility = 'visible';
         }
