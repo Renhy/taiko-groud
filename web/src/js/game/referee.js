@@ -157,10 +157,9 @@ export class Referee {
             key.ts <= this.currentBeat.ts + JudgeBias.GOOD) {
             result = JudgeResult.GOOD;
         }
-        if (result > this.state.judge.result) {
-            this.state.judge.result = result;
-            this.state.judge.ts = key.ts;
-        }
+
+        this.state.judge.result = result;
+        this.state.judge.ts = key.ts;
         this.scorekeeper.scoreBeat(this.index.beat, this.state.judge.result, key.ts);
 
         this.state.play.hitCount += 1;

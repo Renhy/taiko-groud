@@ -2,6 +2,7 @@ import { httpGet }from './utils.js';
 import { Game } from './game/game.js';
 import { AudioPlayer } from './audio-player.js';
 import { Keyboard } from './keyboard.js';
+import { CourseType } from './game/constant.js';
 
 main();
 
@@ -22,7 +23,7 @@ async function main() {
         id: 'qby',
         audio: '/songs/qby.ogg',
         music: '/songs/qby.tja',
-        type: 'Hard',
+        type: CourseType.HARD,
     };
 
     await game.init(audioPlayer, info);

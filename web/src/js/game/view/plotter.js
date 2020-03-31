@@ -5,6 +5,7 @@ import { Judge } from './judge.js';
 import { httpGet } from '../../utils.js';
 import { Overlay } from './overlay.js';
 import { Beat } from './beat.js';
+import { Back } from './back.js';
 
 export class Plotter {
     async init(game) {
@@ -26,6 +27,8 @@ export class Plotter {
 
         this.enable = false;
 
+        this.back = new Back();
+        await this.back.init(this.game);
         this.overlay = new Overlay();
         await this.overlay.init(this.game);
 

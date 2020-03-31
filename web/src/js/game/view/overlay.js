@@ -36,13 +36,12 @@ export class Overlay {
         this.base = document.getElementById('game-overlay');
         this.title = document.getElementById('game-title');
         this.diffcultyImg = document.getElementById('game-diffculty-img');
-        this.completenessImg = document.getElementById('game-completeness-img');
+        this.gaugeTop = document.getElementById('game-gauge-top');
         
         this.updateLayout();
         this.updateTitle();
         await this.loadDiffculty();
-        await this.loadCompleteness();
-
+        await this.loadGaugeTop();
     }
 
     updateLayout() {
@@ -86,13 +85,20 @@ export class Overlay {
         });
     }
 
-    async loadCompleteness() {
+    async loadGaugeTop() {
         return new Promise((resolve, reject) => {
-            this.completenessImg.onload = () => {
+            this.gaugeTop.onload = () => {
                 return resolve();
             };
 
-            this.completenessImg.src = '/assets/img/completeness.png';
+            let diffculty = this.game.songInfo.type;
+            if (diffculty == CourseType.HARD ||
+                diffculty == CourseType.EXTREME ||
+                diffculty == CourseType.EXTREME) {
+                this.gaugeTop.src = '/assets/img/gauge-hard-top.png';
+            } else {
+                this.gaugeTop.src = '/assets/img/gauge-easy-top.png';
+            }
         });
     }
 

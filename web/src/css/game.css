@@ -16,6 +16,24 @@
     position: absolute;
 	z-index: 1;
 }
+#game-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.game-gauge {
+    position: absolute;
+
+    left: 42%;
+    right: 4%;
+    top: 16%;
+    bottom: 74%;
+}
+#game-gauge-bottom {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 
 #game-canvas {
 	width: 100%;
@@ -152,20 +170,14 @@
 }
 
 
-/**** completeness ****/
-#game-completeness {
+/**** gauge ****/
+#game-gauge-top {
     position: absolute;
 
-    left: 42%;
-    right: 4%;
-    top: 15%;
-    bottom: 74%;
-}
-#game-completeness-img {
-    position: absolute;
     width: 100%;
     height: 100%;
 }
+
 
 
 /**** load ****/
