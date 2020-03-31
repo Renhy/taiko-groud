@@ -223,10 +223,12 @@ export class Referee {
             console.log(command);
             if (command == 'GOGOSTART') {
                 this.state.play.gogoTime = true;
+                this.scorekeeper.gogoStart();
                 continue;
             }
             if (command == 'GOGOEND') {
                 this.state.play.gogoTime = false;
+                this.scorekeeper.gogoEnd();
                 continue;
             }
         }
