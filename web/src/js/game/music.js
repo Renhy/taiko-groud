@@ -152,6 +152,7 @@ export class Music {
             let measure = {
                 start: currentTime,
                 duration: timePerMeasure,
+                line: line,
                 commands: cachedCommands,
             };
             this.measures.push(measure);

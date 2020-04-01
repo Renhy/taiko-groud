@@ -6,6 +6,7 @@ import { httpGet } from '../../utils.js';
 import { Overlay } from './overlay.js';
 import { Beat } from './beat.js';
 import { Back } from './back.js';
+import { Gauge } from './gauge.js';
 
 export class Plotter {
     async init(game) {
@@ -40,6 +41,8 @@ export class Plotter {
         await this.judge.init(this.game);
         this.beat = new Beat();
         await this.beat.init(this.game);
+        this.gauge = new Gauge();
+        await this.gauge.init(this.game);
 
         this.start = this.start.bind(this);
         this.render = this.render.bind(this);
@@ -93,6 +96,7 @@ export class Plotter {
         this.note.render(delta);
         this.judge.render(delta);
         this.beat.render(delta);
+        this.gauge.render(delta);
         this.overlay.updateShake(delta);
 
         this.fps = 1000 / (performance.now() - start);

@@ -42,6 +42,7 @@ export class Referee {
     async loadMusic(url, type) {
         await this.music.init(url, type);
         this.currentBeat = this.music.beats[this.index.beat];
+        this.scorekeeper.readMusic();
     }
 
     end() {
@@ -241,6 +242,7 @@ export class Referee {
                 this.state.judge.ts = delta;
                 this.state.play.combo = 0;
                 this.game.plotter.overlay.combo.break();
+                this.scorekeeper.badBeat(this.index.beat);
                 break;
             case BeatType.DAI_DO:
             case BeatType.DAI_KA:
@@ -249,6 +251,7 @@ export class Referee {
                     this.state.judge.ts = delta;
                     this.state.play.combo = 0;
                     this.game.plotter.overlay.combo.break();
+                    this.scorekeeper.badBeat(this.index.beat);
                 }
                 this.state.play.hitCount = 0;
                 break;
