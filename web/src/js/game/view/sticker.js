@@ -18,11 +18,12 @@ export class Sticker {
 
     initLocaltion(gl, program) {
         return {
-            position: gl.getAttribLocation(program, "a_position"),
-            texcoord: gl.getAttribLocation(program, "a_texcoord"),
+            position: gl.getAttribLocation(program, 'a_position'),
+            texcoord: gl.getAttribLocation(program, 'a_texcoord'),
 
-            matrix: gl.getUniformLocation(program, "u_matrix"),
-            texture: gl.getUniformLocation(program, "u_texture"), 
+            matrix: gl.getUniformLocation(program, 'u_matrix'),
+            textureMatrix: gl.getUniformLocation(program, 'u_textureMatrix'),
+            texture: gl.getUniformLocation(program, 'u_texture'), 
         };
     }
 
@@ -63,9 +64,14 @@ export class Sticker {
         this.textures[tag] = texture;
     }
 
-    stick(tag, x, y, width, height) {
+    stick(tag, x, y, width, height, srcX, srcY, srcWidth, srcHeight) {
         let gl = this.gl;
         let info = this.textures[tag];
+
+        srcX = srcX || 0;
+        srcY = srcY || 0;
+        srcWidth = srcWidth || 1;
+        srcHeight = srcHeight || 1;
 
         gl.bindTexture(gl.TEXTURE_2D, info.texture);
         gl.useProgram(this.program);
@@ -82,8 +88,13 @@ export class Sticker {
         mat4.ortho(matrix, 0, 1, 1, 0, -1, 1);
         mat4.translate(matrix, matrix, [x, y, 0]);
         mat4.scale(matrix, matrix, [width, height, 1]);
-
         gl.uniformMatrix4fv(this.programLocations.matrix, false, matrix);
+
+        let textureMatrix = mat4.create();
+        mat4.translate(textureMatrix, textureMatrix, [srcX, srcY, 0]);
+        mat4.scale(textureMatrix, textureMatrix, [srcWidth, srcHeight, 1]);
+        gl.uniformMatrix4fv(this.programLocations.textureMatrix, false, textureMatrix);
+
         gl.uniform1i(this.programLocations.texture, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
