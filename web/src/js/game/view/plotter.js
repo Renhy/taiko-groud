@@ -57,7 +57,6 @@ export class Plotter {
 
         setInterval(() => {
             console.log('fps=' + this.fps);
-            
         }, 2000);
     }
 

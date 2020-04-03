@@ -11,6 +11,10 @@ var Layout = {
         top: 143 / 720,
         height: (184 - 143) / 720,
     },
+    rainbow: {
+        length: 0.3,
+        move: 0.05,
+    },
 };
 
 
@@ -19,15 +23,19 @@ export class Gauge {
         this.game = game;
         this.sticker = game.plotter.sticker;
         this.scorekeeper = game.referee.scorekeeper;
+        this.rainbowOffset = 0;
 
         await this.sticker.loadTexture('fill1', '/assets/img/gauge-fill-1.png');
         await this.sticker.loadTexture('fill2', '/assets/img/gauge-fill-2.png');
         await this.sticker.loadTexture('fill3', '/assets/img/gauge-fill-3.png');
+        await this.sticker.loadTexture('rainbow', '/assets/img/rainbow.png');
     }
 
     render(delta) {
         let threshold = this.scorekeeper.gauge.threshold;
         let value = this.scorekeeper.gauge.light;
+
+
         if (value <= threshold) {
             this.sticker.stick(
                 'fill1', 
@@ -37,6 +45,8 @@ export class Gauge {
                 Layout.left.height);
             return;
         }
+
+
         if (value < 50) {
             this.sticker.stick(
                 'fill2', 
@@ -53,6 +63,29 @@ export class Gauge {
             return;
         }
 
+
+        let mid = threshold / 50;
+        this.sticker.stick(
+            'rainbow',
+            Layout.zero,
+            Layout.left.top,
+            threshold * Layout.step,
+            Layout.left.height,
+            this.rainbowOffset, 0,
+            Layout.rainbow.length * mid, 1);
+        this.sticker.stick(
+            'rainbow',
+            Layout.zero + threshold * Layout.step,
+            Layout.right.top,
+            (value - threshold) * Layout.step,
+            Layout.right.height,
+            this.rainbowOffset + Layout.rainbow.length * mid, 0,
+            Layout.rainbow.length * (1 - mid), 1);
+
+        this.rainbowOffset -= Layout.rainbow.move;
+        if (this.rainbowOffset < 0) {
+            this.rainbowOffset += 1;
+        }
     }
 
 }
