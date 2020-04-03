@@ -137,6 +137,10 @@ export class Scorekeeper {
 
     }
 
+    scoreBalloon(ts) {
+        this.addScore(100 * this.gain, ts);
+    }
+
     scoreBalloonResult(type, ts) {
         if (type == JudgeResult.GOOD) {
             this.addScore(5000 * this.gain, ts);

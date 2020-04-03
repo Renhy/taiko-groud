@@ -15,6 +15,12 @@ var Layout = {
         length: 0.3,
         move: 0.05,
     },
+    hun: {
+        left: 1146 / 1280,
+        top: 105 / 720,
+        width: (1229 - 1146) / 1280,
+        height: (187 - 105) / 720,
+    },
 };
 
 
@@ -29,6 +35,7 @@ export class Gauge {
         await this.sticker.loadTexture('fill2', '/assets/img/gauge-fill-2.png');
         await this.sticker.loadTexture('fill3', '/assets/img/gauge-fill-3.png');
         await this.sticker.loadTexture('rainbow', '/assets/img/rainbow.png');
+        await this.sticker.loadTexture('hun', 'assets/img/hun.png');
     }
 
     render(delta) {
@@ -46,6 +53,11 @@ export class Gauge {
             return;
         }
 
+
+        this.sticker.stick(
+            'hun', 
+            Layout.hun.left, Layout.hun.top,
+            Layout.hun.width, Layout.hun.height);
 
         if (value < 50) {
             this.sticker.stick(

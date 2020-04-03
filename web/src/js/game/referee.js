@@ -71,6 +71,7 @@ export class Referee {
         if (this.state.play.balloon) {
             this.state.play.hitCount += 1;
             this.game.plotter.overlay.roll.update();
+            this.scorekeeper.scoreBalloon(key.ts);
             if (this.state.play.hitCount >= this.music.balloonCounts[this.index.balloon]) {
                 this.index.balloon += 1;
 
