@@ -19,7 +19,7 @@ export class Plotter {
 
         // initialize webgl
         const canvas = document.getElementById('game-canvas');
-        this.gl = canvas.getContext('webgl');
+        this.gl = canvas.getContext('webgl2', {antialias: true});
         if (!this.gl) {
             console.error("Unable to initialize WebGL. Your browser or machine may not support it.");
             return;
@@ -92,9 +92,9 @@ export class Plotter {
         let delta = now - this.startTime;
         this.referee.update(delta);
 
+        this.beat.render(delta);
         this.note.render(delta);
         this.judge.render(delta);
-        this.beat.render(delta);
         this.gauge.render(delta);
         this.overlay.updateShake(delta);
 
