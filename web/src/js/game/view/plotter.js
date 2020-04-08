@@ -24,7 +24,7 @@ export class Plotter {
             console.error("Unable to initialize WebGL. Your browser or machine may not support it.");
             return;
         }
-        this.enableRenderbuffer = true;
+        this.enableRenderbuffer = false;
         resizeCanvasToDisplySize(this.gl.canvas);
 
         this.enable = false;
