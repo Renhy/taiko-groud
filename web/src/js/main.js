@@ -8,9 +8,20 @@ main();
 
 
 async function main() {
+
     var audioPlayer = new AudioPlayer();
-    var game = new Game();
-    var keyboard = new Keyboard(game);
+    var keyboard = new Keyboard();
+
+    var info = detectInfo();
+    console.log(info);
+    if (info === undefined) {
+        info = {
+            id: 'qby',
+            audio: '/songs/qby.ogg',
+            music: '/songs/qby.tja',
+            type: CourseType.HARD,
+        };
+    }
 
     await audioPlayer.init();
 
@@ -19,13 +30,27 @@ async function main() {
     fontStyle.textContent = await httpGet('/src/css/font.css');
     document.head.appendChild(fontStyle);
 
-    const info = {
-        id: 'qby',
-        audio: '/songs/qby.ogg',
-        music: '/songs/qby.tja',
-        type: CourseType.HARD,
-    };
 
+    var game = new Game();
+    keyboard.setCallback(game);
     await game.init(audioPlayer, info);
+}
 
+function detectInfo() {
+    let href = window.location.href;
+    if (href.indexOf('?') <= 0) {
+        return;
+    }
+
+    let params = href.slice(href.indexOf('?') + 1).split('&');;
+
+    let info = {};
+    for (let param of params) {
+        let kv = param.split('=');
+        info[kv[0]] = kv[1];
+    }
+
+    if (info.id) {
+        return info;
+    }
 }

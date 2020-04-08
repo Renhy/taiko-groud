@@ -14,9 +14,7 @@ export var Keys = {
 
 export class Keyboard {
 
-    constructor(callback) {
-        this.callback = callback;
-
+    constructor() {
         const keyboard = this;
         document.addEventListener('keydown', function (event) {
             keyboard.keyDown(event);
@@ -34,6 +32,10 @@ export class Keyboard {
             left: ['ArrowLeft'],
             right: ['ArrowRight'],
         };
+    }
+
+    setCallback(callback) {
+        this.callback = callback;
     }
 
     keyDown(event) {
