@@ -19,11 +19,12 @@ export class Plotter {
 
         // initialize webgl
         const canvas = document.getElementById('game-canvas');
-        this.gl = canvas.getContext('webgl2', {antialias: true});
+        this.gl = canvas.getContext('webgl2', {antialias: false});
         if (!this.gl) {
             console.error("Unable to initialize WebGL. Your browser or machine may not support it.");
             return;
         }
+        this.enableRenderbuffer = true;
         resizeCanvasToDisplySize(this.gl.canvas);
 
         this.enable = false;
@@ -80,6 +81,20 @@ export class Plotter {
 
         let gl = this.gl;
         resizeCanvasToDisplySize(gl.canvas);
+
+        if (this.enableRenderbuffer) {
+            let frameBuffer = gl.createFramebuffer();
+            let colorBuffer = gl.createRenderbuffer();
+            gl.bindRenderbuffer(gl.RENDERBUFFER, colorBuffer);
+            gl.renderbufferStorageMultisample(
+                gl.RENDERBUFFER, 4, gl.RGBA8, gl.canvas.width, gl.canvas.height);
+
+            gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+            gl.framebufferRenderbuffer(
+                gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.RENDERBUFFER, colorBuffer);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        }
+
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.clear(gl.COLOR_BUFFER_BIT);
         
