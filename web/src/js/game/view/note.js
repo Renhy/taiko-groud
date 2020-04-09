@@ -44,6 +44,21 @@ var Layout = {
             height: 140 / 720,
         },
     },
+    record: {
+        last: 500,
+        start: {
+            x: 412 / 1280,
+            y: 267 / 720,
+        },
+        end: {
+            x: 1187.5 / 1280,
+            y: 146 / 720,
+        },
+        top: {
+            x: 800 / 1280,
+            y: -20 / 720,
+        },
+    },
 };
 
 export class Note {
@@ -74,6 +89,7 @@ export class Note {
     render(delta) {
         this.renderBarline(delta);
         this.renderBeats(delta);
+        this.renderRecord(delta);
     }
 
     renderBarline(delta) {
@@ -298,6 +314,54 @@ export class Note {
             Layout.text.width, Layout.text.height);
     }
 
+    renderRecord(delta) {
+        for (let i = this.referee.records.length - 1; i >= 0; i--) {
+            let record = this.referee.records[i];
+            if (delta - record.ts > Layout.record.last) {
+                break;
+            }
+
+            let tag = 'do';
+            if (record.value == BeatType.KA) {
+                tag = 'ka';
+            }
+
+            let pt = this.calculateNoteLocation(delta - record.ts);
+            let w = Layout.note.width;
+            let h = Layout.note.height;
+            if (record.daiNote) {
+                w = Layout.daiNote.width;
+                h = Layout.daiNote.height;
+            } 
+            this.sticker.stick(tag, 
+                pt.x - w * 0.5, pt.y - h * 0.5, 
+                w, h);
+        }
+    }
+
+    calculateNoteLocation(ts) {
+        let x1 = Layout.record.start.x;
+        let y1 = Layout.record.start.y;
+
+        let x2 = Layout.record.end.x;
+        let y2 = Layout.record.end.y;
+
+        let x3 = Layout.record.top.x;
+        let y3 = Layout.record.top.y;
+
+        let b = (y1 - y3 - ((x1*x1 - x3*x3) * (y1 - y2) / (x1*x1 - x2*x2))) /
+                 (x1 - x3 + (x1*x1 - x3*x3) * (x2 - x1) / (x1*x1 - x2*x2));
+        let a = (y1 - y2 + (x2 - x1) * b) / (x1*x1 - x2*x2);
+        let c = y1 - a * x1*x1 - b * x1;
+
+        let x = (x2 - x1) * ts / Layout.record.last + x1;
+        let y = a * x*x + b * x + c;
+
+        return {
+            x: x,
+            y: y,
+        }
+    }
     
 }
 

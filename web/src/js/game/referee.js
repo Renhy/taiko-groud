@@ -52,19 +52,27 @@ export class Referee {
     }
 
     beat(key) {
-        this.records.push(key);
+        let record = {
+            value: BeatType.DO,
+            ts: key.ts,
+            daiNote: false,
+        };
         switch (key.value) {
             case Keys.LEFT_DO:
                 this.state.play.leftDo = key.ts;
+                record.value = BeatType.DO;
                 break;
             case Keys.RIGHT_DO:
                 this.state.play.rightDo = key.ts;
+                record.value = BeatType.DO;
                 break;
             case Keys.LEFT_KA:
                 this.state.play.leftKa = key.ts;
+                record.value = BeatType.KA;
                 break;
             case Keys.RIGHT_KA:
                 this.state.play.rightKa = key.ts;
+                record.value = BeatType.KA;
                 break;
         }
 
@@ -84,12 +92,15 @@ export class Referee {
             return;
         }
         if (this.state.play.drumroll) {
+            this.records.push(record);
             this.state.play.hitCount += 1;
             this.game.plotter.overlay.roll.update();
             this.scorekeeper.scoreDrumroll(key.ts);
             return;
         }
         if (this.state.play.daiDrumroll) {
+            record.daiNote = true;
+            this.records.push(record);
             this.state.play.hitCount += 1;
             this.game.plotter.overlay.roll.update();
             this.scorekeeper.scoreDaiDrumroll(key.ts);
@@ -99,14 +110,18 @@ export class Referee {
         if (this.currentBeat.type == BeatType.DO) {
             if (key.value == Keys.LEFT_DO ||
                 key.value == Keys.RIGHT_DO) {
-                this.checkSimpleBeat(key);
+                if (this.checkSimpleBeat(key)) {
+                    this.records.push(record);
+                }
             }
             return;
         }
         if (this.currentBeat.type == BeatType.KA) {
             if (key.value == Keys.LEFT_KA ||
                 key.value == Keys.RIGHT_KA) {
-                this.checkSimpleBeat(key);
+                if (this.checkSimpleBeat(key)) {
+                    this.records.push(record);
+                }
             }
             return;
         }
@@ -114,14 +129,24 @@ export class Referee {
         if (this.currentBeat.type == BeatType.DAI_DO) {
             if (key.value == Keys.LEFT_DO ||
                 key.value == Keys.RIGHT_DO) {
-                this.checkSimpleDaiBeat(key);
+                if (this.checkSimpleDaiBeat(key)) {
+                    if (this.state.play.hitCount == 1) {
+                        record.daiNote = true;
+                        this.records.push(record);
+                    }
+                }
             }
             return;
         }
         if (this.currentBeat.type == BeatType.DAI_KA) {
             if (key.value == Keys.LEFT_KA ||
                 key.value == Keys.RIGHT_KA) {
-                this.checkSimpleDaiBeat(key);
+                if (this.checkSimpleDaiBeat(key)) {
+                    if (this.state.play.hitCount == 1) {
+                        record.daiNote = true;
+                        this.records.push(record);
+                    }
+                }
             }
             return;
         }
@@ -130,7 +155,7 @@ export class Referee {
 
     checkSimpleBeat(key) {
         if (key.ts < this.currentBeat.ts - JudgeBias.OK) {
-            return;
+            return false;
         }
 
         let result = JudgeResult.OK;
@@ -147,11 +172,13 @@ export class Referee {
         this.currentBeat = this.music.beats[this.index.beat];
         this.state.play.combo += 1;
         this.game.plotter.overlay.combo.update();
+
+        return true;
     }
 
     checkSimpleDaiBeat(key) {
         if (key.ts < this.currentBeat.ts - JudgeBias.OK) {
-            return;
+            return false;
         }
 
         let result = JudgeResult.OK;
@@ -174,6 +201,8 @@ export class Referee {
             this.state.play.combo += 1;
             this.game.plotter.overlay.combo.update();
         }
+
+        return true;
     }
 
 
