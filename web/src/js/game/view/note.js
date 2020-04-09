@@ -3,6 +3,7 @@ import { BeatType } from '../constant.js';
 var Layout = {
     line: {
         height: 267 / 720,
+        textHeight: 318 / 720,
         zero: 412 / 1280,
         length: 868 / 1280,
         left: (332 - 412) / 868,
@@ -12,6 +13,10 @@ var Layout = {
         top: 193 / 720,
         width: 256 / 1280,
         height: 161 / 720,
+    },
+    text: {
+        width: 50 / 1280,
+        height: 25 / 720,
     },
     note: {
         width: 70 / 1280,
@@ -58,6 +63,12 @@ export class Note {
         await this.sticker.loadTexture('balloon', '/assets/img/balloon.png');
         await this.sticker.loadTexture('xiaogu', '/assets/img/xiaogu.png');
         await this.sticker.loadTexture('balloonBubble', '/assets/img/balloon-bubble.png');
+        await this.sticker.loadTexture('text-do', '/assets/img/note-text-do.png');
+        await this.sticker.loadTexture('text-ka', '/assets/img/note-text-ka.png');
+        await this.sticker.loadTexture('text-daiDo', '/assets/img/note-text-daiDo.png');
+        await this.sticker.loadTexture('text-daiKa', '/assets/img/note-text-daiKa.png');
+        await this.sticker.loadTexture('text-roll', '/assets/img/note-text-roll.png');
+        await this.sticker.loadTexture('text-balloon', '/assets/img/note-text-balloon.png');
     }
 
     render(delta) {
@@ -138,24 +149,31 @@ export class Note {
             switch (beat.type) {
                 case BeatType.DO:
                     this.note('do', beat.distance);
+                    this.text('text-do', beat.distance);
                     break;
                 case BeatType.KA:
                     this.note('ka', beat.distance);
+                    this.text('text-ka', beat.distance);
                     break;
                 case BeatType.DAI_DO:
                     this.daiNote('do', beat.distance);
+                    this.text('text-daiDo', beat.distance);
                     break;
                 case BeatType.DAI_KA:
                     this.daiNote('ka', beat.distance);
+                    this.text('text-daiKa', beat.distance);
                     break;
                 case BeatType.DRUMROLL:
                     this.drumroll(beat.distance, beat.end);
+                    this.text('text-roll', beat.distance);
                     break;
                 case BeatType.DAI_DRUMROLL:
                     this.daiDrumroll(beat.distance, beat.end);
+                    this.text('text-roll', beat.distance);
                     break;
                 case BeatType.BALLOON:
                     this.balloon(beat.distance);
+                    this.text('text-balloon', beat.distance);
                     break;
             }
         }
@@ -263,6 +281,21 @@ export class Note {
             Layout.balloon.height);
 
         this.note('do',distance);
+    }
+
+    text(tag, distance) {
+        if (distance > Layout.line.right || distance < Layout.line.left) {
+            return;
+        }
+
+        let x = Layout.line.zero;
+        x += distance * Layout.line.length;
+        x -= Layout.text.width * 0.5;
+
+        this.sticker.stick(
+            tag, 
+            x, Layout.line.textHeight, 
+            Layout.text.width, Layout.text.height);
     }
 
     
