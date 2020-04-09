@@ -1,0 +1,6 @@
+sys:
+  version: 0.0.1
+server:
+  port: "${SERVER_PORT:8080}"
+  servlet:
+    context-path: /api
