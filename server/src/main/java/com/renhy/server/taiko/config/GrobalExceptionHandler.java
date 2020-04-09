@@ -3,7 +3,6 @@ package com.renhy.server.taiko.config;
 
 import com.renhy.server.taiko.common.BusException;
 import com.renhy.server.taiko.common.Response;
-import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

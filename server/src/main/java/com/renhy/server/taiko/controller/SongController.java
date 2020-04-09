@@ -4,7 +4,6 @@ import com.renhy.server.taiko.common.BusException;
 import com.renhy.server.taiko.common.Response;
 import com.renhy.server.taiko.dao.SongRepository;
 import com.renhy.server.taiko.entity.Song;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

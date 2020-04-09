@@ -346,32 +346,24 @@ export class Note {
                 tag = 'ka';
             }
 
-            let pt = this.calculateNoteLocation(delta - record.ts);
+            let x = (Layout.record.end.x - Layout.record.start.x) * 
+                (delta - record.ts) / Layout.record.last;
+            x += Layout.record.start.x;
+            let y = this.curveParams.a * x * x + this.curveParams.b * x + this.curveParams.c;
+
             let w = Layout.note.width;
             let h = Layout.note.height;
             if (record.daiNote) {
                 w = Layout.daiNote.width;
                 h = Layout.daiNote.height;
             } 
+
             this.sticker.stick(tag, 
-                pt.x - w * 0.5, pt.y - h * 0.5, 
+                x - w * 0.5, y - h * 0.5, 
                 w, h);
         }
     }
 
-    calculateNoteLocation(ts) {
-        let x1 = Layout.record.start.x;
-        let x2 = Layout.record.end.x;
-
-        let x = (x2 - x1) * ts / Layout.record.last + x1;
-        let y = this.curveParams.a * x*x + this.curveParams.b * x + this.curveParams.c;
-
-        return {
-            x: x,
-            y: y,
-        }
-    }
-    
 }
 
 
