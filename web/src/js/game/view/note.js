@@ -69,6 +69,26 @@ export class Note {
         this.referee = game.referee;
         this.music = game.referee.music;
 
+        // y = ax^2 + bx + c
+        let x1 = Layout.record.start.x;
+        let y1 = Layout.record.start.y;
+
+        let x2 = Layout.record.end.x;
+        let y2 = Layout.record.end.y;
+
+        let x3 = Layout.record.top.x;
+        let y3 = Layout.record.top.y;
+
+        let b = (y1 - y3 - ((x1 * x1 - x3 * x3) * (y1 - y2) / (x1 * x1 - x2 * x2))) /
+            (x1 - x3 + (x1 * x1 - x3 * x3) * (x2 - x1) / (x1 * x1 - x2 * x2));
+        let a = (y1 - y2 + (x2 - x1) * b) / (x1 * x1 - x2 * x2);
+        let c = y1 - a * x1 * x1 - b * x1;
+        this.curveParams = {
+            a: a,
+            b: b,
+            c: c,
+        };
+
         await this.sticker.loadTexture('do', '/assets/img/do.png');
         await this.sticker.loadTexture('ka', '/assets/img/ka.png');
         await this.sticker.loadTexture('barline', '/assets/img/barline.png');
@@ -341,21 +361,10 @@ export class Note {
 
     calculateNoteLocation(ts) {
         let x1 = Layout.record.start.x;
-        let y1 = Layout.record.start.y;
-
         let x2 = Layout.record.end.x;
-        let y2 = Layout.record.end.y;
-
-        let x3 = Layout.record.top.x;
-        let y3 = Layout.record.top.y;
-
-        let b = (y1 - y3 - ((x1*x1 - x3*x3) * (y1 - y2) / (x1*x1 - x2*x2))) /
-                 (x1 - x3 + (x1*x1 - x3*x3) * (x2 - x1) / (x1*x1 - x2*x2));
-        let a = (y1 - y2 + (x2 - x1) * b) / (x1*x1 - x2*x2);
-        let c = y1 - a * x1*x1 - b * x1;
 
         let x = (x2 - x1) * ts / Layout.record.last + x1;
-        let y = a * x*x + b * x + c;
+        let y = this.curveParams.a * x*x + this.curveParams.b * x + this.curveParams.c;
 
         return {
             x: x,
