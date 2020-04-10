@@ -13,6 +13,7 @@
     background-color: whitesmoke;
 
     border: 10px solid blanchedalmond;
+    visibility: hidden;
 
 }
 #game-load-key-intro {

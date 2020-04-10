@@ -20,13 +20,8 @@ export class Game {
         this.player = player;
         this.songInfo = info;
 
-        let page = await httpGet('/src/html/game.html'); 
-        document.getElementById('screen').innerHTML = page;
-        let stylesheet = document.createElement('style');
-        stylesheet.type = 'text/css';
-        stylesheet.textContent = await httpGet('/src/css/game.css');
-        document.head.appendChild(stylesheet);
-
+        await this.loadHtml();
+        
         let keyIntro = document.getElementById('game-load-key');
         await new Promise((resolve, reject) => {
             keyIntro.onload = () => {
@@ -45,6 +40,26 @@ export class Game {
         await this.plotter.init(this);
 
         this.ready();
+    }
+
+    async loadHtml() {
+        let page = await httpGet('/src/html/game.html');
+        document.getElementById('screen').innerHTML = page;
+
+        let gameCss = document.createElement('style');
+        gameCss.type = 'text/css';
+        gameCss.textContent = await httpGet('/src/css/game.css');
+        document.head.appendChild(gameCss);
+
+        let loadCss = document.createElement('style');
+        loadCss.type = 'text/css';
+        loadCss.textContent = await httpGet('/src/css/game-load.css');
+        document.head.appendChild(loadCss);
+
+        let resultCss = document.createElement('style');
+        resultCss.type = 'text/css';
+        resultCss.textContent = await httpGet('/src/css/game-result.css');
+        document.head.appendChild(resultCss);
     }
 
     ready() {

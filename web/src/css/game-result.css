@@ -1,0 +1,43 @@
+#game-result {
+    position: absolute;
+    top: 30%;
+    bottom: 20%;
+    left: 8%;
+    right: 8%;
+
+    padding: 4px;
+
+    /* visibility: hidden; */
+    z-index: 4;
+
+    border-radius: 20px;
+    background-color: white;
+
+}
+
+#result-grid {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 20px;
+    border: #a43023 solid 2px;
+
+}
+
+#result-clear {
+}
+
+#result-gauge {
+}
+
+#result-gu {
+}
+
+#result-diffculty {
+}
+
+#result-info {
+
+}
