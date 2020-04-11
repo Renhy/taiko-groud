@@ -36,13 +36,34 @@
         <img id="game-load-key"></img>
         <p id="game-load-intro">资源载入中...</p>
     </div>
-
-    <div id="game-result">
-        <div id="result-grid">
-            <img id="result-gu" src="/assets/img/xiaogu.png" />
-            <div id="result-clear"></div>
-            <div id="result-diffculty"></div>
-            <div id="result-info"></div>
+<div id="game-result">
+    <div id="result-grid">
+        <img id="result-clear" src="/assets/img/xiaogu.png"></img>
+        <img id="result-gu" src="/assets/img/xiaogu.png" />
+        <div id="result-judge">
+            <div id="result-good" class="result-info">
+                <p class="info-text">良</p>
+                <p id="result-good-count" class="info-count">100</p>
+            </div>
+            <div id="result-ok" class="result-info">
+                <p class="info-text">可</p>
+                <p id="result-ok-count" class="info-count">100</p>
+            </div>
+            <div id="result-bad" class="result-info">
+                <p class="info-text">不可</p>
+                <p id="result-bad-count" class="info-count">100</p>
+            </div>
         </div>
+        <div id="result-count">
+            <div id="result-combo" class="result-info">
+                <p class="info-text">连段</p>
+                <p id="result-combo-count" class="info-count">100</p>
+            </div>
+            <div id="result-roll" class="result-info">
+                <p class="info-text">连打</p>
+                <p id="result-roll-count" class="info-count">100</p>
+            </div>
+        </div>
+    </div>
     </div>
 </div>

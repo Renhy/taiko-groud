@@ -34,6 +34,14 @@ export class Referee {
             },
         };
 
+        this.result = {
+            good: 0,
+            ok: 0,
+            bad: 0,
+            combo: 0,
+            roll: 0,
+        }
+
         this.records = [];
         this.music = new Music();
         this.scorekeeper = new Scorekeeper(this.game);
@@ -164,6 +172,12 @@ export class Referee {
             result = JudgeResult.GOOD;
         }
 
+        if (result == JudgeResult.GOOD) {
+            this.result.good += 1;
+        } else {
+            this.result.ok += 1;
+        }
+
         this.state.judge.result = result;
         this.state.judge.ts = key.ts;
         this.scorekeeper.scoreBeat(this.index.beat, result, key.ts);
@@ -171,6 +185,9 @@ export class Referee {
         this.index.beat += 1;
         this.currentBeat = this.music.beats[this.index.beat];
         this.state.play.combo += 1;
+        if (this.state.play.combo > this.result.combo) {
+            this.result.combo = this.state.play.combo;
+        }
         this.game.plotter.overlay.combo.update();
 
         return true;
@@ -198,7 +215,15 @@ export class Referee {
             this.index.beat += 1;
             this.currentBeat = this.music.beats[this.index.beat];
         } else {
+            if (result == JudgeResult.GOOD) {
+                this.result.good += 1;
+            } else {
+                this.result.ok += 1;
+            }
             this.state.play.combo += 1;
+            if (this.state.play.combo > this.result.combo) {
+                this.result.combo = this.state.play.combo;
+            }
             this.game.plotter.overlay.combo.update();
         }
 
@@ -271,6 +296,7 @@ export class Referee {
                 this.state.judge.result = JudgeResult.BAD;
                 this.state.judge.ts = delta;
                 this.state.play.combo = 0;
+                this.result.bad += 1;
                 this.game.plotter.overlay.combo.break();
                 this.scorekeeper.badBeat(this.index.beat);
                 break;
@@ -280,6 +306,7 @@ export class Referee {
                     this.state.judge.result = JudgeResult.BAD;
                     this.state.judge.ts = delta;
                     this.state.play.combo = 0;
+                    this.result.bad += 1;
                     this.game.plotter.overlay.combo.break();
                     this.scorekeeper.badBeat(this.index.beat);
                 }
@@ -299,6 +326,7 @@ export class Referee {
                 break;
             case BeatType.END:
                 if (this.state.play.drumroll || this.state.play.daiDrumroll) {
+                    this.result.roll += this.state.play.hitCount;
                     this.game.plotter.overlay.roll.close(true);
                 } else {
                     this.game.plotter.overlay.roll.close();

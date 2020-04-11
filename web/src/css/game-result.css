@@ -1,6 +1,6 @@
 #game-result {
     position: absolute;
-    top: 30%;
+    top: 50%;
     bottom: 20%;
     left: 8%;
     right: 8%;
@@ -29,16 +29,22 @@
 
 }
 
+
 #result-clear {
 }
-
 
 #result-gu {
 }
 
-#result-diffculty {
+.result-info {
+    display: flex;
+    flex-direction: row;
 }
 
-#result-info {
+.info-text {
+
+}
+
+.info-count {
 
 }

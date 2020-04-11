@@ -92,6 +92,15 @@ export class Game {
 
     end() {
         this.plotter.end();
+        
+        document.getElementById('result-good-count').innerText = this.referee.result.good;
+        document.getElementById('result-ok-count').innerText = this.referee.result.ok;
+        document.getElementById('result-bad-count').innerText = this.referee.result.bad;
+        document.getElementById('result-combo-count').innerText = this.referee.result.combo;
+        document.getElementById('result-roll-count').innerText = this.referee.result.roll;
+
+        let page = document.getElementById('game-result');
+        page.style.visibility = 'visible';
     }
 
     pause() {
