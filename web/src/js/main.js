@@ -21,8 +21,7 @@ async function main() {
             music: '/songs/qby.tja',
             type: CourseType.HARD,
         };
-    }
-
+    } 
     await audioPlayer.init();
 
     let fontStyle = document.createElement('style');

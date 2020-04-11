@@ -6,14 +6,16 @@
     width: 80%;
     height: 80%;
 
-    left: 9%;
+    box-sizing: border-box;
+
+    left: 10%;
     top: 10%;
     
     border-radius: 20px;
     background-color: whitesmoke;
 
     border: 10px solid blanchedalmond;
-    visibility: hidden;
+    /* visibility: hidden; */
 
 }
 #game-load-key-intro {
