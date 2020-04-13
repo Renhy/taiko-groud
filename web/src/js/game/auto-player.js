@@ -23,7 +23,7 @@ export class AutoPlayer {
             this.game.referee.state.play.drumroll ||
             this.game.referee.state.play.daiDrumroll) {
             this.rollIndex += 1;
-            if (this.rollIndex >= 6) {
+            if (this.rollIndex >= 2) {
                 this.roll(delta);
                 this.rollIndex = 0;
             }

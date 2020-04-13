@@ -12,7 +12,7 @@ var Layout = {
         height: (184 - 143) / 720,
     },
     rainbow: {
-        length: 0.3,
+        length: 0.5,
         move: 0.05,
     },
     hun: {

@@ -139,6 +139,10 @@ export class Music {
         for (let i = start; i <= end; i++) {
             let line = lines[i];
 
+            if (line.trim() == '') {
+                continue;
+            }
+
             // parse command
             if (line.indexOf('#') >= 0) {
                 line = line.slice(line.indexOf('#') + 1).trim();

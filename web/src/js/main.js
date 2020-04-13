@@ -17,9 +17,11 @@ async function main() {
     if (info === undefined) {
         info = {
             id: 'railgun',
-            audio: '/songs/railgun.ogg',
-            music: '/songs/railgun.tja',
-            type: CourseType.EXTREME,
+            // audio: '/songs/chengrenyuQ.ogg',
+            // music: '/songs/chengrenyuQ.tja',
+            audio: '/songs/qby.ogg',
+            music: '/songs/qby.tja',
+            type: CourseType.EXTRA,
         };
     } 
     await audioPlayer.init();

@@ -62,9 +62,6 @@ export class Referee {
         this.endCallback();
     }
 
-    setAutoPlaye(flag) {
-        this.autoPlay = flag;
-    }
 
     beat(key) {
         let record = {

@@ -153,6 +153,10 @@ export class Game {
                 this.player.play(Audios.DO);
                 this.start();
                 break;
+
+            case Keys.MODE_AUTO:
+                this.autoModeSwitch();
+                break;
         }
     }
 
@@ -173,6 +177,10 @@ export class Game {
                 this.player.play(Audios.KA);
                 this.referee.beat(key);
                 break;
+
+            case Keys.MODE_AUTO:
+                this.autoModeSwitch();
+                break;
         }
     }
 
@@ -181,13 +189,31 @@ export class Game {
             case Keys.ESC:
                 this.resume();
                 break;
+
+            case Keys.MODE_AUTO:
+                this.autoModeSwitch();
+                break;
         }
     }
 
     resultHandle(key) {
-
+        switch (key.value) {
+            case Keys.LEFT_DO:
+            case Keys.RIGHT_DO:
+                this.player.play(Audios.DO);
+                break;
+        }
     }
     
+
+    autoModeSwitch() {
+        if (this.referee.autoPlay) {
+            this.referee.autoPlay = false;
+        } else {
+            this.referee.autoPlay = true;
+        }
+    }
+
 
 }
 

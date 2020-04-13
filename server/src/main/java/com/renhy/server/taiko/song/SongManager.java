@@ -24,22 +24,22 @@ public class SongManager {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Map<String, Charset> charsetMap = Charset.availableCharsets();
 
-        String dir = "/Users/renhy/Desktop/taikojiro/08 ANIME/";
+        String dir = "/Users/renhy/Desktop/taikojiro/02A NAMCO-POP/";
 
         File root = new File(dir);
         for (File file : root.listFiles()) {
             String name = file.getName();
-            if (!name.contains("tja")) {
-                continue;
-            }
 
             if (file.isDirectory()) {
                 listDirectory(file);
             } else {
+                if (!name.contains("tja")) {
+                    continue;
+                }
                 readFile(file);
             }
         }

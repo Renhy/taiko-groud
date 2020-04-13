@@ -9,7 +9,9 @@ export var Keys = {
     DOWN: 8,
     LEFT: 9,
     RIGHT: 10,
-    UNKOWN: 11,
+    MODE_AUTO: 11,
+    MODE_TRAIN: 12,
+    UNKOWN: 13,
 };
 
 export class Keyboard {
@@ -21,16 +23,18 @@ export class Keyboard {
         });
 
         this.keyMap = {
-            leftDo: ['f'],
-            rightDo: ['j'],
-            leftKa: ['r', 'd'],
-            rightKa: ['u', 'k'],
+            leftDo: ['f', 'F'],
+            rightDo: ['j', 'J'],
+            leftKa: ['r', 'R', 'd', 'D'],
+            rightKa: ['u', 'U', 'k', 'K'],
             esc: ['Escape'],
             ok: ['Enter'],
             up: ['ArrowUp'],
             down: ['ArrowDown'],
             left: ['ArrowLeft'],
             right: ['ArrowRight'],
+            modeAuto: ['F8'],
+            modeTrain: ['F9'],
         };
     }
 
@@ -93,6 +97,14 @@ export class Keyboard {
         }
         if (this.keyMap.right.includes(event.key)) {
             key.value = Keys.RIGHT;
+            return key;
+        }
+        if (this.keyMap.modeAuto.includes(event.key)) {
+            key.value = Keys.MODE_AUTO
+            return key;
+        }
+        if (this.keyMap.modeTrain.includes(event.key)) {
+            key.value = Keys.MODE_TRAIN;
             return key;
         }
         return key;
