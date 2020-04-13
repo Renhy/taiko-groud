@@ -77,6 +77,10 @@ export class Plotter {
     }
 
     render(now) {
+        if (this.enable == false) {
+            return;
+        }
+
         let start = performance.now();
 
         let gl = this.gl;
@@ -114,9 +118,7 @@ export class Plotter {
         this.overlay.updateShake(delta);
 
         this.fps = 1000 / (performance.now() - start);
-        if (this.enable) {
-            requestAnimationFrame(this.render);
-        }
+        requestAnimationFrame(this.render);
     }
 
 

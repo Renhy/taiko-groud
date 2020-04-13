@@ -3,6 +3,7 @@ import { BeatType, JudgeBias, JudgeResult } from './constant.js';
 import { Music } from "./music.js";
 import { Audios } from "../audio-player.js";
 import { Scorekeeper } from "./scorekeeper.js";
+import { AutoPlayer } from "./auto-player.js";
 
 export class Referee {
     constructor(game, audioPlayer, callback) {
@@ -45,6 +46,8 @@ export class Referee {
         this.records = [];
         this.music = new Music();
         this.scorekeeper = new Scorekeeper(this.game);
+        this.autoPlayer = new AutoPlayer(this.game);
+        this.autoPlay = true;
     }
 
     async loadMusic(url, type) {
@@ -57,6 +60,10 @@ export class Referee {
         this.ended = true;
         console.log('Music ended.');
         this.endCallback();
+    }
+
+    setAutoPlaye(flag) {
+        this.autoPlay = flag;
     }
 
     beat(key) {
@@ -240,6 +247,10 @@ export class Referee {
             return;
         }
         this.checkMusic(delta);
+
+        if (this.autoPlay) {
+            this.autoPlayer.play(delta);
+        }
     }
 
     checkMusic(delta) {

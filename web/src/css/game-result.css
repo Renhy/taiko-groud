@@ -31,20 +31,38 @@
 
 
 #result-clear {
+    flex: 1;
+
 }
 
 #result-gu {
+    flex: 1;
+    
+}
+
+#result-judge {
+    flex: 1;
+}
+
+#result-count {
+    flex: 1;
+
 }
 
 .result-info {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+
+    flex-grow: 1;
 }
 
 .info-text {
+    margin: 0;
 
 }
 
 .info-count {
+    margin: 0;
 
 }

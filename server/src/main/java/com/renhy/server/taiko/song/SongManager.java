@@ -1,0 +1,81 @@
+package com.renhy.server.taiko.song;
+
+import jdk.nashorn.internal.runtime.options.Option;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@Slf4j
+@Component
+public class SongManager {
+
+
+
+
+
+    public static void main(String[] args) {
+
+        Map<String, Charset> charsetMap = Charset.availableCharsets();
+
+        String dir = "/Users/renhy/Desktop/taikojiro/08 ANIME/";
+
+        File root = new File(dir);
+        for (File file : root.listFiles()) {
+            String name = file.getName();
+            if (!name.contains("tja")) {
+                continue;
+            }
+
+            if (file.isDirectory()) {
+                listDirectory(file);
+            } else {
+                readFile(file);
+            }
+        }
+    }
+
+    static private void listDirectory(File dir) {
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                listDirectory(file);
+            } else {
+                readFile(file);
+            }
+        }
+    }
+
+    static private void readFile(File file) {
+        System.out.println();
+        System.out.println(file.getName());
+        try {
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "Shift_JIS"))) {
+                for (;;) {
+                    String line = reader.readLine();
+                    if (line == null) {
+                        break;
+                    }
+                    System.out.println(line);
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+}

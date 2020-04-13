@@ -16,10 +16,10 @@ async function main() {
     console.log(info);
     if (info === undefined) {
         info = {
-            id: 'qby',
-            audio: '/songs/qby.ogg',
-            music: '/songs/qby.tja',
-            type: CourseType.HARD,
+            id: 'railgun',
+            audio: '/songs/railgun.ogg',
+            music: '/songs/railgun.tja',
+            type: CourseType.EXTREME,
         };
     } 
     await audioPlayer.init();
