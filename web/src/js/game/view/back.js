@@ -4,17 +4,16 @@ export class Back {
     async init(game) {
         this.game = game;
 
-        this.background = document.getElementById('game-background');
-        this.gaugebuttom = document.getElementById('game-gauge-bottom');
-
+        this.middle = document.getElementById('background-middle');
         await new Promise((resolve, reject) => {
-            this.background.onload = () => {
+            this.middle.onload = () => {
                 return resolve();
             };
 
-            this.background.src = '/assets/img/game-base.png';
+            this.middle.src = '/assets/img/background-1.png';
         });
 
+        this.gaugebuttom = document.getElementById('game-gauge-bottom');
         await new Promise((resolve, reject) => {
             this.gaugebuttom.onload = () => {
                 return resolve();

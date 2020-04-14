@@ -13,7 +13,6 @@ async function main() {
     var keyboard = new Keyboard();
 
     var info = detectInfo();
-    console.log(info);
     if (info === undefined) {
         info = {
             id: 'railgun',
