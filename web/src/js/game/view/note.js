@@ -171,7 +171,6 @@ export class Note {
                             break;
                         }
                         if (this.music.beats[j].type == BeatType.BALLOON) {
-                            beat.type = BeatType.BALLOON;
                             break;
                         }
                     }
