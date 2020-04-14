@@ -13,6 +13,17 @@ var Layout = {
         t: 30,
         d: 10 / 720,
     },
+    explosion: {
+        center:{
+            x: 412 / 1280,
+            y: 267 / 720,
+        },
+        base: {
+            width: 70 / 1280,
+            height: 70 / 720,
+        },
+        magnify: 2,
+    },
 };
 
 export class Judge {
@@ -24,6 +35,8 @@ export class Judge {
         await this.sticker.loadTexture('good', '/assets/img/good.png');
         await this.sticker.loadTexture('ok', '/assets/img/ok.png');
         await this.sticker.loadTexture('bad', '/assets/img/bad.png');
+        await this.sticker.loadTexture('good-explosion', '/assets/img/beat-explosion-good.png');
+        await this.sticker.loadTexture('ok-explosion', '/assets/img/beat-explosion-ok.png');
     }
 
     render(delta) {
@@ -41,9 +54,11 @@ export class Judge {
         switch(this.referee.state.judge.result) {
             case JudgeResult.GOOD:
                 tag = 'good';
+                this.explosion('good-explosion', time);
                 break;
             case JudgeResult.OK:
                 tag = 'ok';
+                this.explosion('ok-explosion', time);
                 break;
             case JudgeResult.BAD:
                 tag = 'bad';
@@ -68,7 +83,20 @@ export class Judge {
         return (-1 * d / t / t) * (time * time) + (2 * d / t) * time - d;
     }
 
+    explosion(tag, time) {
+        if (time > Layout.last / 2) {
+            return;
+        }
 
+        let a = 1 + time * 2 / Layout.last * (Layout.explosion.magnify - 1);
+        let w = a * Layout.explosion.base.width;
+        let h = a * Layout.explosion.base.height;
+
+        this.sticker.stick(tag, 
+            Layout.explosion.center.x - w * 0.5,
+            Layout.explosion.center.y - h * 0.5,
+            w, h);
+    }
 
 
 }

@@ -112,8 +112,8 @@ export class Plotter {
         this.referee.update(delta);
 
         this.beat.render(delta);
-        this.note.render(delta);
         this.judge.render(delta);
+        this.note.render(delta);
         this.gauge.render(delta);
         this.overlay.updateShake(delta);
 
