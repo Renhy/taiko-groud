@@ -63,8 +63,7 @@ export class Scorekeeper {
         this.equivalent = Math.ceil(this.equivalent / 50) * 50;
 
 
-
-        if (type == CourseType.EXTREME ||
+        if (type == CourseType.EXTRA ||
             type == CourseType.EXTREME) {
             this.gauge.threshold = 39;
             this.gauge.total *= 0.56;
@@ -84,7 +83,6 @@ export class Scorekeeper {
             this.gauge.gain.ok = 0.75;
             this.gauge.gain.bad = -0.5;
         }
-
     }
 
     gogoStart() {

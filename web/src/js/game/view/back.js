@@ -22,7 +22,7 @@ export class Back {
             let diffculty = this.game.songInfo.type;
             if (diffculty == CourseType.HARD ||
                 diffculty == CourseType.EXTREME ||
-                diffculty == CourseType.EXTREME) {
+                diffculty == CourseType.EXTRA) {
                 this.gaugebuttom.src = '/assets/img/gauge-hard-bottom.png';
             } else {
                 this.gaugebuttom.src = '/assets/img/gauge-easy-bottom.png';

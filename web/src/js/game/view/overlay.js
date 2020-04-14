@@ -94,7 +94,7 @@ export class Overlay {
             let diffculty = this.game.songInfo.type;
             if (diffculty == CourseType.HARD ||
                 diffculty == CourseType.EXTREME ||
-                diffculty == CourseType.EXTREME) {
+                diffculty == CourseType.EXTRA) {
                 this.gaugeTop.src = '/assets/img/gauge-hard-top.png';
             } else {
                 this.gaugeTop.src = '/assets/img/gauge-easy-top.png';
