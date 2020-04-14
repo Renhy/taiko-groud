@@ -25,7 +25,8 @@
     width: 100%;
     
 
-    font-family: Rouhei, sans-serif;
+    font-family: BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+
     font-size: 20px;
 }
 #game-load-key {
@@ -41,7 +42,7 @@
     width: 100%;
     text-align: center;
 
-    font-family: Rouhei, sans-serif;
+    font-family: BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
     font-size: 35px;
     color: white;
     -webkit-text-stroke: 1px black;

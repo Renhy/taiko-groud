@@ -2,11 +2,3 @@
 	font-family: TnT;
 	src: url("/assets/font/TnT.ttf") format("truetype");
 }
-@font-face{
-	font-family: Kozuka;
-	src: url("/assets/font/Kozuka.otf") format("truetype");
-}
-@font-face{
-    font-family: Rouhei;
-    src: url("/assets/font/Rouhei.ttf") format("truetype");
-}
