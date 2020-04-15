@@ -18,9 +18,9 @@ async function main() {
             id: 'railgun',
             // audio: '/songs/chengrenyuQ.ogg',
             // music: '/songs/chengrenyuQ.tja',
-            audio: '/songs/qby.ogg',
-            music: '/songs/qby.tja',
-            type: CourseType.EXTRA,
+            audio: '/songs/railgun.ogg',
+            music: '/songs/railgun.tja',
+            type: CourseType.EXTREME,
         };
     } 
     await audioPlayer.init();
