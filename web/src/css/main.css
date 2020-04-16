@@ -5,7 +5,7 @@ body {
 	height: 100%;
 	position: absolute;
 
-	background-image: linear-gradient(to top, #2b5876 0%, #302a42 40%, #302a42 80%);
+	background-color: #142850;
 }
 
 #screen {
