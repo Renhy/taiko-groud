@@ -1,5 +1,18 @@
 import { CourseType } from "../constant.js";
 
+var Layout = {
+    color: {
+        pop: 'cyan',
+        anime: 'orange',
+        pop: 'silver',
+        variety: 'lime',
+        classical: 'gold',
+        game: 'darkorchid',
+        namco: 'orangered',
+    }
+
+}
+
 export class Back {
     async init(game) {
         this.game = game;
