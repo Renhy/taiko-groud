@@ -17,7 +17,7 @@
 	height: 100%;
     z-index: 1;
 
-    background-color: #142850;
+    background-color: #202040;
 }
 
 #split-line {
@@ -39,7 +39,7 @@
     left: 26.1%;
     width: 73.9%;
 
-    background-color: #27496d;
+    background-color: #2b2e4a;
 }
 
 #background-top {
@@ -48,7 +48,7 @@
     width: 100%;
 	height: 25.56%;
 
-    background-color: #00a8cc;
+    background-color: #903749;
 }
 
 #background-middle {
@@ -60,7 +60,7 @@
     top: 26.4%;
     height: 22.62%;
 
-    background-color: #0c7b93;
+    background-color: #e84545;
 }
 
 #background-bottom {
@@ -106,7 +106,7 @@
 #game-title {
     margin: 0;
     position: absolute;
-    right: 5%;
+    left: 5%;
     top: 3%;
 
     color: white;
