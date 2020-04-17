@@ -12,15 +12,6 @@ var Layout = {
         height: 30 / 720,
         stroke: 1 / 720,
     },
-    combo: {
-        height: 120 / 720,
-        stroke: 6 / 720,
-    },
-    roll: {
-        height: 40 / 720,
-        stroke: 3 / 720,
-    },
-
 };
 
 export class Overlay {

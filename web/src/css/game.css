@@ -198,7 +198,7 @@
 #game-combo {
     position: absolute;
     width: 100%;
-    top: 70%;
+    top: 60%;
 
     visibility: hidden;
 }
@@ -218,7 +218,7 @@
 
     color: white;
     -webkit-text-stroke: 3px black;
-    font-family: Rouhei, sans-serif;
+    font-family: TnT, sans-serif;
     font-size: 40px;
     font-weight: 400;
 }

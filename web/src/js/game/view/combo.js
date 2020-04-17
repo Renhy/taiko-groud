@@ -1,7 +1,7 @@
 
 var Layout = {
-    height: 120 / 720,
-    stroke: 6 / 720,
+    height: 180 / 720,
+    stroke: 14 / 720,
 };
 
 export class Combo {
@@ -24,7 +24,7 @@ export class Combo {
             height * Layout.height * 0.4 + 'px';
         this.comboText.style.webkitTextStrokeWidth = 
             height * Layout.stroke * 0.5 + 'px';
-        this.comboText.innerHTML = '连段';
+        this.comboText.innerHTML = '連段';
     }
 
     update() {
