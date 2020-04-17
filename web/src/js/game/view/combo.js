@@ -1,7 +1,7 @@
 
 var Layout = {
     height: 180 / 720,
-    stroke: 14 / 720,
+    stroke: 10 / 720,
 };
 
 export class Combo {
