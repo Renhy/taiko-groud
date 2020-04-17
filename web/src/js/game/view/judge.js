@@ -88,8 +88,12 @@ export class Judge {
             return;
         }
 
-        let a = time * 2 / Layout.last;
-        a = 2 * a - a * a;
+        let a = time * 2;
+
+        // a = -0.25 * a^2 + a
+        a = a * 2 / Layout.last;
+        a = a - 0.25 * a * a;
+
         a *= Layout.explosion.magnify - 1;
         a += 1;
 
