@@ -19,6 +19,8 @@ jackson:
     write-dates-as-timestamps: true
 
 spring:
+  profiles:
+    active: "${SPRING_ACTIVE_PROFILE:dev}"
   datasource:
     driver-class-name: org.postgresql.Driver
     url: "${DB_URL:jdbc:postgresql://localhost:5432/taiko}"
