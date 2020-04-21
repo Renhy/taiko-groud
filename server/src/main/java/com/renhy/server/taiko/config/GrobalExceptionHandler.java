@@ -28,6 +28,7 @@ public class GrobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public Response handleException(HttpServletRequest request, Exception ex) {
+        log.error(request.getRequestURI(), ex);
         return Response.failure("服务异常");
     }
 

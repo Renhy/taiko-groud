@@ -6,6 +6,17 @@ server:
   servlet:
     context-path: /api
 
+swagger:
+  enable: "${SWAGGER_SHOW:true}"
+  base-url: "${SWAGGER_BASE_URL:}"
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
+jackson:
+  serialization:
+    write-dates-as-timestamps: true
 
 spring:
   datasource:
