@@ -4,7 +4,7 @@ var Layout = {
     color: {
         pop: 'cyan',
         anime: 'orange',
-        pop: 'silver',
+        vocaloid: 'silver',
         variety: 'lime',
         classical: 'gold',
         game: 'darkorchid',
