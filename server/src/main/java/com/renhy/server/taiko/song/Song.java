@@ -5,6 +5,7 @@ import com.renhy.server.taiko.entity.Category;
 import com.renhy.server.taiko.entity.SongEntity;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class Song {
 
     private String wave;
 
-    private Metadata metadata;
+    private Metadata metadata = new Metadata();
 
-    private List<Integer> musicLevels;
+    private List<Integer> musicLevels = new ArrayList<>();
 
     private Date createdAt;
 
@@ -56,6 +57,15 @@ public class Song {
         song.setUpdatedBy(entity.getUpdatedBy());
 
         return song;
+    }
+
+    public void importInfo(SongEntity entity) {
+        entity.setCategory(this.category);
+        entity.setTitle(this.title);
+        entity.setSubTitle(this.subTitle);
+        entity.setBpm(this.bpm);
+        entity.setMetadata(JSON.toJSONString(this.metadata));
+        entity.setMusicLevels(JSON.toJSONString(this.musicLevels));
     }
 
 

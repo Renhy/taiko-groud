@@ -1,6 +1,7 @@
 package com.renhy.server.taiko.song;
 
 import com.renhy.server.taiko.common.BusException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.renhy.server.taiko.common.StringUtils.getSuffix;
 
 
 @Slf4j
@@ -40,7 +43,12 @@ public abstract class Parser {
             }
 
 
-            String suffix = clipSuffix(file.getOriginalFilename());
+            String suffix = getSuffix(file.getOriginalFilename());
+            if (suffix == null) {
+                throw new BusException("不支持的文件格式");
+            }
+
+            suffix = suffix.toLowerCase();
             if ("tja".equals(suffix)) {
                 return new TjaParser().go(lines);
             }
@@ -54,27 +62,14 @@ public abstract class Parser {
 
 
     @Data
+    @AllArgsConstructor
     public static class Result {
 
         private Song song;
 
         private List<Music> musics;
 
-    }
 
-
-    public static String clipSuffix(String name) {
-        int index = name.lastIndexOf(".");
-
-        if (index <= 0) {
-            return null;
-        }
-
-        if (index >= name.length() - 1) {
-            return null;
-        }
-
-        return name.substring(index + 1).toLowerCase();
     }
 
 }
