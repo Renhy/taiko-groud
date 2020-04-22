@@ -3,50 +3,67 @@ package com.renhy.server.taiko.service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.renhy.server.taiko.common.BusException;
-import com.renhy.server.taiko.common.UUIDUtils;
 import com.renhy.server.taiko.mapper.SongMapper;
-import com.renhy.server.taiko.entity.Song;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.renhy.server.taiko.entity.SongEntity;
+import com.renhy.server.taiko.song.Parser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
-public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements SongService {
+public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> implements SongService {
 
 
 
     @Override
-    public List<Song> list() {
+    public List<SongEntity> list() {
         return selectList(
-                new EntityWrapper<>());
+                new EntityWrapper<SongEntity>()
+                        .eq("deleted", false)
+                        .orderBy("category, created_at"));
     }
 
     @Override
-    public Song getById(String id) {
+    public SongEntity getById(String id) {
         return getById(id, false);
     }
 
     @Override
-    public Song getById(String id, boolean validateNotNull) {
-        Song song = selectById(id);
+    public SongEntity getById(String id, boolean validateNotNull) {
+        SongEntity song = selectById(id);
 
-        if (validateNotNull && song == null) {
-            throw new BusException("曲目未找到");
-
+        if (validateNotNull) {
+            if (song == null || song.isDeleted()) {
+                throw new BusException("曲目未找到");
+            }
         }
 
         return song;
     }
 
     @Override
-    public Song load(MultipartFile file) {
+    public SongEntity load(MultipartFile song, MultipartFile wave) {
+        try {
+            Parser.Result result = Parser.parse(song);
+
+        } catch (BusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusException("曲目解析出错，请重试");
+        }
         return null;
     }
 
     @Override
-    public Song updateWave(String id, MultipartFile file) {
+    public SongEntity updateWave(String id, MultipartFile file) {
         return null;
+    }
+
+    @Override
+    public boolean delete(String id) {
+        SongEntity song = getById(id, true);
+        song.setDeleted(true);
+        return updateById(song);
     }
 }

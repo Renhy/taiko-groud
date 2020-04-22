@@ -1,6 +1,7 @@
 package com.renhy.server.taiko.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,9 +10,12 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Song extends Model<Song> {
+@TableName("song")
+public class SongEntity extends Model<SongEntity> {
 
     private String id;
+
+    private String tag;
 
     private Category category;
 
@@ -34,6 +38,9 @@ public class Song extends Model<Song> {
     private Date updatedAt;
 
     private String updatedBy;
+
+    private boolean deleted;
+
 
     @Override
     protected Serializable pkVal() {

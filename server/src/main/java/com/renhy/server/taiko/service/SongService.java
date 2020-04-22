@@ -1,6 +1,6 @@
 package com.renhy.server.taiko.service;
 
-import com.renhy.server.taiko.entity.Song;
+import com.renhy.server.taiko.entity.SongEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -8,16 +8,19 @@ import java.util.List;
 public interface SongService {
 
 
-    List<Song> list();
+    List<SongEntity> list();
 
 
-    Song getById(String id);
+    SongEntity getById(String id);
 
-    Song getById(String id, boolean validateNotNull);
+    SongEntity getById(String id, boolean validateNotNull);
 
-    Song load(MultipartFile file);
+    SongEntity load(MultipartFile song, MultipartFile wave);
 
-    Song updateWave(String id, MultipartFile file);
+    SongEntity updateWave(String id, MultipartFile file);
+
+    boolean delete(String id);
+
 
 
 }

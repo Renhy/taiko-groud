@@ -18,6 +18,9 @@ jackson:
   serialization:
     write-dates-as-timestamps: true
 
+upload:
+  maxSize: 20MB
+
 spring:
   profiles:
     active: "${SPRING_ACTIVE_PROFILE:dev}"

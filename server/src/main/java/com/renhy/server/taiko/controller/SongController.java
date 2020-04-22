@@ -1,15 +1,10 @@
 package com.renhy.server.taiko.controller;
 
-import com.renhy.server.taiko.common.BusException;
 import com.renhy.server.taiko.common.Response;
-import com.renhy.server.taiko.mapper.SongMapper;
-import com.renhy.server.taiko.entity.Song;
 import com.renhy.server.taiko.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/song")
@@ -37,10 +32,10 @@ public class SongController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public Response upload(
             @RequestParam("song") MultipartFile song,
-            @RequestParam("wave") MultipartFile wave) {
+            @RequestParam(value = "wave", required = false) MultipartFile wave) {
 
-
-        return Response.success(null);
+        return Response.success(
+                songService.load(song, wave));
     }
 
 
