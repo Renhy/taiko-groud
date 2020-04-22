@@ -20,6 +20,7 @@ jackson:
 
 upload:
   maxSize: 20MB
+  root: "${STORAGE_ROOT:data/}"
 
 spring:
   profiles:

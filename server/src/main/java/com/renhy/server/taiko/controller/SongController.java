@@ -37,7 +37,7 @@ public class SongController {
             @RequestParam(value = "category", defaultValue = "OTHER") Category category) {
 
         return Response.success(
-                songService.load(song, wave));
+                songService.load(category, song, wave));
     }
 
 
