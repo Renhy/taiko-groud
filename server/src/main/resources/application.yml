@@ -22,6 +22,10 @@ upload:
   maxSize: 20MB
   root: "${STORAGE_ROOT:data/}"
 
+auth:
+  secret: "${AUTH_SECRET:123456}"
+  token-expire: "${TOEKN_EXPIRE_DAY:30}"
+
 spring:
   profiles:
     active: "${SPRING_ACTIVE_PROFILE:dev}"

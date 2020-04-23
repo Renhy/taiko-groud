@@ -1,8 +1,10 @@
 package com.renhy.server.taiko.config;
 
 
+import com.renhy.server.taiko.auth.AuthorizationException;
 import com.renhy.server.taiko.common.BusException;
 import com.renhy.server.taiko.common.Response;
+import com.renhy.server.taiko.auth.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +23,22 @@ public class GrobalExceptionHandler {
     @ExceptionHandler(BusException.class)
     public Response handleBusException(
             HttpServletRequest request, HttpServletResponse response, BusException ex) {
+        return Response.failure(ex.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Response handleAuthenticationException(HttpServletRequest request,
+                                                        AuthorizationException ex) {
+        return Response.failure(ex.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Response handleAuthenticationException(HttpServletRequest request,
+                                                        ForbiddenException ex) {
         return Response.failure(ex.getMessage());
     }
 
