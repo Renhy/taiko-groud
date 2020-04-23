@@ -89,13 +89,14 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
             SongEntity songEntity = new SongEntity();
             songEntity.setId(UUIDUtils.timeBasedStr());
             songEntity.setCategory(category);
-            songEntity.setTag(findTag(song.getOriginalFilename()));
+            songEntity.setTag(
+                    findTag(song.getOriginalFilename()));
 
             result.getSong().importInfo(songEntity);
 
             return
-                    insert(songEntity)
-                            && musicService.save(songEntity.getId(), result.getMusics());
+                    insert(songEntity) &&
+                            musicService.save(songEntity.getId(), result.getMusics());
         } catch (BusException e) {
             throw e;
         } catch (Exception e) {
@@ -125,8 +126,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
 
         int index = 1;
         for(;;) {
-            if (getByTag(tag + "-" + index) == null) {
-                return tag + "-" + index;
+            if (getByTag(tag + index) == null) {
+                return tag + index;
             }
 
             index += 1;

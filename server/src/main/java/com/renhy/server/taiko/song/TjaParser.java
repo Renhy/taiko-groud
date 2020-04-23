@@ -136,6 +136,7 @@ public class TjaParser extends Parser {
                 continue;
             }
 
+            line = line.replace(",", "").trim();
             current.getContent().add(line);
         }
 

@@ -32,7 +32,7 @@ public class Music {
         music.setSongId(entity.getSongId());
         music.setDiffculty(entity.getDiffculty());
         music.setLevel(entity.getLevel());
-        music.setInfo(JSON.parseObject(entity.getContent(), Info.class));
+        music.setInfo(JSON.parseObject(entity.getInfo(), Info.class));
         music.setContent(JSON.parseArray(entity.getContent(), String.class));
 
         return music;
