@@ -12,6 +12,7 @@ import com.renhy.server.taiko.song.Song;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
 
     @Autowired
     private MusicService musicService;
+
+    @Autowired
+    private StorageService storageService;
+
 
 
 
@@ -81,7 +86,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
     }
 
     @Override
-    public boolean load(Category category, MultipartFile song, MultipartFile wave) {
+    @Transactional
+    public Song load(Category category, MultipartFile song, MultipartFile wave) {
         try {
             Parser.Result result = Parser.parse(song);
 
@@ -93,9 +99,11 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
 
             result.getSong().importInfo(songEntity);
 
-            return
-                    insert(songEntity) &&
-                            musicService.save(songEntity.getId(), result.getMusics());
+            insert(songEntity);
+            updateWave(songEntity.getId(), wave);
+            musicService.save(songEntity.getId(), result.getMusics());
+
+            return getById(songEntity.getId());
         } catch (BusException e) {
             throw e;
         } catch (Exception e) {
@@ -106,7 +114,11 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
 
     @Override
     public boolean updateWave(String id, MultipartFile file) {
-        return false;
+        SongEntity entity = new SongEntity();
+        entity.setId(id);
+        entity.setWave(storageService.stock(file));
+
+        return updateById(entity);
     }
 
     @Override

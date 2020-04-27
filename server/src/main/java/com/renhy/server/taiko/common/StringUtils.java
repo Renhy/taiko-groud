@@ -28,7 +28,22 @@ public class StringUtils {
         return null;
     }
 
+    public static String toHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder("");
+        if (bytes == null || bytes.length <= 0) {
+            return "";
+        }
 
+        for (byte b : bytes) {
+            int value = b & 0xFF;
+            String str = Integer.toHexString(value);
+            if (str.length() < 2) {
+                sb.append(0);
+            }
+            sb.append(str);
+        }
+        return sb.toString();
+    }
 
 
 }

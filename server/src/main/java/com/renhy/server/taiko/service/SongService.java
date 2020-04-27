@@ -21,7 +21,7 @@ public interface SongService {
 
     Song getByTag(String tag, boolean validateNotNull);
 
-    boolean load(Category category, MultipartFile song, MultipartFile wave);
+    Song load(Category category, MultipartFile song, MultipartFile wave);
 
     boolean updateWave(String id, MultipartFile file);
 
