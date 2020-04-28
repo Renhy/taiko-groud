@@ -8,6 +8,7 @@ server:
 
 swagger:
   enable: "${SWAGGER_SHOW:true}"
+  host: "${SWAGGER_HOST:}"
   base-url: "${SWAGGER_BASE_URL:}"
 
 mybatis-plus:

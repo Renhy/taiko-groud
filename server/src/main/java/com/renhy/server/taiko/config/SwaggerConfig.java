@@ -34,15 +34,20 @@ public class SwaggerConfig {
     @Value("${swagger.base-url}")
     private String baseUrl = "";
 
+    @Value("${swagger.host}")
+    private String host = "";
+
 
     @Bean
     public Docket createRestApi(ServletContext servletContext) {
         return new Docket(DocumentationType.SWAGGER_2)
+
                 .pathProvider(new RelativePathProvider(servletContext) {
                     @Override
                     public String getApplicationBasePath() {
                         return baseUrl + super.getApplicationBasePath();
                     }
+
                 })
                 .enable(enable)
                 .apiInfo(apiInfo())
