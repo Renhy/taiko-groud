@@ -1,4 +1,6 @@
 /web/songs/
+/server/logs/
+/server/data/
 
 /server/target/
 !.mvn/wrapper/maven-wrapper.jar
