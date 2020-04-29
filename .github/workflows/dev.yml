@@ -14,5 +14,5 @@ jobs:
           host: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
           password: ${{ secrets.CD_PASSWORD }}
-          script: echo "cd test" >> /root/cd-test.out
+          script: ls -al
     
