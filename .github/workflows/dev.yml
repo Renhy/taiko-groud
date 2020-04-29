@@ -14,5 +14,7 @@ jobs:
           host: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
           key: ${{ secrets.CD_SSH_KEY }}
-          script: ls -al
+          script: |
+            /root/deploy/shell/server.sh
+            /root/deploy/shell/web.sh
     
