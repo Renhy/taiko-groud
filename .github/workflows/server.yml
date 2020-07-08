@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - server
 jobs:
   deploy:
     name: Deploy 
@@ -16,5 +17,4 @@ jobs:
           key: ${{ secrets.CD_SSH_KEY }}
           script: |
             /root/deploy/shell/server.sh
-            /root/deploy/shell/web.sh
     

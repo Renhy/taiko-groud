@@ -1,0 +1,20 @@
+name: deploy branch develop
+on: 
+  push:
+    branches:
+      - develop
+      - web
+jobs:
+  deploy:
+    name: Deploy 
+    runs-on: ubuntu-latest
+    steps:
+      - name: execute remote shell by ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CD_HOST }}
+          username: ${{ secrets.CD_USERNAME }}
+          key: ${{ secrets.CD_SSH_KEY }}
+          script: |
+            /root/deploy/shell/web.sh
+    
