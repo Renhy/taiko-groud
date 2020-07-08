@@ -47,7 +47,7 @@ export class Referee {
         this.music = new Music();
         this.scorekeeper = new Scorekeeper(this.game);
         this.autoPlayer = new AutoPlayer(this.game);
-        this.autoPlay = true;
+        this.autoPlay = false;
     }
 
     async loadMusic(url, type) {
