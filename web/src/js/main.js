@@ -15,11 +15,11 @@ async function main() {
     var info = detectInfo();
     if (info === undefined) {
         info = {
-            id: 'railgun',
+            id: 'xj',
             // audio: '/songs/chengrenyuQ.ogg',
             // music: '/songs/chengrenyuQ.tja',
-            audio: '/songs/railgun.ogg',
-            music: '/songs/railgun.tja',
+            audio: '/songs/xj.ogg',
+            music: '/songs/xj.tja',
             type: CourseType.EXTREME,
         };
     } 
